@@ -22,6 +22,8 @@ public class RootApplication extends Application{
     private static Context instance;
     /** 用来保存最新打开页面的context */
     private volatile static WeakReference<Context> instanceRef = null;
+    /** 是否是调试模式 */
+    public static final boolean DEBUG = true;
 
     public RootApplication(){
         super();

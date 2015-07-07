@@ -19,7 +19,12 @@ public abstract class RootActivity extends Activity{
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
         RootApplication.setInstanceRef(this);
+        ActivityManager.getInstance().addActivity(this);
     }
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityManager.getInstance().removeActivity(this);
+    }
 }

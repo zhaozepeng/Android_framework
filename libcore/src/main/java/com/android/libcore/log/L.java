@@ -1,6 +1,5 @@
 package com.android.libcore.log;
 
-import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -20,13 +19,9 @@ public final class L {
     private L(){}
 
     static {
-        LOG_ENABLE = BuildConfig.DEBUG;
-        try {
-            LOG_TAG = RootApplication.getInstance().getPackageManager()
-                    .getPackageInfo(RootApplication.getInstance().getPackageName(), 0).packageName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
+//        LOG_ENABLE = BuildConfig.DEBUG;
+        LOG_ENABLE = RootApplication.DEBUG;
+        LOG_TAG = RootApplication.getInstance().getPackageName();
     }
 
     /**
