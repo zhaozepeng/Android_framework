@@ -1,8 +1,10 @@
 package com.android.sample;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.framework.R;
 import com.android.libcore_ui.activity.BaseActivity;
@@ -16,8 +18,11 @@ import com.android.sample.test_activity.ActivityTestHomePage;
  */
 public class HomeTestActivity extends BaseActivity implements View.OnClickListener{
 
+    public static final String ACTION = "action_from_activity_test_home_page";
+
     /** 测试activity */
     private Button btn_test_activity;
+    private TextView tv_info;
 
     @Override
     protected void initView() {
@@ -25,12 +30,21 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
 
         btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
         btn_test_activity.setOnClickListener(this);
+        tv_info = (TextView) findViewById(R.id.tv_info);
+        //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
+        setTitle("主页");
     }
 
     @Override
     protected void initData() {
-        //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
-        setTitle("主页");
+        registerReceiver(ACTION);
+    }
+
+    @Override
+    protected void onReceive(Context context, Intent intent) {
+        if (intent.getAction().equalsIgnoreCase(ACTION)){
+            tv_info.setText("有一个从activity_home_page来的广播");
+        }
     }
 
     @Override

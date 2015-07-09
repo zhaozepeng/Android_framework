@@ -14,5 +14,12 @@
             android:background="@drawable/button_homepage_selector"
             android:text="测试activity"/>
 
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
     </LinearLayout>
 </ScrollView>

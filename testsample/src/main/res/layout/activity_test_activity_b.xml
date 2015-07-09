@@ -1,7 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_go_to_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="跳转到activity A"
+            android:background="@drawable/button_thirdpage_selector"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_finish_top_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关闭最顶部activity"
+            android:background="@drawable/button_thirdpage_selector"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_finish_first_A_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关闭第一个A页面"
+            android:background="@drawable/button_thirdpage_selector"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_finish_all_A_activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关闭所有的A页面"
+            android:background="@drawable/button_thirdpage_selector"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_return_to_home_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="回到homepage activity"
+            android:background="@drawable/button_thirdpage_selector"
+            android:layout_marginBottom="10dp"/>
+
+        <Button
+            android:id="@+id/btn_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="关闭应用"
+            android:background="@drawable/button_thirdpage_selector"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/tv_all_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+    </LinearLayout>
+</ScrollView>

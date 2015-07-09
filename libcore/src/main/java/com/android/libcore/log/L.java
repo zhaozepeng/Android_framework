@@ -37,7 +37,7 @@ public final class L {
      * @param objects 需要打印出来的额外信息，每次换行
      */
     public static void w(String message, Object... objects){
-        log(Log.INFO, message, null, objects);
+        log(Log.WARN, message, null, objects);
     }
 
     /***
@@ -45,14 +45,14 @@ public final class L {
      * @param throwable 需要打印的异常信息
      */
     public static void e(Throwable throwable){
-        log(Log.INFO, null, throwable);
+        log(Log.ERROR, null, throwable);
     }
 
     /***
      * 打印异常
      */
     public static void e(String message, Object... objects){
-        log(Log.INFO, message, null, objects);
+        log(Log.ERROR, message, null, objects);
     }
 
     /***
@@ -61,7 +61,7 @@ public final class L {
      * @param objects 需要打印出来的额外信息，每次换行
      */
     public static void e(String message, Throwable throwable, Object... objects){
-        log(Log.INFO, message, throwable, objects);
+        log(Log.ERROR, message, throwable, objects);
     }
 
     private static void log(int priority, String message, Throwable throwable, Object... objects){
