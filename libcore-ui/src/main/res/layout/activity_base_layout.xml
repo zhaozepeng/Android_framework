@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- 所有基础activity的布局容器 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
-    <include
-        layout="@layout/activity_top_bar"/>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="vertical"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+        <include
+            layout="@layout/activity_top_bar"/>
 
-    <FrameLayout
-        android:id="@+id/content"
+            <FrameLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </FrameLayout>
+    </LinearLayout>
+    <!-- 底部弹出popWindow -->
+    <LinearLayout
+        android:id="@+id/ll_bottom_popWindow"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </FrameLayout>
-
-</LinearLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/half_transparent">
+    </LinearLayout>
+</RelativeLayout>

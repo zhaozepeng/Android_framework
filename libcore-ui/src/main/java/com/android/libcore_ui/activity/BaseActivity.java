@@ -46,6 +46,8 @@ public abstract class BaseActivity extends RootActivity{
     protected RelativeLayout rl_top_extra_content;
     /** 内容区域 */
     protected FrameLayout content;
+    /** 底部popWindow */
+    protected LinearLayout ll_bottom_popWindow;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,7 @@ public abstract class BaseActivity extends RootActivity{
         tv_title = (TextView) findViewById(R.id.tv_title);
         rl_top_extra_content = (RelativeLayout) findViewById(R.id.rl_top_extra_content);
         content = (FrameLayout) findViewById(R.id.content);
+        ll_bottom_popWindow = (LinearLayout) findViewById(R.id.ll_bottom_popWindow);
 
         /** 通过 android::label 设置的标题 */
         if (!TextUtils.isEmpty(getTitle()))
@@ -96,5 +99,14 @@ public abstract class BaseActivity extends RootActivity{
         }else{
             L.e("参数只能为id或者view");
         }
+    }
+
+    /**
+     * 添加item
+     * @param groupId
+     * @param itemId
+     * @param name
+     */
+    protected void addItemToBottomPopWindow(int groupId, int itemId, String name){
     }
 }
