@@ -25,7 +25,6 @@ public abstract class RootActivity extends Activity{
     @Override
     public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onCreate(savedInstanceState, persistentState);
-        RootApplication.setInstanceRef(this);
         ActivityManager.getInstance().addActivity(this);
         receiver = new BroadcastReceiver() {
             @Override
@@ -33,6 +32,13 @@ public abstract class RootActivity extends Activity{
                 RootActivity.this.onReceive(context, intent);
             }
         };
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //在onresume函数里面进行设置，保证弱引用一直引用当前的可见页面
+        RootApplication.setInstanceRef(this);
     }
 
     /**

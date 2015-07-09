@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_go_to_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="跳转到activity B"
+        android:background="@drawable/button_thirdpage_selector"
+        android:layout_marginBottom="10dp"/>
+
+    <TextView
+        android:id="@+id/tv_all_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textColor="@color/black"/>
+
+</LinearLayout>

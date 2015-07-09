@@ -70,7 +70,7 @@ public abstract class BaseActivity extends RootActivity{
         initData();
     }
 
-    /** 第一步调用{@link #setContentViewSrc(Object)}进行布局的设置 */
+    /** <Strong><font color=red>第一步</font></Strong>调用{@link #setContentViewSrc(Object)}进行布局的设置 */
     protected abstract void initView();
     protected abstract void initData();
 
