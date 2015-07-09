@@ -21,10 +21,11 @@ public abstract class RootActivity extends Activity{
 
     /** 用来在页面之间进行广播的传递 */
     private BroadcastReceiver receiver;
+    private Boolean isNeedUnRegister = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         ActivityManager.getInstance().addActivity(this);
         receiver = new BroadcastReceiver() {
             @Override
@@ -55,12 +56,14 @@ public abstract class RootActivity extends Activity{
     public void registerReceiver(String action){
         IntentFilter filter = new IntentFilter(action);
         registerReceiver(receiver, filter);
+        isNeedUnRegister = true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(receiver);
+        if (isNeedUnRegister)
+            unregisterReceiver(receiver);
         ActivityManager.getInstance().removeActivity(this);
     }
 }

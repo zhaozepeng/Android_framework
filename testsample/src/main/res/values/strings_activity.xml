@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">android_framework</string>
     <string name="activity_home_page">主页</string>
     <string name="activity_test_activity_homepage">测试Activity功能主页</string>
     <string name="activity_test_activity_A">测试Activity A</string>

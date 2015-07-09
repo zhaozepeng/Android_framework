@@ -39,6 +39,17 @@ public final class ActivityManager {
     }
 
     /**
+     * 获取栈的信息
+     */
+    public String getStackInfo() {
+        StringBuilder sb = new StringBuilder();
+        for (Activity temp : stack){
+            sb.append(temp.toString()).append("\n");
+        }
+        return sb.toString();
+    }
+
+    /**
      * 将activity加入到栈中
      * @param activity 需要加入到栈中的activity
      */

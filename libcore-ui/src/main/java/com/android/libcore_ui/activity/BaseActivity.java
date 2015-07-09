@@ -1,4 +1,4 @@
-package com.android.libcore_ui;
+package com.android.libcore_ui.activity;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.libcore.activity.RootActivity;
 import com.android.libcore.log.L;
+import com.android.libcore_ui.R;
 
 /**
  * Description: 继承自{@link RootActivity}的基础activity，在这里进行页面界面
@@ -47,8 +48,8 @@ public abstract class BaseActivity extends RootActivity{
     protected FrameLayout content;
 
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_base_layout);
         ll_top_content = (ViewGroup) findViewById(R.id.ll_top_content);

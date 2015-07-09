@@ -3,17 +3,21 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application android:allowBackup="true"
-                 android:label="@string/app_name"
-                 android:icon="@mipmap/app_icon"
-                 android:theme="@style/AppTheme">
+    <application
+        android:name="com.android.libcore_ui.application.BaseApplication"
+        android:allowBackup="true"
+        android:label="@string/app_name"
+        android:icon="@mipmap/app_icon"
+        android:theme="@style/AppTheme">
 
+        <!-- The Application and the first Activity share the same name
+        specified in the android:label field of the <activity> item -->
         <activity android:name="com.android.sample.HomeTestActivity"
-            android:label="@string/activity_home_page"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
+            <intent-filter >
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 

@@ -5,8 +5,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.android.framework.R;
-import com.android.libcore_ui.BaseActivity;
-import com.android.sample.test_activity.ActivityA;
+import com.android.libcore_ui.activity.BaseActivity;
 import com.android.sample.test_activity.ActivityTestHomePage;
 
 /**
@@ -30,7 +29,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
-
+        //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
+        setTitle("主页");
     }
 
     @Override

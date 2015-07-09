@@ -10,7 +10,7 @@
 
     <LinearLayout
         android:layout_weight="1"
-        android:layout_width="0"
+        android:layout_width="wrap_content"
         android:layout_height="50dp">
 
         <!-- 返回按钮 -->
@@ -41,8 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:singleLine="true"
-            android:layout_marginLeft="5dp"
-            android:text="我是标题我是标题我是标题我是标题我是标题我是标题我是标题"/>
+            android:layout_marginLeft="10dp"/>
     </LinearLayout>
 
     <!-- 右侧需要添加的内容区域 -->
