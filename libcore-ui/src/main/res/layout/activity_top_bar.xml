@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 所有activity的顶部bar样式，如果需要改变高度，颜色或者图标，请在此进行更改
+     暂时使用QQ的高度颜色 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#ff33b5e5"
+    android:id="@+id/ll_top_content">
+
+    <LinearLayout
+        android:layout_weight="1"
+        android:layout_width="0"
+        android:layout_height="50dp">
+
+        <!-- 返回按钮 -->
+        <RelativeLayout
+            android:id="@+id/rl_back"
+            android:layout_width="50dp"
+            android:layout_height="50dp">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@mipmap/ic_arrow_back"/>
+        </RelativeLayout>
+
+        <View
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/black"/>
+
+        <!-- 该页面标题 -->
+        <TextView
+            android:id="@+id/tv_title"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:singleLine="true"
+            android:layout_marginLeft="5dp"
+            android:text="我是标题我是标题我是标题我是标题我是标题我是标题我是标题"/>
+    </LinearLayout>
+
+    <!-- 右侧需要添加的内容区域 -->
+    <RelativeLayout
+        android:id="@+id/rl_top_extra_content"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+
+</LinearLayout>

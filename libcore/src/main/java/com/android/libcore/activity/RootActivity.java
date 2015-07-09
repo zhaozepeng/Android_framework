@@ -14,11 +14,6 @@ import com.android.libcore.application.RootApplication;
  * Description: 所有基础{@linkplain Activity}的基类，所有的Activity应该
  * 继承自该基类，以便进行context的管理、页面的管理等<br/>
  *
- * <li>{@linkplain #receiver}用来在组件之间进行广播的接收</li>
- * <li>{@linkplain #initView()}用来初始化该activity的view，findviewbyid等等操作</li>
- * <li>{@linkplain #initData()}用来初始化该activity的data</li>
- * <Strong>{@linkplain #initView()}和{@linkplain #initData()}需要子类实现</Strong>
- *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-07
  */
@@ -38,12 +33,7 @@ public abstract class RootActivity extends Activity{
                 RootActivity.this.onReceive(context, intent);
             }
         };
-        initView();
-        initData();
     }
-
-    protected abstract void initView();
-    protected abstract void initData();
 
     /**
      * 用来在注册广播之后进行广播的接收处理
