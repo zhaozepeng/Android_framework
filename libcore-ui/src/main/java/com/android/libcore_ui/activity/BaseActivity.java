@@ -102,7 +102,7 @@ public abstract class BaseActivity extends RootActivity{
     }
 
     /**
-     * 添加item
+     * 通过添加item到底部bar来创建一系列的选项
      * @param groupId
      * @param itemId
      * @param name

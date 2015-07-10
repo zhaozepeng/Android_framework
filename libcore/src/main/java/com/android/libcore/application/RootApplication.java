@@ -8,6 +8,7 @@ import com.android.libcore.log.L;
 import com.android.libcore.activity.ActivityManager;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
 /**
  * Description: {@linkplain Application}基类，
@@ -24,6 +25,10 @@ public class RootApplication extends Application{
     private volatile static WeakReference<Context> instanceRef = null;
     /** 是否是调试模式 */
     public static final boolean DEBUG = true;
+    /** 该变量长久的存放于内存，用来存放一些在软件启动生命周期之内
+     * 需要存放的变量和数据，但存放的数据量不宜过大，如果需要存放
+     * 过大的数据，请在使用完之后，立马清除*/
+    public static HashMap<String, Object> maps;
 
     public RootApplication(){
         super();
@@ -33,6 +38,7 @@ public class RootApplication extends Application{
     public void onCreate() {
         super.onCreate();
         instance = this;
+        maps = new HashMap<>();
     }
 
     /**
