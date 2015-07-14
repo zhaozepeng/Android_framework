@@ -131,9 +131,9 @@ public abstract class BaseActivity extends RootActivity{
 
     /**
      * 通过添加item到底部bar来创建一系列的选项
-     * @param groupId
-     * @param itemId
-     * @param name
+     * @param groupId 该item的组id，不同的组id在不同的区域内
+     * @param itemId 该item的item id，用来标示该item，组内的两个item不能有相同的item id
+     * @param name 用来显示该item的名字
      */
     protected void addItemToBottomPopWindow(int groupId, int itemId, String name){
         ArrayList<ItemHolder> temp = null;
@@ -196,5 +196,12 @@ public abstract class BaseActivity extends RootActivity{
 
             }
         }
+    }
+
+    /**
+     * 用来显示该popwindow，保证在调用该方法之前已经调用{@link #addItemToBottomPopWindow(int, int, String)}方法
+     */
+    protected void showBottomPopWindow(){
+
     }
 }
