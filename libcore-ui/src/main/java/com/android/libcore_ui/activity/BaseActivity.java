@@ -211,6 +211,8 @@ public abstract class BaseActivity extends RootActivity{
             return;
         //现将底部弹出框的所有选项去除
         ll_bottom_content.removeAllViews();
+        popAnimation = null;
+        reverseAnimation = null;
         final Iterator iterator = bottomItems.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry<Integer, ArrayList<ItemHolder>> entry = (Map.Entry<Integer, ArrayList<ItemHolder>>) iterator.next();
@@ -260,8 +262,7 @@ public abstract class BaseActivity extends RootActivity{
             sv_bottom_content.setVisibility(View.GONE);
         }else{
             if (reverseAnimation == null) {
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) sv_bottom_content.getLayoutParams();
-                reverseAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", 0, -params.bottomMargin);
+                reverseAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", 0, -sv_bottom_content.getMeasuredHeight());
                 reverseAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
@@ -287,12 +288,12 @@ public abstract class BaseActivity extends RootActivity{
             if (popAnimation == null) {
                 int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
                 sv_bottom_content.measure(width, width);
-                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) sv_bottom_content.getLayoutParams();
-                popAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", -params.bottomMargin, 0);
+                popAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", -sv_bottom_content.getMeasuredHeight(), 0);
                 popAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         int value = (Integer) animation.getAnimatedValue();
+                        L.e("value "+value);
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) sv_bottom_content.getLayoutParams();
                         params.bottomMargin = value;
                         sv_bottom_content.setLayoutParams(params);
