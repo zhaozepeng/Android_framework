@@ -16,6 +16,13 @@
                 android:layout_height="match_parent">
             </FrameLayout>
     </LinearLayout>
+    <View
+        android:id="@+id/ll_full_screen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/half_transparent"
+        android:visibility="gone">
+    </View>
     <!-- 底部弹出popWindow -->
     <LinearLayout
         android:id="@+id/ll_bottom_popWindow"
