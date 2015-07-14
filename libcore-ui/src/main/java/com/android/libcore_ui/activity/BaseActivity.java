@@ -1,5 +1,8 @@
 package com.android.libcore_ui.activity;
 
+import android.animation.ObjectAnimator;
+import android.animation.ValueAnimator;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -73,6 +76,8 @@ public abstract class BaseActivity extends RootActivity{
     protected LinkedHashMap<Integer, ArrayList<ItemHolder>> bottomItems;
 
     protected LayoutInflater inflater;
+    protected ObjectAnimator popAnimation;
+    protected ObjectAnimator reverseAnimation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -88,8 +93,7 @@ public abstract class BaseActivity extends RootActivity{
         ll_full_screen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sv_bottom_content.setVisibility(View.GONE);
-                ll_full_screen.setVisibility(View.GONE);
+                doReverseAnimation();
             }
         });
         sv_bottom_content = (ScrollView) findViewById(R.id.sv_bottom_content);
@@ -237,8 +241,7 @@ public abstract class BaseActivity extends RootActivity{
     @Override
     public void onBackPressed() {
         if (sv_bottom_content.getVisibility() == View.VISIBLE){
-            sv_bottom_content.setVisibility(View.GONE);
-            ll_full_screen.setVisibility(View.GONE);
+            doReverseAnimation();
         }else {
             super.onBackPressed();
         }
@@ -248,8 +251,31 @@ public abstract class BaseActivity extends RootActivity{
      * 点击底部弹出框的回调
      */
     protected void onItemClickCallback(int groupId, int itemId){
-        sv_bottom_content.setVisibility(View.GONE);
+        doReverseAnimation();
+    }
+
+    private void doReverseAnimation(){
         ll_full_screen.setVisibility(View.GONE);
+        if (Build.VERSION.SDK_INT < 11) {
+            sv_bottom_content.setVisibility(View.GONE);
+        }else{
+            if (reverseAnimation == null) {
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) sv_bottom_content.getLayoutParams();
+                reverseAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", 0, -params.bottomMargin);
+                reverseAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        int value = (Integer) animation.getAnimatedValue();
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) sv_bottom_content.getLayoutParams();
+                        params.bottomMargin = value;
+                        sv_bottom_content.setLayoutParams(params);
+                        ((View) (sv_bottom_content.getParent())).invalidate();
+                    }
+                });
+                reverseAnimation.setDuration(500);
+            }
+            reverseAnimation.start();
+        }
     }
 
     /**
@@ -257,6 +283,27 @@ public abstract class BaseActivity extends RootActivity{
      */
     protected void showBottomPopWindow(){
         ll_full_screen.setVisibility(View.VISIBLE);
-        sv_bottom_content.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= 11) {
+            if (popAnimation == null) {
+                int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                sv_bottom_content.measure(width, width);
+                RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) sv_bottom_content.getLayoutParams();
+                popAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", -params.bottomMargin, 0);
+                popAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        int value = (Integer) animation.getAnimatedValue();
+                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) sv_bottom_content.getLayoutParams();
+                        params.bottomMargin = value;
+                        sv_bottom_content.setLayoutParams(params);
+                        ((View) (sv_bottom_content.getParent())).invalidate();
+                    }
+                });
+                popAnimation.setDuration(500);
+            }
+            popAnimation.start();
+        }else{
+            sv_bottom_content.setVisibility(View.VISIBLE);
+        }
     }
 }
