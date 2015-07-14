@@ -11,11 +11,13 @@ import java.util.Stack;
 
 /**
  * Description: 该类用栈来管理所有该应用的activity，进栈退栈等
+ * <ol>
  * <li>{@linkplain #finishActivity()} 关闭栈中第一个activity</li>
  * <li>{@linkplain #finishAllActivity(Class)} 关闭栈中所有该类名的activity</li>
  * <li>{@linkplain #finishAfterActivity(Class)} 关闭栈中该类名的activity之上的activity</li>
  * <li>{@linkplain #finishLastActivity(Class)} 关闭栈中第一个与该类名匹配的activity</li>
  * <li>{@linkplain #finishAllActivityAndClose()} 关闭应用退出</li>
+ * </ol>
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-07
@@ -70,7 +72,7 @@ public final class ActivityManager {
     public Activity getActivity(){
         if (!stack.isEmpty())
             return stack.peek();
-        L.e("Activity 栈为空！！！", ActivityManager.class);
+        L.e("Activity 栈为空！！！+getActivity()", ActivityManager.class);
         return null;
     }
 
@@ -80,8 +82,9 @@ public final class ActivityManager {
     public void finishActivity(){
         if (!stack.isEmpty()) {
             stack.pop().finish();
+            return;
         }
-        L.e("Activity 栈为空！！！", ActivityManager.class);
+        L.e("Activity 栈为空！！！+finishActivity()", ActivityManager.class);
     }
 
     /***
@@ -89,7 +92,7 @@ public final class ActivityManager {
      */
     public void finishActivity(Activity activity){
         if (stack.isEmpty()) {
-            L.e("Activity 栈为空！！！", ActivityManager.class);
+            L.e("Activity 栈为空！！！+finishActivity(activity)", ActivityManager.class);
             return ;
         }
         try {

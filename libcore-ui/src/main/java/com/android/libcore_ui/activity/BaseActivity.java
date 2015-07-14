@@ -9,11 +9,14 @@ import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.libcore.activity.RootActivity;
 import com.android.libcore.log.L;
+import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
+import com.android.libcore_ui.widget.BottomBarGroupLinearLayout;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,13 +25,13 @@ import java.util.Map;
 
 /**
  * Description: 继承自{@link RootActivity}的基础activity，在这里进行页面界面
- * 的统一,在这里我将样式定位一个仿actionbar的样式，但是为了方便使用和扩展，所以将会使用一个
+ * 的统一,在这里将样式定位一个仿actionbar的样式，但是为了方便使用和扩展，所以将会使用一个
  * {@link RelativeLayout}做一个actionbar
  *
  * <ol>
  * <li>{@linkplain #receiver}用来在组件之间进行广播的接收</li>
  * <li>{@linkplain #initView()}用来初始化该activity的view，第一步调用{@link #setContentViewSrc(Object)}
- * 进行设置布局，参数为layout的id或者view{@link #findViewById(int)}等等操作</li>
+ * 进行设置布局，参数为layout的id或者view，在里面进行{@link #findViewById(int)}等等操作</li>
  * <li>{@linkplain #initData()}用来初始化该activity的data</li>
  * </ol>
  *
@@ -36,9 +39,12 @@ import java.util.Map;
  * <ul>
  * <li>{@link #addItemToBottomPopWindow(int, int, String)}方法用来在底部弹出的框内加上按钮选项，有组id，元素id,
  * 和元素名称来标识,显示的上下顺序将会按照添加时候的顺序显示，如果需要在中间插入一个组元素，则初始化添加的时候调用
- * {@link #addItemToBottomPopWindow(int, int, String)}函数的时候，groupId传一个新值，itemId传递一个小于等于0
+ * {@link #addItemToBottomPopWindow(int, int, String)}函数的时候，groupId传一个新值，itemId传递一个小于0
  * 的数值即可，代表先占一个空位，方便以后来对该groupId位置的元素进行操作</li>
  * <li>{@link #removeItemFromBottomPopWindow(int, int)}方法用来删除在底部添加的按钮选项</li>
+ * <li>{@link #showBottomPopWindow()}方法用来显示底部popwindow，调用之前请先调用
+ * {@link #addItemToBottomPopWindow(int, int, String)}方法</li>
+ * <li>{@link #onItemClickCallback(int, int)}方法由子类继承用来处理底部弹出框的点击回调</li>
  * </ul>
  *
  * <strong>{@linkplain #initView()}和{@linkplain #initData()}需要子类实现</strong>
@@ -61,9 +67,12 @@ public abstract class BaseActivity extends RootActivity{
     /** 全屏的半透明显示 */
     protected View ll_full_screen;
     /** 底部popWindow */
-    protected LinearLayout ll_bottom_popWindow;
+    protected ScrollView sv_bottom_content;
+    protected LinearLayout ll_bottom_content;
     /** 底部弹出框数据集合 */
     protected LinkedHashMap<Integer, ArrayList<ItemHolder>> bottomItems;
+
+    protected LayoutInflater inflater;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +85,15 @@ public abstract class BaseActivity extends RootActivity{
         rl_top_extra_content = (RelativeLayout) findViewById(R.id.rl_top_extra_content);
         content = (FrameLayout) findViewById(R.id.content);
         ll_full_screen = findViewById(R.id.ll_full_screen);
-        ll_bottom_popWindow = (LinearLayout) findViewById(R.id.ll_bottom_popWindow);
+        ll_full_screen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sv_bottom_content.setVisibility(View.GONE);
+                ll_full_screen.setVisibility(View.GONE);
+            }
+        });
+        sv_bottom_content = (ScrollView) findViewById(R.id.sv_bottom_content);
+        ll_bottom_content = (LinearLayout) findViewById(R.id.ll_bottom_content);
 
         /** 通过 android::label 设置的标题 */
         if (!TextUtils.isEmpty(getTitle()))
@@ -89,6 +106,7 @@ public abstract class BaseActivity extends RootActivity{
         });
 
         bottomItems = new LinkedHashMap<>();
+        inflater = LayoutInflater.from(this);
 
         initView();
         initData();
@@ -131,15 +149,15 @@ public abstract class BaseActivity extends RootActivity{
 
     /**
      * 通过添加item到底部bar来创建一系列的选项
-     * @param groupId 该item的组id，不同的组id在不同的区域内
-     * @param itemId 该item的item id，用来标示该item，组内的两个item不能有相同的item id
+     * @param groupId 该item的组id，不同的组id在不同的区域内,请使用大于0的数字来表示
+     * @param itemId 该item的item id，用来标示该item，组内的两个item不能有相同的item id,要不然回调无法识别
      * @param name 用来显示该item的名字
      */
     protected void addItemToBottomPopWindow(int groupId, int itemId, String name){
         ArrayList<ItemHolder> temp = null;
-        if (bottomItems.containsValue(groupId)) {
-            if (itemId <= 0){
-                throw new IllegalArgumentException("groupId can be found,so itemId must bigger than 0");
+        if (bottomItems.containsKey(groupId)) {
+            if (itemId < 0){
+                throw new IllegalArgumentException("groupId can be found,so itemId must bigger than 0 or equal 0");
             }
             temp = bottomItems.get(groupId);
             ItemHolder holder = new ItemHolder();
@@ -149,7 +167,7 @@ public abstract class BaseActivity extends RootActivity{
         }
         else {
             temp = new ArrayList<>();
-            if (itemId > 0) {
+            if (itemId >= 0) {
                 ItemHolder holder = new ItemHolder();
                 holder.itemId = itemId;
                 holder.name = name;
@@ -166,7 +184,7 @@ public abstract class BaseActivity extends RootActivity{
      * @param itemId
      */
     protected void removeItemFromBottomPopWindow(int groupId, int itemId){
-        if (bottomItems.containsValue(groupId)){
+        if (bottomItems.containsKey(groupId)){
             ArrayList<ItemHolder> temp = bottomItems.get(groupId);
             for (ItemHolder holder : temp){
                 if (holder.itemId == itemId){
@@ -187,21 +205,58 @@ public abstract class BaseActivity extends RootActivity{
     private void buildBottomPopWindow(){
         if (bottomItems.size() <= 0)
             return;
-        Iterator iterator = bottomItems.entrySet().iterator();
+        //现将底部弹出框的所有选项去除
+        ll_bottom_content.removeAllViews();
+        final Iterator iterator = bottomItems.entrySet().iterator();
         while (iterator.hasNext()){
             Map.Entry<Integer, ArrayList<ItemHolder>> entry = (Map.Entry<Integer, ArrayList<ItemHolder>>) iterator.next();
             Integer groupId = entry.getKey();
             ArrayList<ItemHolder> holder = entry.getValue();
+            //如果该groupId的items不为0，代表需要将该group显示出来
             if (holder.size() >= 0){
-
+                BottomBarGroupLinearLayout group = (BottomBarGroupLinearLayout) inflater.inflate(R.layout.bottom_group_layout, null);
+                group.setGroupId(groupId);
+                group.setCallback(new BottomBarGroupLinearLayout.GroupItemClickCallback() {
+                    @Override
+                    public void callback(int groupId, int itemId) {
+                        onItemClickCallback(groupId, itemId);
+                    }
+                });
+                for (ItemHolder temp : holder){
+                    group.addItemToGroup(temp.itemId, temp.name);
+                }
+                LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
+                        (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                int margin = CommonUtils.dp2px(10);
+                params.setMargins(margin, 0, margin, margin);
+                ll_bottom_content.addView(group, params);
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (sv_bottom_content.getVisibility() == View.VISIBLE){
+            sv_bottom_content.setVisibility(View.GONE);
+            ll_full_screen.setVisibility(View.GONE);
+        }else {
+            super.onBackPressed();
+        }
+    }
+
+    /**
+     * 点击底部弹出框的回调
+     */
+    protected void onItemClickCallback(int groupId, int itemId){
+        sv_bottom_content.setVisibility(View.GONE);
+        ll_full_screen.setVisibility(View.GONE);
     }
 
     /**
      * 用来显示该popwindow，保证在调用该方法之前已经调用{@link #addItemToBottomPopWindow(int, int, String)}方法
      */
     protected void showBottomPopWindow(){
-
+        ll_full_screen.setVisibility(View.VISIBLE);
+        sv_bottom_content.setVisibility(View.VISIBLE);
     }
 }

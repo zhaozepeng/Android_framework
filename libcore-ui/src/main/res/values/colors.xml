@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#000000</color>
+    <color name="half_black">#88000000</color>
     <color name="white">#ffffff</color>
     <color name="half_transparent">#88ffffff</color>
+    <color name="light_white">#bbffffff</color>
+    <color name="light_blue">#ff2888f4</color>
 </resources>

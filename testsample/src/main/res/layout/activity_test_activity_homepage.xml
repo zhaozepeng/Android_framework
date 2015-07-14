@@ -28,5 +28,13 @@
         android:text="测试 broadcast"
         android:layout_marginBottom="10dp"/>
 
+    <Button
+        android:id="@+id/btn_test_bottom_popwindow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_secondpage_selector"
+        android:text="测试底部弹出框"
+        android:layout_marginBottom="10dp"/>
+
 
 </LinearLayout>
