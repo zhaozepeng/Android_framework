@@ -83,22 +83,22 @@ public class ActivityTestHomePage extends BaseActivity implements View.OnClickLi
                 ActivityManager.getInstance().finishActivity();
                 break;
             case R.id.btn_test_bottom_popwindow:
-//                try {
+                try {
                     removeItemFromBottomPopWindow(1, 1);
                     removeItemFromBottomPopWindow(2, 2);
                     removeItemFromBottomPopWindow(3, 3);
                     removeItemFromBottomPopWindow(4, 4);
                     removeItemFromBottomPopWindow(5, 5);
-//                }catch (Exception e){
-////                    try {
-////                        removeItemFromBottomPopWindow(5, 0);
-////                        removeItemFromBottomPopWindow(5, 1);
-////                        removeItemFromBottomPopWindow(5, 2);
-////                        removeItemFromBottomPopWindow(5, 3);
-////                        removeItemFromBottomPopWindow(5, 4);
-////                    }catch (Exception e1){
-////                    }
-//                }
+                }catch (Exception e){
+//                    try {
+//                        removeItemFromBottomPopWindow(5, 0);
+//                        removeItemFromBottomPopWindow(5, 1);
+//                        removeItemFromBottomPopWindow(5, 2);
+//                        removeItemFromBottomPopWindow(5, 3);
+//                        removeItemFromBottomPopWindow(5, 4);
+//                    }catch (Exception e1){
+//                    }
+                }
                 showBottomPopWindow();
                 break;
         }
