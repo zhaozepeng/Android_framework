@@ -257,10 +257,16 @@ public abstract class BaseActivity extends RootActivity{
     }
 
     private void doReverseAnimation(){
-        ll_full_screen.setVisibility(View.GONE);
         if (Build.VERSION.SDK_INT < 11) {
             sv_bottom_content.setVisibility(View.GONE);
+            ll_full_screen.setVisibility(View.GONE);
         }else{
+            //如果弹出动画还在执行，则直接将弹出动画的值置为最终值，代表该动画结束，接着直接进行收进动画
+            popAnimation.end();
+            //避免用户连续快速点击造成短时间内执行两次收进动画，此处进行判断
+            if (reverseAnimation != null && reverseAnimation.isRunning()){
+                return;
+            }
             if (reverseAnimation == null) {
                 reverseAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", 0, -sv_bottom_content.getMeasuredHeight());
                 reverseAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -271,6 +277,14 @@ public abstract class BaseActivity extends RootActivity{
                         params.bottomMargin = value;
                         sv_bottom_content.setLayoutParams(params);
                         ((View) (sv_bottom_content.getParent())).invalidate();
+                        if (value <= -sv_bottom_content.getMeasuredHeight()){
+                            sv_bottom_content.setVisibility(View.GONE);
+                        }
+
+                        ll_full_screen.setAlpha((float)(((sv_bottom_content.getMeasuredHeight() + value)*1.0) / (sv_bottom_content.getMeasuredHeight()*1.0)));
+                        if (ll_full_screen.getAlpha()<=0){
+                            ll_full_screen.setVisibility(View.GONE);
+                        }
                     }
                 });
                 reverseAnimation.setDuration(500);
@@ -283,8 +297,13 @@ public abstract class BaseActivity extends RootActivity{
      * 用来显示该popwindow，保证在调用该方法之前已经调用{@link #addItemToBottomPopWindow(int, int, String)}方法
      */
     protected void showBottomPopWindow(){
-        ll_full_screen.setVisibility(View.VISIBLE);
         if (Build.VERSION.SDK_INT >= 11) {
+            //如果上次的动画还在执行，直接停止
+            if (reverseAnimation != null){
+                reverseAnimation.end();
+            }
+            sv_bottom_content.setVisibility(View.VISIBLE);
+            ll_full_screen.setVisibility(View.VISIBLE);
             if (popAnimation == null) {
                 int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
                 sv_bottom_content.measure(width, width);
@@ -293,17 +312,19 @@ public abstract class BaseActivity extends RootActivity{
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
                         int value = (Integer) animation.getAnimatedValue();
-                        L.e("value "+value);
                         RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) sv_bottom_content.getLayoutParams();
                         params.bottomMargin = value;
                         sv_bottom_content.setLayoutParams(params);
                         ((View) (sv_bottom_content.getParent())).invalidate();
+
+                        ll_full_screen.setAlpha((float)(((sv_bottom_content.getMeasuredHeight() + value)*1.0) / (sv_bottom_content.getMeasuredHeight()*1.0)));
                     }
                 });
                 popAnimation.setDuration(500);
             }
             popAnimation.start();
         }else{
+            ll_full_screen.setVisibility(View.VISIBLE);
             sv_bottom_content.setVisibility(View.VISIBLE);
         }
     }

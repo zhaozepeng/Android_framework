@@ -23,6 +23,7 @@
         android:layout_height="match_parent"
         android:background="#88000000"
         android:focusable="true"
+        android:alpha="0"
         android:visibility="gone">
     </View>
     <!-- 底部弹出popWindow -->
