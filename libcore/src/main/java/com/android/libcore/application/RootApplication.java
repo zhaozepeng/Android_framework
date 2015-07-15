@@ -1,8 +1,11 @@
 package com.android.libcore.application;
 
 
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 
 import com.android.libcore.log.L;
 import com.android.libcore.activity.ActivityManager;
@@ -39,6 +42,8 @@ public class RootApplication extends Application{
         super.onCreate();
         instance = this;
         maps = new HashMap<>();
+        //设置默认崩溃处理
+//        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler());
     }
 
     /**
@@ -74,5 +79,29 @@ public class RootApplication extends Application{
      */
     public static void setInstanceRef(Context context){
         instanceRef = new WeakReference<>(context);
+    }
+
+    /**
+     * 处理崩溃异常，并且在崩溃异常之后重启<br/>
+     * <strong>Android对待所有传递给Context.startActivity()的 隐式intent好像它们至少包含
+     * "android.intent.category.DEFAULT"（对应CATEGORY_DEFAULT常量）。
+     * 因此，活动想要接收隐式intent必须要在intent过滤器中包含"android.intent.category.DEFAULT"</strong>
+     */
+    private class MyExceptionHandler implements Thread.UncaughtExceptionHandler {
+
+        @Override
+        public void uncaughtException(Thread thread, Throwable ex) {
+            //启动首页
+            Intent intent = new Intent();
+            intent.setAction("android.intent.action.MAIN");
+            intent.addCategory("android.intent.category.LAUNCHER");
+            intent.addCategory("com.android.framework.MAINPAGE");
+            PendingIntent restartIntent = PendingIntent.getActivity(getInstance(), 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            //退出程序
+            AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 1000, restartIntent);
+
+            ActivityManager.getInstance().finishAllActivityWithoutClose();
+        }
     }
 }
