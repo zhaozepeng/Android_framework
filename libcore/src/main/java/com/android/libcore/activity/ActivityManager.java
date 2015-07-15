@@ -19,6 +19,7 @@ import java.util.Stack;
  * <li>{@linkplain #finishAllActivityAndClose()} 关闭应用退出</li>
  * </ol>
  *
+ * <strong>注意所有的函数都要进行判空的操作，因为可能因为内存不足导致activity被回收而导致空指针的错误</strong>
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-07
  */
@@ -46,7 +47,8 @@ public final class ActivityManager {
     public String getStackInfo() {
         StringBuilder sb = new StringBuilder();
         for (Activity temp : stack){
-            sb.append(temp.toString()).append("\n");
+            if (temp != null)
+                sb.append(temp.toString()).append("\n");
         }
         return sb.toString();
     }
@@ -81,7 +83,9 @@ public final class ActivityManager {
      */
     public void finishActivity(){
         if (!stack.isEmpty()) {
-            stack.pop().finish();
+            Activity temp = stack.pop();
+            if (temp != null)
+                temp.finish();
             return;
         }
         L.e("Activity 栈为空！！！+finishActivity()", ActivityManager.class);
@@ -100,7 +104,8 @@ public final class ActivityManager {
         }catch (Exception e){
             L.e("删除错误", e, ActivityManager.class);
         }finally {
-            activity.finish();
+            if (activity != null)
+                activity.finish();
         }
     }
 
@@ -111,7 +116,7 @@ public final class ActivityManager {
         Iterator<Activity> iterator = stack.iterator();
         while (iterator.hasNext()){
             Activity activity = iterator.next();
-            if (activity.getClass().equals(clazz)) {
+            if (activity!=null && activity.getClass().equals(clazz)) {
                 //注意应该通过iterator操作stack，要不然回报ConcurrentModificationException
                 iterator.remove();
                 activity.finish();
@@ -127,7 +132,7 @@ public final class ActivityManager {
         Iterator<Activity> iterator = stack.iterator();
         while (iterator.hasNext()){
             Activity temp = iterator.next();
-            if (temp.getClass().equals(clazz))
+            if (temp!=null && temp.getClass().equals(clazz))
                 activity = temp;
         }
         if (activity != null)
@@ -138,17 +143,18 @@ public final class ActivityManager {
      * 删除栈上该activity之上的所有activity
      */
     public void finishAfterActivity(Activity activity){
-        if (stack.search(activity) == -1){
+        if (activity!=null && stack.search(activity) == -1){
             L.e("在栈中找不到该activity", ActivityManager.class);
             return;
         }
         while (stack.peek() != null){
             Activity temp = stack.pop();
-            if (temp.equals(activity)){
+            if (temp!=null && temp.equals(activity)){
                 stack.push(temp);
                 break;
             }
-            temp.finish();
+            if (temp!=null)
+                temp.finish();
         }
     }
 
@@ -161,7 +167,7 @@ public final class ActivityManager {
         Iterator<Activity> iterator = stack.iterator();
         while (iterator.hasNext()){
             activity = iterator.next();
-            if (activity.getClass().equals(clazz)) {
+            if (activity!=null && activity.getClass().equals(clazz)) {
                 flag = false;
                 break;
             }
@@ -178,7 +184,9 @@ public final class ActivityManager {
      */
     public void finishAllActivityAndClose(){
         while (stack.size() > 0){
-            stack.pop().finish();
+            Activity temp = stack.pop();
+            if (temp != null)
+                temp.finish();
         }
         try {
             android.app.ActivityManager activityManager = (android.app.ActivityManager)
@@ -195,7 +203,9 @@ public final class ActivityManager {
      */
     public void finishAllActivityWithoutClose(){
         while (stack.size() > 0){
-            stack.pop().finish();
+            Activity temp = stack.pop();
+            if (temp != null)
+                temp.finish();
         }
         System.exit(0);
     }
