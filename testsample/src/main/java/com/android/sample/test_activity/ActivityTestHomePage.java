@@ -51,22 +51,22 @@ public class ActivityTestHomePage extends BaseActivity implements View.OnClickLi
         addItemToBottomPopWindow(2, 1, "2测试1");
         addItemToBottomPopWindow(2, 2, "2测试2");
 
-//        addItemToBottomPopWindow(3, 0, "3测试0");
-//        addItemToBottomPopWindow(3, 1, "3测试1");
-//        addItemToBottomPopWindow(3, 2, "3测试2");
-//        addItemToBottomPopWindow(3, 3, "3测试3");
-//
-//        addItemToBottomPopWindow(4, 1, "4测试1");
-//        addItemToBottomPopWindow(4, 2, "4测试2");
-//        addItemToBottomPopWindow(4, 3, "4测试3");
-//        addItemToBottomPopWindow(4, 4, "4测试4");
-//
-//        addItemToBottomPopWindow(5, 0, "5测试0");
-//        addItemToBottomPopWindow(5, 1, "5测试1");
-//        addItemToBottomPopWindow(5, 2, "5测试2");
-//        addItemToBottomPopWindow(5, 3, "5测试3");
-//        addItemToBottomPopWindow(5, 4, "5测试4");
-//        addItemToBottomPopWindow(5, 5, "5测试5");
+        addItemToBottomPopWindow(3, 0, "3测试0");
+        addItemToBottomPopWindow(3, 1, "3测试1");
+        addItemToBottomPopWindow(3, 2, "3测试2");
+        addItemToBottomPopWindow(3, 3, "3测试3");
+
+        addItemToBottomPopWindow(4, 1, "4测试1");
+        addItemToBottomPopWindow(4, 2, "4测试2");
+        addItemToBottomPopWindow(4, 3, "4测试3");
+        addItemToBottomPopWindow(4, 4, "4测试4");
+
+        addItemToBottomPopWindow(5, 0, "5测试0");
+        addItemToBottomPopWindow(5, 1, "5测试1");
+        addItemToBottomPopWindow(5, 2, "5测试2");
+        addItemToBottomPopWindow(5, 3, "5测试3");
+        addItemToBottomPopWindow(5, 4, "5测试4");
+        addItemToBottomPopWindow(5, 5, "5测试5");
     }
 
     @Override

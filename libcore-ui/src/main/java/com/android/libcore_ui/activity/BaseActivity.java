@@ -79,6 +79,9 @@ public abstract class BaseActivity extends RootActivity{
     protected ObjectAnimator popAnimation;
     protected ObjectAnimator reverseAnimation;
 
+    /** 底部弹出框的默认高度 */
+    protected int scrollViewMeasureHeight;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -238,6 +241,10 @@ public abstract class BaseActivity extends RootActivity{
                 ll_bottom_content.addView(group, params);
             }
         }
+        //每次组建完底部弹出框之后，就开始计算他的高度
+        int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        sv_bottom_content.measure(width, width);
+        scrollViewMeasureHeight = sv_bottom_content.getMeasuredHeight();
     }
 
     @Override
@@ -256,6 +263,9 @@ public abstract class BaseActivity extends RootActivity{
         doReverseAnimation();
     }
 
+    /**
+     * 执行反向动画将其隐藏
+     */
     private void doReverseAnimation(){
         if (Build.VERSION.SDK_INT < 11) {
             sv_bottom_content.setVisibility(View.GONE);
@@ -268,7 +278,7 @@ public abstract class BaseActivity extends RootActivity{
                 return;
             }
             if (reverseAnimation == null) {
-                reverseAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", 0, -sv_bottom_content.getMeasuredHeight());
+                reverseAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", 0, -scrollViewMeasureHeight);
                 reverseAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
@@ -277,11 +287,11 @@ public abstract class BaseActivity extends RootActivity{
                         params.bottomMargin = value;
                         sv_bottom_content.setLayoutParams(params);
                         ((View) (sv_bottom_content.getParent())).invalidate();
-                        if (value <= -sv_bottom_content.getMeasuredHeight()){
+                        if (value <= -scrollViewMeasureHeight){
                             sv_bottom_content.setVisibility(View.GONE);
                         }
 
-                        ll_full_screen.setAlpha((float)(((sv_bottom_content.getMeasuredHeight() + value)*1.0) / (sv_bottom_content.getMeasuredHeight()*1.0)));
+                        ll_full_screen.setAlpha((float) (((scrollViewMeasureHeight + value) * 1.0) / (scrollViewMeasureHeight * 1.0)));
                         if (ll_full_screen.getAlpha()<=0){
                             ll_full_screen.setVisibility(View.GONE);
                         }
@@ -305,9 +315,7 @@ public abstract class BaseActivity extends RootActivity{
             sv_bottom_content.setVisibility(View.VISIBLE);
             ll_full_screen.setVisibility(View.VISIBLE);
             if (popAnimation == null) {
-                int width = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-                sv_bottom_content.measure(width, width);
-                popAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", -sv_bottom_content.getMeasuredHeight(), 0);
+                popAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", -scrollViewMeasureHeight, 0);
                 popAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                     @Override
                     public void onAnimationUpdate(ValueAnimator animation) {
@@ -317,7 +325,7 @@ public abstract class BaseActivity extends RootActivity{
                         sv_bottom_content.setLayoutParams(params);
                         ((View) (sv_bottom_content.getParent())).invalidate();
 
-                        ll_full_screen.setAlpha((float)(((sv_bottom_content.getMeasuredHeight() + value)*1.0) / (sv_bottom_content.getMeasuredHeight()*1.0)));
+                        ll_full_screen.setAlpha((float) (((scrollViewMeasureHeight + value) * 1.0) / (scrollViewMeasureHeight * 1.0)));
                     }
                 });
                 popAnimation.setDuration(500);
