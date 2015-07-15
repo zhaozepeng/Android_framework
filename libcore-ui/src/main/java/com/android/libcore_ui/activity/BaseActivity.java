@@ -314,6 +314,8 @@ public abstract class BaseActivity extends RootActivity{
             }
             sv_bottom_content.setVisibility(View.VISIBLE);
             ll_full_screen.setVisibility(View.VISIBLE);
+            //需要滚动到顶部
+            sv_bottom_content.scrollTo(0, 0);
             if (popAnimation == null) {
                 popAnimation = ObjectAnimator.ofInt(sv_bottom_content, "bottomMargin", -scrollViewMeasureHeight, 0);
                 popAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
@@ -334,6 +336,8 @@ public abstract class BaseActivity extends RootActivity{
         }else{
             ll_full_screen.setVisibility(View.VISIBLE);
             sv_bottom_content.setVisibility(View.VISIBLE);
+            //需要滚动到顶部
+            sv_bottom_content.scrollTo(0, 0);
         }
     }
 }

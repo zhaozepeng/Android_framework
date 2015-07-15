@@ -90,7 +90,14 @@ public class ActivityTestHomePage extends BaseActivity implements View.OnClickLi
                     removeItemFromBottomPopWindow(4, 4);
                     removeItemFromBottomPopWindow(5, 5);
                 }catch (Exception e){
-                    L.e("test error", e);
+//                    try {
+//                        removeItemFromBottomPopWindow(5, 0);
+//                        removeItemFromBottomPopWindow(5, 1);
+//                        removeItemFromBottomPopWindow(5, 2);
+//                        removeItemFromBottomPopWindow(5, 3);
+//                        removeItemFromBottomPopWindow(5, 4);
+//                    }catch (Exception e1){
+//                    }
                 }
                 showBottomPopWindow();
                 break;
