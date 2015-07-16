@@ -23,21 +23,28 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     protected void initData() {
-        GuideManager.getInstance().initMask(R.layout.guide_test_1, R.layout.guide_test_2, R.layout.guide_test_3);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_test_guide_full_screen:
+                GuideManager.getInstance().initMask(R.layout.guide_test_1, R.layout.guide_test_2, R.layout.guide_test_3);
                 GuideManager.getInstance().showMaskFullScreen();
                 break;
             case R.id.btn_test_guide_content:
+                GuideManager.getInstance().initMask(R.layout.guide_test_2, R.layout.guide_test_1, R.layout.guide_test_3, R.layout.guide_test_2);
                 GuideManager.getInstance().showMaskInContent();
                 break;
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!GuideManager.getInstance().showNextMask())
+            super.onBackPressed();
     }
 
     @Override
