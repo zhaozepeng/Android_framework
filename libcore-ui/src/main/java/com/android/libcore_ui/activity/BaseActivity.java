@@ -66,7 +66,7 @@ public abstract class BaseActivity extends RootActivity{
     /** 右侧添加按钮区域 */
     protected RelativeLayout rl_top_extra_content;
     /** 内容区域 */
-    protected FrameLayout content;
+    protected FrameLayout base_content;
     /** 全屏的半透明显示 */
     protected View ll_full_screen;
     /** 底部popWindow */
@@ -91,7 +91,7 @@ public abstract class BaseActivity extends RootActivity{
         rl_back = (RelativeLayout) findViewById(R.id.rl_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
         rl_top_extra_content = (RelativeLayout) findViewById(R.id.rl_top_extra_content);
-        content = (FrameLayout) findViewById(R.id.content);
+        base_content = (FrameLayout) findViewById(R.id.base_content);
         ll_full_screen = findViewById(R.id.ll_full_screen);
         ll_full_screen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,9 +138,9 @@ public abstract class BaseActivity extends RootActivity{
         if (object instanceof Integer){
             LayoutInflater inflater = LayoutInflater.from(this);
             View v = inflater.inflate((Integer)object, null);
-            content.addView(v);
+            base_content.addView(v);
         }else if(object instanceof View){
-            content.addView((View)object);
+            base_content.addView((View)object);
         }else{
             L.e("参数只能为id或者view");
         }
