@@ -24,6 +24,7 @@
 <li>log类，该类用来统一log的打印，请确保应用同一使用该类，可以修改该类代码来实现log打印</li>
 <li>Toast类，该类用来弹出toast，请确保统一使用该类</li>
 <li>Utils类，分为CommonUtils，BitmapUtils....</li>
+<li>GuideManager类，用来显示指引蒙版</li>
 </ol>
 
 ###第二层libcore-ui层###
