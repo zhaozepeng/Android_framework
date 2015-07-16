@@ -23,13 +23,8 @@ public abstract class RootDialog extends Dialog{
     /** 其他按钮的id */
     public ArrayList<Integer> ids = new ArrayList<>();
 
-    public RootDialog(Context context, int theme) {
-        super(context, theme);
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public RootDialog(Context context) {
+        super(context);
     }
 
     public abstract RootDialog setTitle(String title);

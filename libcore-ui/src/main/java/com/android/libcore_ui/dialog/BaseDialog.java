@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 
 import com.android.libcore.dialog.RootDialog;
+import com.android.libcore_ui.R;
 
 /**
  * Description: 扩展dialog类，用来统一dialog的样式和实线dialog的功能，请在此处定义好一个应用
@@ -14,8 +15,10 @@ import com.android.libcore.dialog.RootDialog;
  */
 public class BaseDialog extends RootDialog{
 
-    public BaseDialog(Context context, int theme) {
-        super(context, theme);
+    public BaseDialog(Context context) {
+        super(context);
+        //仿QQ的dialog样式
+        setContentView(R.layout.dialog_base_layout);
     }
 
     @Override
