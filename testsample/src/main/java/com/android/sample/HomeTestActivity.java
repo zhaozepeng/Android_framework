@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.android.framework.R;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.sample.test_activity.ActivityTestHomePage;
+import com.android.sample.test_guide.GuideActivity;
 
 /**
  * Description: homepage
@@ -59,7 +60,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
                 intent.setClass(this, ActivityTestHomePage.class);
                 break;
             case R.id.btn_test_guide:
-
+                intent.setClass(this, GuideActivity.class);
                 break;
             default:
                 return;

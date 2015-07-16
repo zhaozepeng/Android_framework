@@ -3,6 +3,7 @@ package com.android.sample.test_guide;
 import android.view.View;
 
 import com.android.framework.R;
+import com.android.libcore.guide.GuideManager;
 import com.android.libcore_ui.activity.BaseActivity;
 
 /**
@@ -28,6 +29,9 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_test_guide:
+                GuideManager.getInstance().initMask(R.layout.guide_test_1, R.layout.guide_test_2,
+                    R.layout.guide_test_3);
+                GuideManager.getInstance().showMask();
                 break;
             default:
                 break;

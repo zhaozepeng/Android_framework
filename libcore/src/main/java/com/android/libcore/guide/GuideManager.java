@@ -29,7 +29,7 @@ public class GuideManager{
 
     private GuideManager(){}
 
-    public GuideManager getInstance(){
+    public static GuideManager getInstance(){
         if (instance == null){
             synchronized (GuideManager.class){
                 if (instance == null){
@@ -81,6 +81,7 @@ public class GuideManager{
                     currentShowId = 0;
                     initListener();
                 }
+                //虽然layoutId不在该子module里面定义，但是依然能够inflate，所以该处可行
                 View view = inflater.inflate(layoutId, null);
                 View btn = view.findViewById(btnId);
                 if (btn == null){
@@ -98,7 +99,7 @@ public class GuideManager{
     }
 
     /**
-     * 清空蒙版所有东西
+     * 使用完蒙版之后记得清空蒙版
      */
     public void clearMask(){
         views = null;
