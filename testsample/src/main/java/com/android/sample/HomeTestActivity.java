@@ -22,6 +22,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
 
     /** 测试activity */
     private Button btn_test_activity;
+    /** 测试蒙版 */
+    private Button btn_test_guide;
     private TextView tv_info;
 
     @Override
@@ -29,7 +31,9 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         setContentViewSrc(R.layout.activity_home_test);
 
         btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
+        btn_test_guide = (Button) findViewById(R.id.btn_test_guide);
         btn_test_activity.setOnClickListener(this);
+        btn_test_guide.setOnClickListener(this);
         tv_info = (TextView) findViewById(R.id.tv_info);
         //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
         setTitle("主页");
@@ -53,6 +57,9 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()){
             case R.id.btn_test_activity:
                 intent.setClass(this, ActivityTestHomePage.class);
+                break;
+            case R.id.btn_test_guide:
+
                 break;
             default:
                 return;

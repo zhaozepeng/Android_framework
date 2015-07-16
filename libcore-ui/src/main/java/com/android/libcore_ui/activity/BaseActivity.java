@@ -131,7 +131,7 @@ public abstract class BaseActivity extends RootActivity{
     }
 
     /**
-     * 用来设置该页面需要显示的内容，不包括topbar
+     * 请使用该函数来设置该页面需要显示的内容，不包括topbar
      * @param object
      */
     protected void setContentViewSrc(Object object){

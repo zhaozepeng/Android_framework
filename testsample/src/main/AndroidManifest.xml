@@ -39,6 +39,10 @@
             android:label="@string/activity_test_activity_B"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.android.sample.test_guide.GuideActivity"
+            android:label="@string/activity_test_guide"
+            android:screenOrientation="portrait">
+        </activity>
 
     </application>
 
