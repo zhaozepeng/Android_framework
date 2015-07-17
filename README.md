@@ -25,6 +25,7 @@
 <li>Toast类，该类用来弹出toast，请确保统一使用该类</li>
 <li>Utils类，分为CommonUtils，BitmapUtils....</li>
 <li>GuideManager类，用来显示指引蒙版</li>
+<li>dialog类，定义了一个应用dialog所应该具备的基础行为</li>
 </ol>
 
 ###第二层libcore-ui层###
@@ -32,9 +33,11 @@
 
 <ol>
 <li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式，如底部的弹出框，顶部bar的样式等</li>
+<li>继承自libcore层的dialog类，定义一个应用的dialog所具备的样式，并且完善dialog的功能</li>
 <li>基本实用的控件：
 <ul>
 <li>AutomaticNewlineLinearLayout类是自动换行的linearLayout，自定义了attr</li>
+<li>LoadingDialog类，用来定义一个应用最基本的加载dialog框</li>
 </ul>
 </li>
 </ol>
