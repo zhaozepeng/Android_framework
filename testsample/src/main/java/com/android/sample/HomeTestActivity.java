@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.android.framework.R;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.sample.test_activity.ActivityTestHomePage;
+import com.android.sample.test_dialog.DialogActivity;
 import com.android.sample.test_guide.GuideActivity;
 
 /**
@@ -25,6 +26,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     private Button btn_test_activity;
     /** 测试蒙版 */
     private Button btn_test_guide;
+    /** 测试dialog */
+    private Button btn_test_dialog;
     private TextView tv_info;
 
     @Override
@@ -33,8 +36,10 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
 
         btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
         btn_test_guide = (Button) findViewById(R.id.btn_test_guide);
+        btn_test_dialog = (Button) findViewById(R.id.btn_test_dialog);
         btn_test_activity.setOnClickListener(this);
         btn_test_guide.setOnClickListener(this);
+        btn_test_dialog.setOnClickListener(this);
         tv_info = (TextView) findViewById(R.id.tv_info);
         //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
         setTitle("主页");
@@ -61,6 +66,9 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_test_guide:
                 intent.setClass(this, GuideActivity.class);
+                break;
+            case R.id.btn_test_dialog:
+                intent.setClass(this, DialogActivity.class);
                 break;
             default:
                 return;

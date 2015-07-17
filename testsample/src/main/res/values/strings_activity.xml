@@ -6,4 +6,5 @@
     <string name="activity_test_activity_A">测试Activity A</string>
     <string name="activity_test_activity_B">测试Activity B</string>
     <string name="activity_test_guide">测试蒙版</string>
+    <string name="activity_test_dialog">测试dialog</string>
 </resources>

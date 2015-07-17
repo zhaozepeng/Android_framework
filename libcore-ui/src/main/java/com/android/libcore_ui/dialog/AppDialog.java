@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.android.libcore.dialog.RootDialog;
+import com.android.libcore.dialog.BaseDialog;
 import com.android.libcore_ui.R;
 
 /**
@@ -20,7 +20,7 @@ import com.android.libcore_ui.R;
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-16
  */
-public class BaseDialog extends RootDialog implements View.OnClickListener{
+public class AppDialog extends BaseDialog implements View.OnClickListener{
 
     /** 标题 */
     private RelativeLayout rl_title;
@@ -35,21 +35,27 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
 
     private LayoutInflater inflater;
 
-    public BaseDialog(Context context) {
+    public AppDialog(Context context) {
         super(context);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         inflater = LayoutInflater.from(getContext());
         //仿QQ的dialog样式
         setContentView(R.layout.dialog_base_layout);
+        rl_title = (RelativeLayout) findViewById(R.id.rl_title);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        rl_message = (RelativeLayout) findViewById(R.id.rl_message);
+        tv_message = (TextView) findViewById(R.id.tv_message);
+        ll_bottom_button = (LinearLayout) findViewById(R.id.ll_bottom_button);
     }
 
     @Override
-    public RootDialog setTitle(String title) {
+    public com.android.libcore.dialog.BaseDialog setTitle(String title) {
         tv_title.setText(title);
         return this;
     }
 
     @Override
-    public RootDialog setTitle(View title) {
+    public com.android.libcore.dialog.BaseDialog setTitle(View title) {
         rl_title.removeView(tv_title);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                 (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -59,13 +65,13 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setMessage(String message) {
+    public com.android.libcore.dialog.BaseDialog setMessage(String message) {
         tv_message.setText(message);
         return this;
     }
 
     @Override
-    public RootDialog setMessage(View message) {
+    public com.android.libcore.dialog.BaseDialog setMessage(View message) {
         rl_title.removeView(tv_title);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                 (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -91,7 +97,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setPositiveButton(String positive) {
+    public com.android.libcore.dialog.BaseDialog setPositiveButton(String positive) {
         LinearLayout layout = generateLayout(positive);
         layout.setTag(POSITIVE_LISTENER);
         ll_bottom_button.addView(layout);
@@ -99,7 +105,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setPositiveButton(View positive) {
+    public com.android.libcore.dialog.BaseDialog setPositiveButton(View positive) {
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
@@ -110,7 +116,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setNegativeButton(String negative) {
+    public com.android.libcore.dialog.BaseDialog setNegativeButton(String negative) {
         LinearLayout layout = generateLayout(negative);
         layout.setTag(NEGATIVE_LISTENER);
         ll_bottom_button.addView(layout);
@@ -118,7 +124,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setNegativeButton(View negative) {
+    public com.android.libcore.dialog.BaseDialog setNegativeButton(View negative) {
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
@@ -129,7 +135,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setNeutralButton(String neutral) {
+    public com.android.libcore.dialog.BaseDialog setNeutralButton(String neutral) {
         LinearLayout layout = generateLayout(neutral);
         layout.setTag(NEUTRAL_LISTENER);
         ll_bottom_button.addView(layout);
@@ -137,7 +143,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setNeutralButton(View neutral) {
+    public com.android.libcore.dialog.BaseDialog setNeutralButton(View neutral) {
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
@@ -148,7 +154,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog addOtherButton(String other, int other_listener) {
+    public com.android.libcore.dialog.BaseDialog addOtherButton(String other, int other_listener) {
         if (!checkIllegalId(other_listener)){
             throw new IllegalArgumentException("按钮id重复");
         }
@@ -160,7 +166,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog addOtherButton(View other, int other_listener) {
+    public com.android.libcore.dialog.BaseDialog addOtherButton(View other, int other_listener) {
         if (!checkIllegalId(other_listener)){
             throw new IllegalArgumentException("按钮id重复");
         }
@@ -175,7 +181,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setGravity(int gravity) {
+    public com.android.libcore.dialog.BaseDialog setGravity(int gravity) {
         Window window = this.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.gravity = gravity;
@@ -184,7 +190,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setPosition(int x, int y) {
+    public com.android.libcore.dialog.BaseDialog setPosition(int x, int y) {
         Window window = this.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         if (x != -1)
@@ -196,7 +202,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setWidth(int width) {
+    public com.android.libcore.dialog.BaseDialog setWidth(int width) {
         Window window = this.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.width = width;
@@ -205,7 +211,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setHeight(int height) {
+    public com.android.libcore.dialog.BaseDialog setHeight(int height) {
         Window window = this.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.height = height;
@@ -214,7 +220,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
     }
 
     @Override
-    public RootDialog setAlpha(float alpha) {
+    public com.android.libcore.dialog.BaseDialog setAlpha(float alpha) {
         Window window = this.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
         params.alpha = alpha;
@@ -224,6 +230,7 @@ public class BaseDialog extends RootDialog implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        this.dismiss();
         listener.onButtonClick((Integer) v.getTag());
     }
 }

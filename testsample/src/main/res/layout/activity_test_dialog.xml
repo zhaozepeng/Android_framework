@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/btn_test_dialog_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试 dialog ----1"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_test_dialog_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试 dialog ----2"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_test_dialog_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试 dialog ----3"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_test_dialog_5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试 dialog ----5"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_test_dialog_gravity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试 dialog ----gravity"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_test_dialog_xy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试 dialog ----xy"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_test_dialog_width_height"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试 dialog ----width_height"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_test_dialog_alpha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试 dialog ----alpha"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
+</LinearLayout>

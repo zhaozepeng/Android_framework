@@ -43,6 +43,10 @@
             android:label="@string/activity_test_guide"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.android.sample.test_dialog.DialogActivity"
+                  android:label="@string/activity_test_dialog"
+                  android:screenOrientation="portrait">
+        </activity>
 
     </application>
 
