@@ -54,15 +54,5 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:orientation="horizontal">
-        <TextView
-            android:id="@+id/tv_first_btn"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/light_blue"
-            android:paddingTop="10dp"
-            android:paddingBottom="10dp"
-            android:gravity="center"/>
     </LinearLayout>
 </LinearLayout>

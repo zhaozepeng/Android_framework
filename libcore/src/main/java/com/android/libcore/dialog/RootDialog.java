@@ -2,8 +2,6 @@ package com.android.libcore.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -28,6 +26,17 @@ public abstract class RootDialog extends Dialog{
 
     public RootDialog(Context context) {
         super(context);
+        ids.add(POSITIVE_LISTENER);
+        ids.add(NEGATIVE_LISTENER);
+        ids.add(NEUTRAL_LISTENER);
+    }
+
+    /**
+     * 检测按钮id是否合法
+     * @return 合法返回true
+     */
+    protected boolean checkIllegalId(int id){
+        return !ids.contains(id);
     }
 
     /**
@@ -121,8 +130,8 @@ public abstract class RootDialog extends Dialog{
 
     /**
      * 设置dialog显示的具体位置
-     * @param x x坐标
-     * @param y y坐标
+     * @param x x坐标，-1代表使用原位置
+     * @param y y坐标，-1代表使用原位置
      */
     public abstract RootDialog setPosition(int x, int y);
 
@@ -137,6 +146,12 @@ public abstract class RootDialog extends Dialog{
      * @param height 高度
      */
     public abstract RootDialog setHeight(int height);
+
+    /**
+     * 设置透明度
+     * @param alpha 0~1
+     */
+    public abstract RootDialog setAlpha(float alpha);
 
     public interface ButtonClickListener{
         void onButtonClick(int button_id);
