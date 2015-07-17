@@ -2,6 +2,9 @@ package com.android.libcore_ui.dialog;
 
 import android.content.Context;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.android.libcore.dialog.RootDialog;
 import com.android.libcore_ui.R;
@@ -15,6 +18,18 @@ import com.android.libcore_ui.R;
  */
 public class BaseDialog extends RootDialog{
 
+    /** 标题 */
+    private RelativeLayout rl_title;
+    private TextView tv_title;
+
+    /** 内容 */
+    private RelativeLayout rl_message;
+    private TextView tv_message;
+
+    /** 底部按钮 */
+    private LinearLayout ll_bottom_button;
+    private TextView tv_first_btn;
+
     public BaseDialog(Context context) {
         super(context);
         //仿QQ的dialog样式
@@ -23,6 +38,7 @@ public class BaseDialog extends RootDialog{
 
     @Override
     public RootDialog setTitle(String title) {
+        tv_title.setText(title);
         return this;
     }
 
