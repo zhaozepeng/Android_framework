@@ -52,21 +52,28 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
 //                dialog = DialogFactory.createDialog(view, editText, button);
                 break;
             case R.id.btn_test_dialog_2:
-//                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消");
-                ImageView view = new ImageView(this);
-                view.setBackgroundResource(R.mipmap.app_icon);
-                EditText editText = new EditText(this);
-                Button button = new Button(this);
-                Button button1 = new Button(this);
-                dialog = DialogFactory.createDialog(view, editText, button, button1);
+                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消");
+//                ImageView view = new ImageView(this);
+//                view.setBackgroundResource(R.mipmap.app_icon);
+//                EditText editText = new EditText(this);
+//                Button button = new Button(this);
+//                Button button1 = new Button(this);
+//                dialog = DialogFactory.createDialog(view, editText, button, button1);
                 break;
             case R.id.btn_test_dialog_3:
                 dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
                 break;
             case R.id.btn_test_dialog_5:
-                DialogFactory.OtherButton other4 = new DialogFactory.OtherButton("其他的4", 4);
-                DialogFactory.OtherButton other5 = new DialogFactory.OtherButton("其他的5", 5);
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间", other4, other5);
+                ImageView view = new ImageView(this);
+                view.setBackgroundResource(R.mipmap.app_icon);
+                EditText editText = new EditText(this);
+                Button button = new Button(this);
+                Button button1 = new Button(this);
+                DialogFactory.OtherButton other4 = new DialogFactory.OtherButton(button, 4);
+                DialogFactory.OtherButton other5 = new DialogFactory.OtherButton(button1, 5);
+//                DialogFactory.OtherButton other4 = new DialogFactory.OtherButton("另外的4", 4);
+//                DialogFactory.OtherButton other5 = new DialogFactory.OtherButton("另外的5", 5);
+                dialog = DialogFactory.createDialog(view, editText, "确定", "取消", "中间", other4, other5);
                 break;
             case R.id.btn_test_dialog_gravity:
                 dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
