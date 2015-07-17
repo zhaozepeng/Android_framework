@@ -36,8 +36,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
     private LayoutInflater inflater;
 
     public AppDialog(Context context) {
-        super(context);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super(context, R.style.theme_dialog);
         inflater = LayoutInflater.from(getContext());
         //仿QQ的dialog样式
         setContentView(R.layout.dialog_base_layout);

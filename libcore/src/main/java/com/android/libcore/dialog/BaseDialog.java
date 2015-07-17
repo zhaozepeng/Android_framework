@@ -24,8 +24,8 @@ public abstract class BaseDialog extends Dialog{
     protected ArrayList<Integer> ids = new ArrayList<>();
     protected ButtonClickListener listener;
 
-    public BaseDialog(Context context) {
-        super(context);
+    public BaseDialog(Context context, int theme) {
+        super(context, theme);
         ids.add(POSITIVE_LISTENER);
         ids.add(NEGATIVE_LISTENER);
         ids.add(NEUTRAL_LISTENER);
