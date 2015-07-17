@@ -71,11 +71,11 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
 
     @Override
     public com.android.libcore.dialog.BaseDialog setMessage(View message) {
-        rl_title.removeView(tv_title);
+        rl_message.removeView(tv_message);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                 (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        rl_title.addView(message, params);
+        rl_message.addView(message, params);
         return this;
     }
 
@@ -172,7 +172,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
-        other.setTag(NEUTRAL_LISTENER);
+        other.setTag(other_listener);
         other.setOnClickListener(this);
         ids.add(other_listener);
         ll_bottom_button.addView(other, params);
@@ -192,10 +192,6 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
     public com.android.libcore.dialog.BaseDialog setPosition(int x, int y) {
         Window window = this.getWindow();
         WindowManager.LayoutParams params = window.getAttributes();
-        if (x != -1)
-            params.x = x;
-        if (y != -1)
-            params.y = y;
         window.setAttributes(params);
         return this;
     }

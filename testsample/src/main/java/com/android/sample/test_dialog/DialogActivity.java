@@ -2,6 +2,9 @@ package com.android.sample.test_dialog;
 
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.android.framework.R;
 import com.android.libcore.Toast.T;
@@ -42,9 +45,20 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
         switch (v.getId()){
             case R.id.btn_test_dialog_1:
                 dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定");
+//                ImageView view = new ImageView(this);
+//                view.setBackgroundResource(R.mipmap.app_icon);
+//                EditText editText = new EditText(this);
+//                Button button = new Button(this);
+//                dialog = DialogFactory.createDialog(view, editText, button);
                 break;
             case R.id.btn_test_dialog_2:
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消");
+//                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消");
+                ImageView view = new ImageView(this);
+                view.setBackgroundResource(R.mipmap.app_icon);
+                EditText editText = new EditText(this);
+                Button button = new Button(this);
+                Button button1 = new Button(this);
+                dialog = DialogFactory.createDialog(view, editText, button, button1);
                 break;
             case R.id.btn_test_dialog_3:
                 dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
@@ -60,12 +74,12 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.btn_test_dialog_xy:
                 dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
-                dialog.setPosition(100, 100);
+                dialog.setPosition(-100, -300);
                 break;
             case R.id.btn_test_dialog_width_height:
                 dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
-                dialog.setWidth(CommonUtils.dp2px(50));
-                dialog.setHeight(CommonUtils.dp2px(100));
+                dialog.setWidth(CommonUtils.dp2px(100));
+                dialog.setHeight(CommonUtils.dp2px(200));
                 break;
             case R.id.btn_test_dialog_alpha:
                 dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
@@ -74,12 +88,14 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
             default:
                 break;
         }
-        dialog.setOnButtonClickListener(new BaseDialog.ButtonClickListener() {
-            @Override
-            public void onButtonClick(int button_id) {
-                T.getInstance().showShort("您点击了第"+button_id+"个button");
-            }
-        });
-        dialog.show();
+        if (dialog != null) {
+            dialog.setOnButtonClickListener(new BaseDialog.ButtonClickListener() {
+                @Override
+                public void onButtonClick(int button_id) {
+                    T.getInstance().showShort("您点击了第" + button_id + "个button");
+                }
+            });
+            dialog.show();
+        }
     }
 }

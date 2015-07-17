@@ -6,7 +6,7 @@
         <item name="android:windowIsFloating">true</item><!-- 是否浮现在activity之上 -->
         <item name="android:windowIsTranslucent">false</item><!-- 半透明 -->
         <item name="android:windowNoTitle">true</item><!-- 无标题 -->
-        <!--<item name="android:windowBackground">@color/transparent</item>&lt;!&ndash; 自己想要的背景 &ndash;&gt;-->
-        <!--<item name="android:backgroundDimEnabled">false</item>&lt;!ndash; 模糊 &ndash;&gt;-->
+        <item name="android:windowBackground">@color/transparent</item><!-- 自己想要的背景 -->
+        <item name="android:backgroundDimEnabled">true</item><!-- 模糊 -->
     </style>
 </resources>

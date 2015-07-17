@@ -129,9 +129,9 @@ public abstract class BaseDialog extends Dialog{
     public abstract BaseDialog setGravity(int gravity);
 
     /**
-     * 设置dialog显示的具体位置
-     * @param x x坐标，-1代表使用原位置
-     * @param y y坐标，-1代表使用原位置
+     * 设置dialog显示的具体位置，相对于原位置而言，比如：x为负数代表向左，正数代表向右
+     * @param x x坐标，0代表使用原位置
+     * @param y y坐标，0代表使用原位置
      */
     public abstract BaseDialog setPosition(int x, int y);
 
