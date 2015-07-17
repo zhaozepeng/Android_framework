@@ -84,6 +84,8 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         View v_line = layout.findViewById(R.id.v_line);
         TextView tv_text = (TextView) layout.findViewById(R.id.tv_text);
         tv_text.setText(text);
+        //因为textview是math_parent，并且该textview的背景颜色不为空，所以覆盖掉父控件的圆弧，所以只能动态设置
+        //textview的圆弧
         //没有按钮存在，左右两边都要有圆弧
         if (ll_bottom_button.getChildCount() == 0){
             layout.removeView(v_line);
