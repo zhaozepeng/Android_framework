@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/base_dialog_shape">
 
     <!-- 标题 -->
@@ -42,11 +42,13 @@
         android:layout_marginTop="10dp"
         android:background="@color/gray"/>
 
-    <!-- 底部按钮 -->
+    <!-- 底部按钮，要加上padding属性，不然底部button会超出几个像素，原因不明，日了狗了，知道的联系我 -->
     <LinearLayout
         android:id="@+id/ll_bottom_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="1dp"
+        android:paddingRight="1dp"
         android:orientation="horizontal">
     </LinearLayout>
 </LinearLayout>

@@ -58,28 +58,34 @@ public class DialogFactory {
     public static AppDialog createDialog(Object title, Object message, Object positive, Object negative, Object neutral,
                                       OtherButton... others){
         AppDialog dialog = new AppDialog(BaseApplication.getInstance());
-        if (title instanceof String){
-            dialog.setTitle((String) title);
-        }else if (title instanceof View){
-            dialog.setTitle((View) title);
-        }else{
-            throw new IllegalArgumentException("title 只能为string和view");
+        if (title != null) {
+            if (title instanceof String) {
+                dialog.setTitle((String) title);
+            } else if (title instanceof View) {
+                dialog.setTitle((View) title);
+            } else {
+                throw new IllegalArgumentException("title 只能为string和view");
+            }
         }
 
-        if (message instanceof String){
-            dialog.setMessage((String) message);
-        }else if (message instanceof View){
-            dialog.setMessage((View) message);
-        }else{
-            throw new IllegalArgumentException("message 只能为string和view");
+        if (message != null) {
+            if (message instanceof String) {
+                dialog.setMessage((String) message);
+            } else if (message instanceof View) {
+                dialog.setMessage((View) message);
+            } else {
+                throw new IllegalArgumentException("message 只能为string和view");
+            }
         }
 
-        if (positive instanceof String){
-            dialog.setPositiveButton((String) positive);
-        }else if (positive instanceof View){
-            dialog.setPositiveButton((View) positive);
-        }else{
-            throw new IllegalArgumentException("positive 只能为string和view");
+        if(positive != null) {
+            if (positive instanceof String) {
+                dialog.setPositiveButton((String) positive);
+            } else if (positive instanceof View) {
+                dialog.setPositiveButton((View) positive);
+            } else {
+                throw new IllegalArgumentException("positive 只能为string和view");
+            }
         }
 
         if (negative != null) {

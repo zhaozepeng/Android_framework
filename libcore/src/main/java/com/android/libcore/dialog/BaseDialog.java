@@ -20,6 +20,8 @@ public abstract class BaseDialog extends Dialog{
     public static final int NEGATIVE_LISTENER = 1;
     /** 用来标识中间按钮的回调id */
     public static final int NEUTRAL_LISTENER = 2;
+    /** 用来标示是否有title */
+    protected boolean hasTitle = false;
     /** 其他按钮的id */
     protected ArrayList<Integer> ids = new ArrayList<>();
     protected ButtonClickListener listener;

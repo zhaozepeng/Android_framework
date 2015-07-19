@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,12 +50,14 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
 
     @Override
     public BaseDialog setTitle(String title) {
+        hasTitle = true;
         tv_title.setText(title);
         return this;
     }
 
     @Override
     public BaseDialog setTitle(View title) {
+        hasTitle = true;
         rl_title.removeView(tv_title);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                 (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -219,9 +222,10 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         LinearLayout.LayoutParams params =
                 new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.weight = 1;
+        other.setTag(other_listener);
+        other.setOnClickListener(this);
         layout.setTag(other_listener);
         layout.setOnClickListener(this);
-
         ll_bottom_button.addView(layout, params);
         return this;
     }
@@ -268,6 +272,13 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         params.alpha = alpha;
         window.setAttributes(params);
         return null;
+    }
+
+    @Override
+    public void show() {
+        if (!hasTitle)
+            rl_title.setVisibility(View.GONE);
+        super.show();
     }
 
     @Override

@@ -44,7 +44,7 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
         AppDialog dialog = null;
         switch (v.getId()){
             case R.id.btn_test_dialog_1:
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定");
+                dialog = DialogFactory.createDialog(null, "测试1文字", "确定");
 //                ImageView view = new ImageView(this);
 //                view.setBackgroundResource(R.mipmap.app_icon);
 //                EditText editText = new EditText(this);
