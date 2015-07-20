@@ -96,22 +96,34 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         }
         //已经有一个，需要将第一个圆弧变成左圆弧
         else if (ll_bottom_button.getChildCount() == 1){
-            ll_bottom_button.getChildAt(0).findViewById(R.id.tv_text)
-                    .setBackgroundResource(R.drawable.dialog_button_bottomleft_selector);
             tv_text.setBackgroundResource(R.drawable.dialog_button_bottomright_selector);
         }
         //如果大于等于2个，需要将上一个变成没有圆弧并且自己变成右圆弧
         else{
-            ll_bottom_button.getChildAt(ll_bottom_button.getChildCount()-1).findViewById(R.id.tv_text)
-                    .setBackgroundResource(R.drawable.dialog_button_middle_selector);
             tv_text.setBackgroundResource(R.drawable.dialog_button_bottomright_selector);
         }
+        reBuildCircle();
         LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.weight = 1;
         layout.setLayoutParams(params);
         layout.setOnClickListener(this);
         return layout;
+    }
+
+    private void reBuildCircle(){
+        if (ll_bottom_button.getChildCount() == 1){
+            View v = ll_bottom_button.getChildAt(0).findViewById(R.id.tv_text);
+            if (v != null)
+                v.setBackgroundResource(R.drawable.dialog_button_bottomleft_selector);
+        }
+        //如果大于等于2个，需要将上一个变成没有圆弧并且自己变成右圆弧
+        else if(ll_bottom_button.getChildCount() > 1){
+            View v = ll_bottom_button.getChildAt(ll_bottom_button.getChildCount() - 1);
+            v = v.findViewById(R.id.tv_text);
+            if (v != null)
+                v.setBackgroundResource(R.drawable.dialog_button_middle_selector);
+        }
     }
 
     @Override
@@ -132,7 +144,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
             ((ViewGroup)layout).addView(positive);
         }
         LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.weight = 1;
         layout.setTag(POSITIVE_LISTENER);
         layout.setOnClickListener(this);
@@ -159,7 +171,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
             ((ViewGroup)layout).addView(negative);
         }
         LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.weight = 1;
         layout.setTag(NEGATIVE_LISTENER);
         layout.setOnClickListener(this);
@@ -186,7 +198,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
             ((ViewGroup)layout).addView(neutral);
         }
         LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.weight = 1;
         layout.setTag(NEUTRAL_LISTENER);
         layout.setOnClickListener(this);
@@ -212,15 +224,17 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         if (!checkIllegalId(other_listener)){
             throw new IllegalArgumentException("按钮id重复");
         }
+        reBuildCircle();
         View layout = other;
+        layout = inflater.inflate(R.layout.dialog_item_button, null);
         //超过一个view,应该加上一条分割线
-        if (ll_bottom_button.getChildCount() > 0){
-            layout = inflater.inflate(R.layout.dialog_item_button, null);
-            ((ViewGroup)layout).removeViewAt(1);
-            ((ViewGroup)layout).addView(other);
+        if (ll_bottom_button.getChildCount() == 0){
+            ((ViewGroup)layout).removeViewAt(0);
         }
+        ((ViewGroup)layout).removeViewAt(1);
+        ((ViewGroup)layout).addView(other, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         LinearLayout.LayoutParams params =
-                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         params.weight = 1;
         other.setTag(other_listener);
         other.setOnClickListener(this);
