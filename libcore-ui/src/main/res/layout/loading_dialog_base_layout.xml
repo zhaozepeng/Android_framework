@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    
+    <ImageView
+        android:id="@+id/iv_loading_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/ic_loading_dialog"/>
+
+    <TextView
+        android:id="@+id/tv_loading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:textSize="20sp"
+        android:textColor="@color/text_normal"
+        android:text="@string/loading_process"
+        android:layout_gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/tv_dot_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/text_normal"
+        android:text="."
+        android:layout_gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/tv_dot_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/text_normal"
+        android:text="."
+        android:layout_gravity="center_vertical"/>
+    <TextView
+        android:id="@+id/tv_dot_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="@color/text_normal"
+        android:text="."
+        android:layout_gravity="center_vertical"/>
+</LinearLayout>
