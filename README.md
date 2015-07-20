@@ -37,7 +37,7 @@
 <li>基本实用的控件：
 <ul>
 <li>AutomaticNewlineLinearLayout类是自动换行的linearLayout，自定义了attr</li>
-<li>LoadingDialog类，用来定义一个应用最基本的加载dialog框</li>
+<li>LoadingDialog类，用来定义一个应用最基本的加载dialog框，加载时有“...”跳跃动画</li>
 </ul>
 </li>
 </ol>
