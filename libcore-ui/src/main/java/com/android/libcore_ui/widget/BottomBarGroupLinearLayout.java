@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.android.libcore_ui.R;
 
 /**
- * Description: 底部弹出框的容器
+ * Description: 底部弹出框的容器，该控件不是常用控件
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-14

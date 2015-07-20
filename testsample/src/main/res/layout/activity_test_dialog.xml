@@ -67,4 +67,12 @@
         android:text="测试 dialog ----alpha"
         android:background="@drawable/button_secondpage_selector"
         android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/btn_test_loading_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="测试loading dialog"
+        android:background="@drawable/button_secondpage_selector"
+        android:layout_marginBottom="10dp"/>
 </LinearLayout>

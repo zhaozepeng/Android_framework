@@ -14,6 +14,7 @@ import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.dialog.AppDialog;
 import com.android.libcore_ui.dialog.DialogFactory;
+import com.android.libcore_ui.dialog.LoadingDialog;
 
 /**
  * Description: 测试dialog
@@ -33,6 +34,7 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
         findViewById(R.id.btn_test_dialog_xy).setOnClickListener(this);
         findViewById(R.id.btn_test_dialog_width_height).setOnClickListener(this);
         findViewById(R.id.btn_test_dialog_alpha).setOnClickListener(this);
+        findViewById(R.id.btn_test_loading_dialog).setOnClickListener(this);
     }
 
     @Override
@@ -94,6 +96,11 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
             case R.id.btn_test_dialog_alpha:
                 dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
                 dialog.setAlpha(0.5f);
+                break;
+            case R.id.btn_test_loading_dialog:
+                LoadingDialog loadingDialog = new LoadingDialog(this);
+                loadingDialog.setLoadingText("正在显示loading dialog");
+                loadingDialog.show();
                 break;
             default:
                 break;
