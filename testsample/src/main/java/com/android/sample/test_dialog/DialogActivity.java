@@ -70,10 +70,9 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
                 view.setBackgroundResource(R.mipmap.app_icon);
                 EditText editText = new EditText(this);
                 TextView button = new TextView(this);
-                button.setText("4444444");
+                button.setText("444444444444444444444444");
                 DialogFactory.OtherButton other4 = new DialogFactory.OtherButton(button, 4);
-                TextView button1 = new TextView(this);
-                button1.setText("555555");
+                Button button1 = new Button(this);
                 DialogFactory.OtherButton other5 = new DialogFactory.OtherButton(button1, 5);
 //                DialogFactory.OtherButton other4 = new DialogFactory.OtherButton("另外的4", 4);
 //                DialogFactory.OtherButton other5 = new DialogFactory.OtherButton("另外的5", 5);

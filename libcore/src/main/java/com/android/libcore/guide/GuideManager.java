@@ -74,7 +74,7 @@ public class GuideManager {
             currentShowId = 0;
             initListener();
             for (int layoutId : layoutIds) {
-                //虽然layoutId不在该子module里面定义，但是依然能够inflate，所以该处可行
+                //虽然layoutId不在该子module里面定义，但是依然能够inflate
                 View view = inflater.inflate(layoutId, null);
                 View btn = view.findViewById(btnId);
                 if (btn == null) {
