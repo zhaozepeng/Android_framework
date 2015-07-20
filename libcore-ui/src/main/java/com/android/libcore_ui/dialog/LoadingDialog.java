@@ -1,7 +1,9 @@
-package com.android.libcore_ui.widget;
+package com.android.libcore_ui.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+
+import com.android.libcore_ui.R;
 
 /**
  * Description: 应用加载dialog
@@ -12,7 +14,7 @@ import android.content.Context;
 public class LoadingDialog extends Dialog{
 
     public LoadingDialog(Context context) {
-        super(context);
+        this(context, R.style.theme_dialog);
     }
 
     public LoadingDialog(Context context, int theme) {
