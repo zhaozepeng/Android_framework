@@ -6,5 +6,5 @@ package com.android.libcore.database;
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-21
  */
-public class BaseDBHelper {
+public abstract class BaseDBHelper {
 }

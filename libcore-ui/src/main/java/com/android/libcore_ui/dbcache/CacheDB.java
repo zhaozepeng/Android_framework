@@ -18,21 +18,40 @@ public class CacheDB extends BaseDB{
 
     @Override
     protected String getDBName() {
-        return null;
+        return "cache";
     }
 
     @Override
     protected int getDBVersion() {
-        return 0;
+        return 1;
     }
 
     @Override
     protected void onDBCreate(SQLiteDatabase db) {
+        try {
+            db.beginTransaction();
+            String sql;
+            sql = "create table cache_" + getDBVersion() + " (";
+            sql += "key varchar(40) not null primary key default '', ";
+            sql += "value varchar(4000) not null default ''";
+            sql += ")";
+            db.execSQL(sql);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            db.endTransaction();
 
+        }
     }
 
     @Override
     protected void onDBUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        switch (oldVersion){
+            case 1:
+                break;
+            default:
+                break;
+        }
     }
 }
