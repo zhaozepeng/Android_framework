@@ -15,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.android.libcore.log.L;
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
 
@@ -82,14 +81,12 @@ public class LoadingDialog extends Dialog{
                     params.topMargin = -(int) (CommonUtils.dp2px(10) * interpolator.getInterpolation(value));
                     view.setLayoutParams(params);
                     view.invalidate();
-                    L.e("up animation " + params.topMargin);
                     if (value == 1.0f) {
-                        L.e("down animation start");
                         downAnimator.start();
                     }
                 }
             });
-            upAnimator.setDuration(500);
+            upAnimator.setDuration(300);
             downAnimator = ObjectAnimator.ofFloat(tv_dot_1, "topMargin", 1, 0);
             ((ObjectAnimator)downAnimator).addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
@@ -100,15 +97,12 @@ public class LoadingDialog extends Dialog{
                     params.topMargin = -(int) (CommonUtils.dp2px(10) * interpolator.getInterpolation(value));
                     view.setLayoutParams(params);
                     view.invalidate();
-                    L.e("down animation " + value);
                     if (value == 0.0f) {
                         currentIndex++;
-                        L.e("up animation start");
                         upAnimator.start();
-                    }
-                }
+                    }            }
             });
-            downAnimator.setDuration(500);
+            downAnimator.setDuration(300);
             upAnimator.start();
             this.setOnDismissListener(new OnDismissListener() {
                 @Override
