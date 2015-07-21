@@ -11,6 +11,11 @@ import com.android.libcore.database.BaseDB;
  * @since 2015-07-20
  */
 public class CacheDB extends BaseDB{
+
+    public CacheDB(String table, boolean writable) {
+        super(table, writable);
+    }
+
     @Override
     protected String getDBName() {
         return null;
@@ -28,11 +33,6 @@ public class CacheDB extends BaseDB{
 
     @Override
     protected void onDBUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
-    }
-
-    @Override
-    protected void onDBDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 
     }
 }
