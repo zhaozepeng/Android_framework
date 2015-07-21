@@ -121,19 +121,17 @@ public abstract class BaseDB {
      * 获取表中所有的条目
      */
     public int getCount(){
-        return getCount(null);
+        return getCount(null, null);
     }
 
     /**
      * 获取表中符合该条件的表的条目数
-     * @param where 查询条件
      */
-    public int getCount(Pair<String, ArrayList<String>> where){
+    public int getCount(String selection, String[] selectionArgs){
         int count = 0;
         Cursor cursor = null;
         try {
-            cursor = db.query(table, new String[]{"count(*)"}, where!=null?(where.first!=null?where.first:null):null,
-                    where!=null?(where.second!=null?where.second.toArray(new String[]{}):null):null, null, null, null);
+            cursor = db.query(table, new String[]{"count(*)"}, selection, selectionArgs, null, null, null);
             if (cursor.moveToNext()){
                 count = cursor.getInt(0);
             }
@@ -175,6 +173,74 @@ public abstract class BaseDB {
             }
         }
         return count;
+    }
+
+    /**
+     * 删
+     */
+    public long delete(String selection, String[] selectionArgs){
+        long count = 0;
+        synchronized (lock){
+            try {
+                count = db.delete(table, selection, selectionArgs);
+            }catch (Exception e){
+                e.printStackTrace();
+                count = -1;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 改
+     */
+    public long update(HashMap<String, String> maps, String whereClause, String[] whereArgs){
+        long count = 0;
+        synchronized (lock) {
+            try {
+                count = db.update(table, parseHashMapToContentValues(maps), whereClause, whereArgs);
+            }catch (Exception e){
+                e.printStackTrace();
+                count = -1;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 查
+     */
+    public ArrayList<HashMap<String, String>> query(){
+       return query(null, null);
+    }
+
+    /**
+     * 查
+     */
+    public ArrayList<HashMap<String, String>> query(String selection, String[] selectionArgs){
+        return query(selection, selectionArgs, null, null, null, null);
+    }
+
+    /**
+     * 查<br/>
+     * 使用范例:query("city like ? or city=?", new String[]{"shangh", "beijing"}, "district", "sum(people)>10", "GDP", "1000")，
+     * 作用为查找城市中像"shangh"和等于beijing的城市，并且按照district排序，统计所有区总人数大于10万，并且区之间按照GDP排序，显示前1000条信息，该函数的
+     * 使用与正常的sql语句一样
+     */
+    public ArrayList<HashMap<String, String>> query(String selection, String[] selectionArgs,
+                                                    String groupBy, String having, String orderBy, String limit){
+        ArrayList<HashMap<String, String>> result = null;
+        synchronized (lock){
+            try {
+                Cursor cursor = db.query(table, null, selection, selectionArgs, groupBy, having, orderBy, limit);
+                while (cursor.moveToNext()){
+
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
     private ContentValues parseHashMapToContentValues(HashMap<String, String> map){
