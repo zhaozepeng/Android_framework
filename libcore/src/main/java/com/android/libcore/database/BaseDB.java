@@ -20,7 +20,7 @@ import java.util.Map;
  *
  * 每次数据库的操作请加上事务，开始操作时请调用{@link #beginTransaction()}，如果操作成功调用
  * {@link #setTransactionSuccessful()}，操作完成调用{@link #endTransaction()}，还有一定
- * 要记住最后调用{@link #closeDB()}方法关闭数据库，使用try-catch-finally结构操作<br/>
+ * 要记住最后调用{@link #close()}方法关闭数据库，使用try-catch-finally结构操作<br/>
  *
  * <strong>注意：表的创建请在名字后面加上版本，如版本为1的cache表名为<em>cache_1</em></strong>
  *
@@ -54,7 +54,7 @@ public abstract class BaseDB {
     protected abstract String getDBName();
 
     /**
-     * 获取数据库的版本
+     * 获取数据库的版本，注意该版本只增不减
      */
     protected abstract int getDBVersion();
 
@@ -110,7 +110,7 @@ public abstract class BaseDB {
     /**
      * 关闭数据库
      */
-    public void closeDB(){
+    public void close(){
         if (db != null && db.isOpen())
             db.close();
     }
@@ -150,13 +150,6 @@ public abstract class BaseDB {
     /**
      * 增
      */
-    public long insert(HashMap<String, String> map){
-        return insert(map, false);
-    }
-
-    /**
-     * 带覆盖的增
-     */
     public long insert(HashMap<String, String> map, boolean replace){
         long count = 0;
         synchronized (lock){
@@ -190,7 +183,9 @@ public abstract class BaseDB {
     }
 
     /**
-     * 改
+     * 改<br/>
+     * 使用范例：如果需要将带"shangh"开头的城市的人数字段都变成0，函数就可以这么调用:
+     * update(hashmap({"people", "0"}), "city like ?", "new String[]{"shangh"}")
      */
     public long update(HashMap<String, String> maps, String whereClause, String[] whereArgs){
         long count = 0;
