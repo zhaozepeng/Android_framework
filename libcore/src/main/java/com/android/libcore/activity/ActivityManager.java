@@ -188,6 +188,8 @@ public final class ActivityManager {
             if (temp != null)
                 temp.finish();
         }
+        //调用finish()之后不会立马调用onDestroy()
+        RootApplication.checkApplicationDestroy();
         try {
             android.app.ActivityManager activityManager = (android.app.ActivityManager)
                     RootApplication.getInstance().getSystemService(Context.ACTIVITY_SERVICE);
@@ -207,6 +209,8 @@ public final class ActivityManager {
             if (temp != null)
                 temp.finish();
         }
+        //调用finish()之后不会立马调用onDestroy()
+        RootApplication.checkApplicationDestroy();
         System.exit(0);
     }
 }

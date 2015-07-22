@@ -90,7 +90,7 @@ public class RootApplication extends Application{
         //应用被关闭
         if (ActivityManager.getInstance().getActivity() == null){
             L.i("我被关闭了");
-            //TODO 应用关闭
+            //TODO 应用关闭的处理
         }
     }
 
