@@ -26,6 +26,7 @@
 <li>Utils类，分为CommonUtils，BitmapUtils....</li>
 <li>GuideManager类，用来显示指引蒙版</li>
 <li>dialog类，定义了一个应用dialog所应该具备的基础行为</li>
+<li>database类，将最基本的数据库类进行了非常便捷的封装，对表名和列名进行了枚举的封装，使用很方便</li>
 </ol>
 
 ###第二层libcore-ui层###
@@ -34,6 +35,7 @@
 <ol>
 <li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式，如底部的弹出框，顶部bar的样式等</li>
 <li>继承自libcore层的dialog类，定义一个应用的dialog所具备的样式，并且完善dialog的功能</li>
+<li>PermanentCacheDB类，用来存储一些和应用生命周期相关的变量，永久保存，写入数据库</li>
 <li>基本实用的控件：
 <ul>
 <li>AutomaticNewlineLinearLayout类是自动换行的linearLayout，自定义了attr</li>
