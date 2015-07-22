@@ -1,4 +1,4 @@
-package com.android.libcore_ui.dbcache;
+package com.android.libcore_ui.permanentdbcache;
 
 import android.database.sqlite.SQLiteDatabase;
 
