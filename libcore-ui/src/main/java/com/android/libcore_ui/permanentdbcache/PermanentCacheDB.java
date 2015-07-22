@@ -3,6 +3,9 @@ package com.android.libcore_ui.permanentdbcache;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.android.libcore.database.BaseDB;
+import com.android.libcore.database.IBaseDBTableEnum;
+
+import java.util.ArrayList;
 
 /**
  * Description: 缓存{@link PermanentCacheDBHelper}的数据库表
@@ -14,13 +17,13 @@ public class PermanentCacheDB extends BaseDB{
 
     public static final String TABLE_CACHE = "cache";
 
-    public PermanentCacheDB(String table, boolean writable) {
+    public PermanentCacheDB(TABLES table, boolean writable) {
         super(table, writable);
     }
 
     @Override
     protected String getDBName() {
-        return "cache";
+        return "permanentCache.db";
     }
 
     @Override
@@ -54,6 +57,35 @@ public class PermanentCacheDB extends BaseDB{
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 将该数据库中所有的表使用枚举封装
+     */
+    public enum TABLES implements IBaseDBTableEnum{
+        CACHE("cache"){
+            @Override
+            public ArrayList<String> getTableColumns() {
+                ArrayList<String> columns = new ArrayList<>();
+                columns.add("key");//键
+                columns.add("value");//值
+                return columns;
+            }
+        };
+        private String table_name;
+        TABLES(String table_name){
+            this.table_name = table_name;
+        }
+
+        @Override
+        public String getTableName() {
+            return table_name;
+        }
+
+        @Override
+        public ArrayList<String> getTableColumns() {
+            return null;
         }
     }
 }

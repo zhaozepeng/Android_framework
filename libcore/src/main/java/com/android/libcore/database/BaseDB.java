@@ -39,8 +39,8 @@ public abstract class BaseDB {
     private DataBaseHelper helper;
     protected SQLiteDatabase db;
 
-    public BaseDB(String table, boolean writable){
-        this.table = table;
+    public BaseDB(IBaseDBTableEnum table, boolean writable){
+        this.table = table.getTableName()+"_"+getDBVersion();
         helper = new DataBaseHelper();
         if (writable)
             db = helper.getWritableDatabase();
@@ -151,13 +151,14 @@ public abstract class BaseDB {
      * 增
      */
     public long insert(HashMap<String, String> map, boolean replace){
+        getCount();
         long count = 0;
         synchronized (lock){
             try {
                 if (!replace)
-                    db.insert(table, null, parseHashMapToContentValues(map));
+                    count = db.insert(table, null, parseHashMapToContentValues(map));
                 else
-                    db.replace(table, null, parseHashMapToContentValues(map));
+                    count = db.replace(table, null, parseHashMapToContentValues(map));
             }catch (Exception e){
                 e.printStackTrace();
                 count = -1;

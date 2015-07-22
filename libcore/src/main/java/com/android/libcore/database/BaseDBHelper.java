@@ -12,7 +12,6 @@ import java.util.HashMap;
  * @since 2015-07-21
  */
 public abstract class BaseDBHelper {
-    protected String table;
     protected BaseDB db;
 
     protected long insert(HashMap<String, String> map, boolean replace){

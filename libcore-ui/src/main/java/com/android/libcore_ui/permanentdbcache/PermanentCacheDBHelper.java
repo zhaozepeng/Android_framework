@@ -14,6 +14,7 @@ import java.util.HashMap;
  */
 public class PermanentCacheDBHelper extends BaseDBHelper{
     private volatile static PermanentCacheDBHelper instance;
+    private PermanentCacheDB.TABLES table;
 
     public static PermanentCacheDBHelper getInstance(){
         if (instance == null){
@@ -27,7 +28,7 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
     }
 
     private PermanentCacheDBHelper(){
-        table = PermanentCacheDB.TABLE_CACHE;
+        table = PermanentCacheDB.TABLES.CACHE;
     }
 
     /**
@@ -35,8 +36,10 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
      * @return 删除成功返回true
      */
     public boolean set(String key, String value){
+        ArrayList<String> columns = table.getTableColumns();
         HashMap<String, String> map = new HashMap<>();
-        map.put(key, value);
+        map.put(columns.get(0), key);
+        map.put(columns.get(1), value);
         if (insert(map, true) > 0)
             return true;
         return false;
@@ -47,9 +50,18 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
      * @return 删除成功返回true
      */
     public boolean del(String key){
-        String selection = "key=?";
+        String selection = table.getTableColumns().get(0)+"=?";
         String[] selectionArgs = new String[]{key};
         if (delete(selection, selectionArgs) > 0)
+            return true;
+        return false;
+    }
+
+    /**
+     * 清空该表的所有数据
+     */
+    public boolean clear(){
+        if (delete("1=1", null) > 0)
             return true;
         return false;
     }
@@ -59,11 +71,11 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
      * @return value
      */
     public String get(String key){
-        String selection = "key=?";
+        String selection = table.getTableColumns().get(0)+"=?";
         String[] selectionArgs = new String[]{key};
         ArrayList<HashMap<String, String>> result = query(selection, selectionArgs, null, null, null, null);
         if (result != null){
-            return result.get(0).get(key);
+            return result.get(0).get(table.getTableColumns().get(1));
         }
         return null;
     }

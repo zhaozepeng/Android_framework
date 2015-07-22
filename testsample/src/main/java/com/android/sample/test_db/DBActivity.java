@@ -23,6 +23,7 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.btn_test_add).setOnClickListener(this);
         findViewById(R.id.btn_test_delete).setOnClickListener(this);
         findViewById(R.id.btn_test_query).setOnClickListener(this);
+        findViewById(R.id.btn_test_clear).setOnClickListener(this);
     }
 
     @Override
@@ -35,13 +36,22 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
             case R.id.btn_test_add:
                 key++;
                 value++;
-                PermanentCacheDBHelper.getInstance().set(key+" key", value+" value");
+                if(PermanentCacheDBHelper.getInstance().set(key+"key", value+"value"))
+                    T.getInstance().showShort("插入成功");
                 break;
             case R.id.btn_test_delete:
-                PermanentCacheDBHelper.getInstance().del(key+" key");
+                if(PermanentCacheDBHelper.getInstance().del(key+"key"))
+                    T.getInstance().showShort("删除成功");
+                key--;
+                value--;
                 break;
             case R.id.btn_test_query:
-                T.getInstance().showShort(PermanentCacheDBHelper.getInstance().get(key + " key"));
+                T.getInstance().showShort(PermanentCacheDBHelper.getInstance().get(key + "key"));
+                break;
+            case R.id.btn_test_clear:
+                if(PermanentCacheDBHelper.getInstance().clear()){
+                    T.getInstance().showShort("清空成功");
+                }
                 break;
         }
     }
