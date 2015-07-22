@@ -43,9 +43,10 @@ public class RootApplication extends Application{
         super.onCreate();
         instance = this;
         maps = new HashMap<>();
-        //设置默认崩溃处理
+        //设置默认崩溃处理，如需使用，不注释即可
 //        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler());
     }
+
 
     /**
      * 该函数用来返回一个context，一般情况下为当前activity的context，如果为空，
@@ -80,6 +81,17 @@ public class RootApplication extends Application{
      */
     public static void setInstanceRef(Context context){
         instanceRef = new WeakReference<>(context);
+    }
+
+    /**
+     * 检测应用是否退出，并且在应用退出的时候做相关的处理
+     */
+    public static void checkApplicationDestroy(){
+        //应用被关闭
+        if (ActivityManager.getInstance().getActivity() == null){
+            L.i("我被关闭了");
+            //TODO 应用关闭
+        }
     }
 
     /**

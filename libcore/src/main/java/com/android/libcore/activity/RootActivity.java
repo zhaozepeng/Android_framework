@@ -66,5 +66,7 @@ public abstract class RootActivity extends Activity{
         if (isNeedUnRegister)
             unregisterReceiver(receiver);
         ActivityManager.getInstance().removeActivity(this);
+        //每次在activity销毁的时候调用该函数来检测应用是否被销毁
+        RootApplication.checkApplicationDestroy();
     }
 }

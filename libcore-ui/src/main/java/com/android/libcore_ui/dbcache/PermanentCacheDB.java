@@ -10,9 +10,9 @@ import com.android.libcore.database.BaseDB;
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-20
  */
-public class CacheDB extends BaseDB{
+public class PermanentCacheDB extends BaseDB{
 
-    public CacheDB(String table, boolean writable) {
+    public PermanentCacheDB(String table, boolean writable) {
         super(table, writable);
     }
 
