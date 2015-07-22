@@ -222,15 +222,23 @@ public abstract class BaseDB {
      */
     public ArrayList<HashMap<String, String>> query(String selection, String[] selectionArgs,
                                                     String groupBy, String having, String orderBy, String limit){
-        ArrayList<HashMap<String, String>> result = null;
+        ArrayList<HashMap<String, String>> result = new ArrayList<>();
         synchronized (lock){
             try {
                 Cursor cursor = db.query(table, null, selection, selectionArgs, groupBy, having, orderBy, limit);
+                int length = cursor.getColumnCount();
                 while (cursor.moveToNext()){
-
+                    HashMap<String, String> value = new HashMap<>();
+                    for (int i=0; i<length; i++){
+                        value.put(cursor.getColumnName(i), cursor.getString(i));
+                    }
+                    result.add(value);
                 }
+                if (result.size() == 0)
+                    result = null;
             }catch (Exception e){
                 e.printStackTrace();
+                result = null;
             }
         }
         return result;

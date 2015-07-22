@@ -47,6 +47,10 @@
                   android:label="@string/activity_test_dialog"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.android.sample.test_db.DBActivity"
+                  android:label="@string/activity_test_db"
+                  android:screenOrientation="portrait">
+        </activity>
 
     </application>
 

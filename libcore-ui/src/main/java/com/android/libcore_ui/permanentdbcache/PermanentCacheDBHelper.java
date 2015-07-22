@@ -13,7 +13,6 @@ import java.util.HashMap;
  * @since 2015-07-20
  */
 public class PermanentCacheDBHelper extends BaseDBHelper{
-    private PermanentCacheDB db = null;
     private volatile static PermanentCacheDBHelper instance;
 
     public static PermanentCacheDBHelper getInstance(){
@@ -28,78 +27,68 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
     }
 
     private PermanentCacheDBHelper(){
-        table = "cache";
+        table = PermanentCacheDB.TABLE_CACHE;
     }
 
     /**
-     * 设置键值
+     * 设置键值，操作少，所以在UI线程
+     * @return 删除成功返回true
      */
-    public void set(String key, String value){
+    public boolean set(String key, String value){
+        HashMap<String, String> map = new HashMap<>();
+        map.put(key, value);
+        if (insert(map, true) > 0)
+            return true;
+        return false;
+    }
 
+    /**
+     * 删除键，操作少，所以在UI线程
+     * @return 删除成功返回true
+     */
+    public boolean del(String key){
+        String selection = "key=?";
+        String[] selectionArgs = new String[]{key};
+        if (delete(selection, selectionArgs) > 0)
+            return true;
+        return false;
+    }
+
+    /**
+     * 根据键获取值，操作少，所以在UI线程
+     * @return value
+     */
+    public String get(String key){
+        String selection = "key=?";
+        String[] selectionArgs = new String[]{key};
+        ArrayList<HashMap<String, String>> result = query(selection, selectionArgs, null, null, null, null);
+        if (result != null){
+            return result.get(0).get(key);
+        }
+        return null;
     }
 
     @Override
     protected long insert(HashMap<String, String> map, boolean replace) {
-        long count = -1;
-        try {
-            db = new PermanentCacheDB(table, true);
-            db.beginTransaction();
-            count = db.insert(map, replace);
-            db.setTransactionSuccessful();
-        }catch (Exception e){
-        }finally {
-            db.endTransaction();
-            db.close();
-        }
-        return count;
+        db = new PermanentCacheDB(table, true);
+        return super.insert(map, replace);
     }
 
     @Override
     protected long delete(String selection, String[] selectionArgs) {
-        long count = -1;
-        try {
-            db = new PermanentCacheDB(table, true);
-            db.beginTransaction();
-            count = db.delete(selection, selectionArgs);
-            db.setTransactionSuccessful();
-        }catch (Exception e){
-        }finally {
-            db.endTransaction();
-            db.close();
-        }
-        return count;
+        db = new PermanentCacheDB(table, true);
+        return super.delete(selection, selectionArgs);
     }
 
     @Override
     protected long update(HashMap<String, String> maps, String whereClause, String[] whereArgs) {
-        long count = -1;
-        try {
-            db = new PermanentCacheDB(table, true);
-            db.beginTransaction();
-            count = db.update(maps, whereClause, whereArgs);
-            db.setTransactionSuccessful();
-        }catch (Exception e){
-        }finally {
-            db.endTransaction();
-            db.close();
-        }
-        return count;
+        return -1;
     }
 
     @Override
     protected ArrayList<HashMap<String, String>> query(String selection, String[] selectionArgs, String groupBy, String having, String orderBy,
                                                        String limit) {
-        ArrayList<HashMap<String, String>> result = null;
-        try {
-            db = new PermanentCacheDB(table, true);
-            db.beginTransaction();
-            result = db.query(selection, selectionArgs, groupBy, having, orderBy, limit);
-            db.setTransactionSuccessful();
-        }catch (Exception e){
-        }finally {
-            db.endTransaction();
-            db.close();
-        }
-        return result;
+        db = new PermanentCacheDB(table, false);
+        return super.query(selection, selectionArgs, groupBy, having, orderBy, limit);
     }
 }

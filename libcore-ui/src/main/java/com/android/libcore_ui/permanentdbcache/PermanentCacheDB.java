@@ -12,6 +12,8 @@ import com.android.libcore.database.BaseDB;
  */
 public class PermanentCacheDB extends BaseDB{
 
+    public static final String TABLE_CACHE = "cache";
+
     public PermanentCacheDB(String table, boolean writable) {
         super(table, writable);
     }
