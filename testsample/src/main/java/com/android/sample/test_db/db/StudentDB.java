@@ -1,4 +1,4 @@
-package com.android.libcore_ui.permanentdbcache;
+package com.android.sample.test_db.db;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -9,22 +9,19 @@ import com.android.libcore.log.L;
 import java.util.ArrayList;
 
 /**
- * Description: 缓存{@link PermanentCacheDBHelper}的数据库表
+ * Description: 学生类数据库
  *
  * @author zzp(zhao_zepeng@hotmail.com)
- * @since 2015-07-20
+ * @since 2015-07-23
  */
-public class PermanentCacheDB extends BaseDB{
-
-    public static final String TABLE_CACHE = "cache";
-
-    public PermanentCacheDB(IBaseDBTableEnum table, boolean writable) {
+public class StudentDB extends BaseDB{
+    public StudentDB(IBaseDBTableEnum table, boolean writable) {
         super(table, writable);
     }
 
     @Override
     protected String getDBName() {
-        return "permanentCache.db";
+        return "student.db";
     }
 
     @Override
@@ -37,14 +34,22 @@ public class PermanentCacheDB extends BaseDB{
         try {
             db.beginTransaction();
             String sql;
-            sql = "create table cache_" + getDBVersion() + " (";
-            sql += "key varchar(40) not null primary key default '', ";
-            sql += "value varchar(4000) not null default ''";
+            sql = "create table studentInfo_" + getDBVersion() + " (";
+            sql += "id integer not null primary key autoincrement, ";
+            sql += "name varchar(40) not null default 'unknown', ";
+            sql += "gender varchar(10) not null default 'male',";
+            sql += "weight integer not null default '60'";
+            sql += ")";
+            db.execSQL(sql);
+            sql = "create table studentGrade_" + getDBVersion() + " (";
+            sql += "id integer not null primary key autoincrement, ";
+            sql += "class integer not null default '1', ";
+            sql += "grade integer not null default '60'";
             sql += ")";
             db.execSQL(sql);
             db.setTransactionSuccessful();
         } catch (Exception e) {
-            L.e(getClass().getSimpleName()+" sql语句错误", e);
+            L.e(getClass().getSimpleName() + " sql语句错误", e);
         } finally {
             db.endTransaction();
 
@@ -69,12 +74,24 @@ public class PermanentCacheDB extends BaseDB{
      * 将该数据库中所有的表使用枚举封装
      */
     public enum TABLES implements IBaseDBTableEnum{
-        CACHE("cache"){
+        STUDENTINFO("studentInfo"){
             @Override
             public ArrayList<String> getTableColumns() {
                 ArrayList<String> columns = new ArrayList<>();
-                columns.add("key");//键
-                columns.add("value");//值
+                columns.add("id");//键，不用插入，自增
+                columns.add("name");//姓名，String类型
+                columns.add("gender");//性别，String类型
+                columns.add("weight");//体重，int类型
+                return columns;
+            }
+        },
+        STUDENTGRADE("studentGrade"){
+            @Override
+            public ArrayList<String> getTableColumns() {
+                ArrayList<String> columns = new ArrayList<>();
+                columns.add("id");//键，不用插入，自增
+                columns.add("class");//年级，int类型
+                columns.add("grade");//分数,int类型
                 return columns;
             }
         };

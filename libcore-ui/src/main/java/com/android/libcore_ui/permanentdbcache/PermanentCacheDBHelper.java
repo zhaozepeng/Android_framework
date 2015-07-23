@@ -14,7 +14,6 @@ import java.util.HashMap;
  */
 public class PermanentCacheDBHelper extends BaseDBHelper{
     private volatile static PermanentCacheDBHelper instance;
-    private PermanentCacheDB.TABLES table;
 
     public static PermanentCacheDBHelper getInstance(){
         if (instance == null){

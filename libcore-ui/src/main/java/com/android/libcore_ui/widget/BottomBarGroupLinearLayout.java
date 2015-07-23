@@ -55,7 +55,7 @@ public class BottomBarGroupLinearLayout extends LinearLayout{
             else{
                 getChildAt(getChildCount() - 1).findViewById(R.id.tv_item_name).setBackgroundResource(R.drawable.bottom_button_middle_selector);
             }
-        } 
+        }
 
         view.setTag(itemId);
         this.addView(view);

@@ -13,6 +13,7 @@ import java.util.HashMap;
  */
 public abstract class BaseDBHelper {
     protected BaseDB db;
+    protected IBaseDBTableEnum table;
 
     protected long insert(HashMap<String, String> map, boolean replace){
         if (db == null)

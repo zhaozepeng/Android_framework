@@ -6,6 +6,7 @@ import com.android.framework.R;
 import com.android.libcore.Toast.T;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.permanentdbcache.PermanentCacheDBHelper;
+import com.android.sample.test_db.db.StudentHelper;
 
 /**
  * Description: 数据库测试类
@@ -14,8 +15,8 @@ import com.android.libcore_ui.permanentdbcache.PermanentCacheDBHelper;
  * @since 2015-07-22
  */
 public class DBActivity extends BaseActivity implements View.OnClickListener{
-    public Integer key = 0;
-    public Integer value = 0;
+//    public Integer key = 0;
+//    public Integer value = 0;
 
     @Override
     protected void initView() {
@@ -34,24 +35,29 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_test_add:
-                key++;
-                value++;
-                if(PermanentCacheDBHelper.getInstance().set(key+"key", value+"value"))
+//                key++;
+//                value++;
+//                if(PermanentCacheDBHelper.getInstance().set(key+"key", value+"value"))
+//                    T.getInstance().showShort("插入成功");
+                if(StudentHelper.getInstance().insertStudentInfo("赵", "男", 68)){
                     T.getInstance().showShort("插入成功");
+                }
                 break;
             case R.id.btn_test_delete:
-                if(PermanentCacheDBHelper.getInstance().del(key+"key"))
+//                if(PermanentCacheDBHelper.getInstance().del(key+"key"))
+//                    T.getInstance().showShort("删除成功");
+//                key--;
+//                value--;
+                if(StudentHelper.getInstance().deleteStudentInfo("赵"))
                     T.getInstance().showShort("删除成功");
-                key--;
-                value--;
                 break;
             case R.id.btn_test_query:
-                T.getInstance().showShort(PermanentCacheDBHelper.getInstance().get(key + "key"));
+//                T.getInstance().showShort(PermanentCacheDBHelper.getInstance().get(key + "key"));
                 break;
             case R.id.btn_test_clear:
-                if(PermanentCacheDBHelper.getInstance().clear()){
-                    T.getInstance().showShort("清空成功");
-                }
+//                if(PermanentCacheDBHelper.getInstance().clear()){
+//                    T.getInstance().showShort("清空成功");
+//                }
                 break;
         }
     }
