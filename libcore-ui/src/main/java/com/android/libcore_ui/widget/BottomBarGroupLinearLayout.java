@@ -10,7 +10,7 @@ import android.widget.TextView;
 import com.android.libcore_ui.R;
 
 /**
- * Description: 底部弹出框的容器，该控件不是常用控件
+ * Description: 专用控件，底部弹出框的容器，该控件不是常用控件
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-14
@@ -43,6 +43,20 @@ public class BottomBarGroupLinearLayout extends LinearLayout{
         View view = inflater.inflate(R.layout.bottom_item_layout, null);
         TextView tv_item_name = (TextView) view.findViewById(R.id.tv_item_name);
         tv_item_name.setText(name);
+
+        //设置textview的弧角
+        if (getChildCount() == 0){
+            tv_item_name.setBackgroundResource(R.drawable.bottom_button_all_selector);
+        }else{
+            tv_item_name.setBackgroundResource(R.drawable.bottom_button_bottom_selector);
+            if (getChildCount() == 1){
+                getChildAt(getChildCount() - 1).findViewById(R.id.tv_item_name).setBackgroundResource(R.drawable.bottom_button_top_selector);
+            }
+            else{
+                getChildAt(getChildCount() - 1).findViewById(R.id.tv_item_name).setBackgroundResource(R.drawable.bottom_button_middle_selector);
+            }
+        } 
+
         view.setTag(itemId);
         this.addView(view);
         view.setOnClickListener(new OnClickListener() {

@@ -26,7 +26,7 @@
 <li>Utils类，分为CommonUtils，BitmapUtils....</li>
 <li>GuideManager类，用来显示指引蒙版</li>
 <li>dialog类，定义了一个应用dialog所应该具备的基础行为</li>
-<li>database类，将最基本的数据库类进行了非常便捷的封装，对表名和列名进行了枚举的封装，对数据库的版本升级也做了相应快捷的处理</li>
+<li>database类，将最基本的数据库类进行了非常便捷的封装，数据库的访问只需要继承自BaseDBHelper类即可，每一个数据库最好都写一个操作封装DBHelper类，另外对表名和列名进行了枚举的封装，其他地方不会直接使用表名和列名而使用枚举封装对象，对数据库的版本升级也做了相应快捷的处理</li>
 </ol>
 
 ###第二层libcore-ui层###

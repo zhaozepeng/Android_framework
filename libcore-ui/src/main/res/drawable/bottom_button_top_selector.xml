@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 使用了shape就不能再使用drawable，要不然会被覆盖 -->
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/light_gray"/>
+            <corners android:topLeftRadius="10dp" android:topRightRadius="10dp"/>
+        </shape>
+    </item>
+    <item>
+        <shape>
+            <solid android:color="@color/white"/>
+            <corners android:topLeftRadius="10dp" android:topRightRadius="10dp"/>
+        </shape>
+    </item>
+</selector>

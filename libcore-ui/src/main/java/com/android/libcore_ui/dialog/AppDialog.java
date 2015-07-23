@@ -87,18 +87,13 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         View v_line = layout.findViewById(R.id.v_line);
         TextView tv_text = (TextView) layout.findViewById(R.id.tv_text);
         tv_text.setText(text);
-        //因为textview是math_parent，并且该textview的背景颜色不为空，所以覆盖掉父控件的圆弧，所以只能动态设置
-        //textview的圆弧
-        //没有按钮存在，左右两边都要有圆弧
         if (ll_bottom_button.getChildCount() == 0){
             layout.removeView(v_line);
             tv_text.setBackgroundResource(R.drawable.dialog_button_bottom_selector);
         }
-        //已经有一个，需要将第一个圆弧变成左圆弧
         else if (ll_bottom_button.getChildCount() == 1){
             tv_text.setBackgroundResource(R.drawable.dialog_button_bottomright_selector);
         }
-        //如果大于等于2个，需要将上一个变成没有圆弧并且自己变成右圆弧
         else{
             tv_text.setBackgroundResource(R.drawable.dialog_button_bottomright_selector);
         }
@@ -112,6 +107,8 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
     }
 
     private void reBuildCircle(){
+        //因为textview是math_parent，并且该textview的背景颜色不为空，所以覆盖掉父控件的圆弧，所以只能动态设置
+        //textview的圆弧
         if (ll_bottom_button.getChildCount() == 1){
             View v = ll_bottom_button.getChildAt(0).findViewById(R.id.tv_text);
             if (v != null)

@@ -11,7 +11,8 @@
         android:layout_height="40dp"
         android:gravity="center_vertical|center_horizontal"
         android:textSize="20sp"
-        android:textColor="@color/light_blue"/>
+        android:textColor="@color/light_blue"
+        android:background="@drawable/bottom_button_middle_selector"/>
 
     <View
         android:id="@+id/v_line"
