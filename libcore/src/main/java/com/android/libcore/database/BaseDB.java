@@ -64,7 +64,10 @@ public abstract class BaseDB {
     protected abstract void onDBCreate(SQLiteDatabase db);
 
     /**
-     * 如果应用程序版本号大于本地版本库，会产生升级动作，该函数只需要处理数据库表的变更即可，不需要进行名字的更改
+     * 如果应用程序版本号大于本地版本库，会产生升级动作，该函数只需要处理数据库表的变更即可，不需要进行名字的更改，
+     * 注意该函数使用的是逐步升级版本的操作，比如本地数据库版本为1，升级到3版本，会迭代先升级到2版本，再从2版本升
+     * 级到3版本，<strong>升级时的版本号仍然为旧版本号</strong>，所以该函数要详细写清楚每个版本之间的差异，
+     * 并且处理每个版本之间的升级任务，该升级操作会在数据库的第一个操作检测到数据库版本不一致时进行升级
      */
     protected abstract void onDBUpgrade(SQLiteDatabase db, int oldVersion, int newVersion);
 
@@ -322,8 +325,11 @@ public abstract class BaseDB {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             if (oldVersion < newVersion){
+                //删除掉数据库中的异常新版本，防止升级出错
                 removeNewTables(db, oldVersion+1);
+                //升级版本
                 onDBUpgrade(db, oldVersion, oldVersion+1);
+                //等待升级任务完成之后再去修改版本号
                 renameOldTables(db, oldVersion, oldVersion+1);
                 oldVersion ++;
                 //递归的版本升级

@@ -4,6 +4,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.android.libcore.database.BaseDB;
 import com.android.libcore.database.IBaseDBTableEnum;
+import com.android.libcore.log.L;
 
 import java.util.ArrayList;
 
@@ -54,6 +55,10 @@ public class PermanentCacheDB extends BaseDB{
     protected void onDBUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         switch (oldVersion){
             case 1:
+                L.e("我要升级到2");
+                break;
+            case 2:
+                L.e("我要升级到3");
                 break;
             default:
                 break;
