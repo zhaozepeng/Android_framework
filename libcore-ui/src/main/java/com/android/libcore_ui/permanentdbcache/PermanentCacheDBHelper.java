@@ -80,26 +80,22 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
     }
 
     @Override
-    protected long insert(HashMap<String, String> map, boolean replace) {
+    protected void initInsertDB() {
         db = new PermanentCacheDB(table, true);
-        return super.insert(map, replace);
     }
 
     @Override
-    protected long delete(String selection, String[] selectionArgs) {
+    protected void initDeleteDB() {
         db = new PermanentCacheDB(table, true);
-        return super.delete(selection, selectionArgs);
     }
 
     @Override
-    protected long update(HashMap<String, String> maps, String whereClause, String[] whereArgs) {
-        return -1;
+    protected void initUpdateDB() {
+        db = null;
     }
 
     @Override
-    protected ArrayList<HashMap<String, String>> query(String selection, String[] selectionArgs, String groupBy, String having, String orderBy,
-                                                       String limit) {
+    protected void initQueryDB() {
         db = new PermanentCacheDB(table, false);
-        return super.query(selection, selectionArgs, groupBy, having, orderBy, limit);
     }
 }

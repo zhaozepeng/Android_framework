@@ -1,7 +1,6 @@
 package com.android.sample.test_db.db;
 
 import com.android.libcore.database.BaseDBHelper;
-import com.android.libcore_ui.permanentdbcache.PermanentCacheDB;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,6 +29,15 @@ public class StudentHelper extends BaseDBHelper{
     }
 
     /**
+     * 数据库一个表的数据如果很多，也可以封装成一个实体类
+     */
+    public static class StudentInfo{
+        public String name;
+        public String gender;
+        public int weight;
+    }
+
+    /**
      * 插入学生信息
      */
     public boolean insertStudentInfo(String name, String gender, int weight){
@@ -41,6 +49,19 @@ public class StudentHelper extends BaseDBHelper{
         if (insert(map, false) > 0)
             return true;
         return false;
+    }
+
+    public long insertStudentInfos(ArrayList<StudentInfo> infos){
+        table = StudentDB.TABLES.STUDENTINFO;
+        ArrayList<HashMap<String, String>> maps = new ArrayList<>();
+        for (StudentInfo info : infos) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put(table.getTableColumns().get(1), info.name);
+            map.put(table.getTableColumns().get(2), info.gender);
+            map.put(table.getTableColumns().get(3), info.weight + "");
+            maps.add(map);
+        }
+        return insertAll(maps, false);
     }
 
     public boolean deleteStudentInfo(String name){
@@ -55,28 +76,33 @@ public class StudentHelper extends BaseDBHelper{
         return false;
     }
 
-    @Override
-    protected long insert(HashMap<String, String> map, boolean replace) {
-        db = new StudentDB(table, true);
-        return super.insert(map, replace);
+    public boolean insertGrade(int Class, int grade){
+        table = StudentDB.TABLES.STUDENTGRADE;
+        HashMap<String, String> map = new HashMap<>();
+        map.put(table.getTableColumns().get(1), Class+"");
+        map.put(table.getTableColumns().get(2), grade+"");
+        if (insert(map, false) > 0)
+            return true;
+        return false;
     }
 
     @Override
-    protected long delete(String selection, String[] selectionArgs) {
+    protected void initInsertDB() {
         db = new StudentDB(table, true);
-        return super.delete(selection, selectionArgs);
     }
 
     @Override
-    protected long update(HashMap<String, String> maps, String whereClause, String[] whereArgs) {
+    protected void initDeleteDB() {
         db = new StudentDB(table, true);
-        return super.update(maps, whereClause, whereArgs);
     }
 
     @Override
-    protected ArrayList<HashMap<String, String>> query(String selection, String[] selectionArgs, String groupBy, String having, String orderBy,
-                                                       String limit) {
+    protected void initUpdateDB() {
+        db = new StudentDB(table, true);
+    }
+
+    @Override
+    protected void initQueryDB() {
         db = new StudentDB(table, false);
-        return super.query(selection, selectionArgs, groupBy, having, orderBy, limit);
     }
 }

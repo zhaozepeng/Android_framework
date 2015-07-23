@@ -8,6 +8,8 @@ import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.permanentdbcache.PermanentCacheDBHelper;
 import com.android.sample.test_db.db.StudentHelper;
 
+import java.util.ArrayList;
+
 /**
  * Description: 数据库测试类
  *
@@ -39,9 +41,28 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
 //                value++;
 //                if(PermanentCacheDBHelper.getInstance().set(key+"key", value+"value"))
 //                    T.getInstance().showShort("插入成功");
-                if(StudentHelper.getInstance().insertStudentInfo("赵", "男", 68)){
+
+                if(StudentHelper.getInstance().insertStudentInfo("赵", "男", 68)
+                        && StudentHelper.getInstance().insertGrade(5, 99)){
                     T.getInstance().showShort("插入成功");
                 }
+                ArrayList<StudentHelper.StudentInfo> lists = new ArrayList<>();
+                StudentHelper.StudentInfo info = new StudentHelper.StudentInfo();
+                info.gender = "男";
+                info.name = "赵";
+                info.weight = 100;
+                lists.add(info);
+                info = new StudentHelper.StudentInfo();
+                info.gender = "男";
+                info.name = "赵";
+                info.weight = 200;
+                lists.add(info);
+                info = new StudentHelper.StudentInfo();
+                info.gender = "男";
+                info.name = "赵";
+                info.weight = 300;
+                lists.add(info);
+                T.getInstance().showShort(StudentHelper.getInstance().insertStudentInfos(lists)+"");
                 break;
             case R.id.btn_test_delete:
 //                if(PermanentCacheDBHelper.getInstance().del(key+"key"))
