@@ -34,6 +34,13 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/button_homepage_selector"
             android:text="测试数据库"/>
+        <Button
+            android:id="@+id/btn_test_cache"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_homepage_selector"
+            android:text="测试Cache"/>
         <TextView
             android:id="@+id/tv_info"
             android:layout_width="match_parent"

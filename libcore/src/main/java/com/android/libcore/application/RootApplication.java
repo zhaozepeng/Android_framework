@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.android.libcore.cachemanager.CacheManager;
 import com.android.libcore.log.L;
 import com.android.libcore.activity.ActivityManager;
 
@@ -89,8 +90,7 @@ public class RootApplication extends Application{
     public static void checkApplicationDestroy(){
         //应用被关闭
         if (ActivityManager.getInstance().getActivity() == null){
-            L.i("我被关闭了");
-            //TODO 应用关闭的处理
+            CacheManager.removeTemporary();
         }
     }
 

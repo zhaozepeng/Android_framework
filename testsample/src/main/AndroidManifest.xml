@@ -44,12 +44,16 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.android.sample.test_dialog.DialogActivity"
-                  android:label="@string/activity_test_dialog"
-                  android:screenOrientation="portrait">
+            android:label="@string/activity_test_dialog"
+            android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.android.sample.test_db.DBActivity"
-                  android:label="@string/activity_test_db"
-                  android:screenOrientation="portrait">
+            android:label="@string/activity_test_db"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.android.sample.test_cache.CacheActivity"
+            android:label="@string/activity_test_cache"
+            android:screenOrientation="portrait">
         </activity>
 
     </application>
