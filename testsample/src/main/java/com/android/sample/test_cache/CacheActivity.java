@@ -70,7 +70,11 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
                 module.b = 8;
                 module.c = 9;
                 lists.add(module);
+<<<<<<< HEAD
                 CacheManager.setPermanent("module set", lists);
+=======
+                CacheManager.setTemporary("module set", lists);
+>>>>>>> 3cfaf2b9f812801eb395ad8fdc1f4921a2c30d7f
                 break;
             case R.id.btn_get:
                 tv_result.setText(CacheManager.getTemporary("boolean", Boolean.class, true) +"\n"
@@ -79,7 +83,11 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
                         + CacheManager.getTemporary("long", Long.class, 444444l) + " \n"
                         + CacheManager.getTemporary("string", String.class, "dddddd") + " \n"
                         + CacheManager.getTemporarySet("String set", String.class) +" \n"
+<<<<<<< HEAD
                         + CacheManager.getPermanentSet("module set", TestModule.class) +" \n");
+=======
+                        + CacheManager.getTemporarySet("module set", TestModule.class) +" \n");
+>>>>>>> 3cfaf2b9f812801eb395ad8fdc1f4921a2c30d7f
                 break;
         }
     }
