@@ -8,4 +8,5 @@
     <string name="activity_test_guide">测试蒙版</string>
     <string name="activity_test_dialog">测试dialog</string>
     <string name="activity_test_db">测试数据库</string>
+    <string name="activity_test_cache">测试Cache</string>
 </resources>

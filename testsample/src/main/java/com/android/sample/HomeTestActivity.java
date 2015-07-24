@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.android.framework.R;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.sample.test_activity.ActivityTestHomePage;
+import com.android.sample.test_cache.CacheActivity;
 import com.android.sample.test_db.DBActivity;
 import com.android.sample.test_dialog.DialogActivity;
 import com.android.sample.test_guide.GuideActivity;
@@ -31,6 +32,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     private Button btn_test_dialog;
     /** 测试数据库 */
     private Button btn_test_db;
+    /** 测试cache */
+    private Button btn_test_cache;
     private TextView tv_info;
 
     @Override
@@ -41,10 +44,12 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         btn_test_guide = (Button) findViewById(R.id.btn_test_guide);
         btn_test_dialog = (Button) findViewById(R.id.btn_test_dialog);
         btn_test_db = (Button) findViewById(R.id.btn_test_db);
+        btn_test_cache = (Button) findViewById(R.id.btn_test_cache);
         btn_test_activity.setOnClickListener(this);
         btn_test_guide.setOnClickListener(this);
         btn_test_dialog.setOnClickListener(this);
         btn_test_db.setOnClickListener(this);
+        btn_test_cache.setOnClickListener(this);
         tv_info = (TextView) findViewById(R.id.tv_info);
         //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
         setTitle("主页");
@@ -77,6 +82,9 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_test_db:
                 intent.setClass(this, DBActivity.class);
+                break;
+            case R.id.btn_test_cache:
+                intent.setClass(this, CacheActivity.class);
                 break;
             default:
                 return;
