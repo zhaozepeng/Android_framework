@@ -48,6 +48,11 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
                 CacheManager.setTemporary("int", 1);
                 CacheManager.setTemporary("long", 100000L);
                 CacheManager.setTemporary("string", "zhaozepeng");
+                TestModule module = new TestModule();
+                module.a = 1;
+                module.b = 2;
+                module.c = 3;
+                CacheManager.setTemporary("object", module);
 
                 LinkedHashSet<String> list = new LinkedHashSet<>();
                 list.add("1zhaozepeng");
@@ -55,7 +60,7 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
                 CacheManager.setTemporary("String set", list);
 
                 LinkedHashSet<TestModule> lists = new LinkedHashSet<>();
-                TestModule module = new TestModule();
+                module = new TestModule();
                 module.a = 1;
                 module.b = 2;
                 module.c = 3;
@@ -78,6 +83,7 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
                         + CacheManager.getTemporary("int", Integer.class, 5) + " \n"
                         + CacheManager.getTemporary("long", Long.class, 444444l) + " \n"
                         + CacheManager.getTemporary("string", String.class, "dddddd") + " \n"
+                        + CacheManager.getTemporary("object", TestModule.class, null) + " \n"
                         + CacheManager.getTemporarySet("String set", String.class) +" \n"
                         + CacheManager.getPermanentSet("module set", TestModule.class) +" \n");
                 break;

@@ -54,7 +54,7 @@ public class CacheManager {
         }else if (value instanceof Set<?>){
             if ((((Set<?>)value).toArray())[0] instanceof String){
                 if (Build.VERSION.SDK_INT < 11){
-                    L.e(CacheManager.class.getSimpleName() + " 版本不支持");
+                    L.e(CacheManager.class.getSimpleName() + " 版本不支持String set");
                     return;
                 }
                 editor.putStringSet(key, (Set<String>) value);
@@ -112,7 +112,7 @@ public class CacheManager {
     private static <T>Set<T> getValueSet(SharedPreferences sp, String key, Class<T> clazz){
         if (clazz == String.class){
             if (Build.VERSION.SDK_INT < 11){
-                L.e(CacheManager.class.getSimpleName() + " 版本不支持");
+                L.e(CacheManager.class.getSimpleName() + " 版本不支持String set");
                 return null;
             }
             return (Set<T>) sp.getStringSet(key, null);
