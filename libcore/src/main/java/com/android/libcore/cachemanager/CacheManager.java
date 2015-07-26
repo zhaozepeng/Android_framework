@@ -87,18 +87,15 @@ public class CacheManager {
         }else if (clazz == String.class){
             returnValue = sp.getString(key, (String) defaultValue);
         }else{
-            Class[] classes = clazz.getClasses();
-            for (Class c : classes){
-                if (c.equals(ParseObject.class)){
-                    String value = sp.getString(key, null);
-                    if (value != null){
-                        try {
-                            T temp = clazz.newInstance();
-                            ((ParseObject)temp).stringParseObject(value);
-                            return temp;
-                        } catch (Exception e){
-                            return defaultValue;
-                        }
+            if (ParseObject.class.isAssignableFrom(clazz)){
+                String value = sp.getString(key, null);
+                if (value != null){
+                    try {
+                        T temp = clazz.newInstance();
+                        ((ParseObject)temp).stringParseObject(value);
+                        return temp;
+                    } catch (Exception e){
+                        return defaultValue;
                     }
                 }
             }
