@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,15 +59,15 @@ import java.util.Map;
 public abstract class BaseActivity extends RootActivity{
 
     /** 头部bar，如果某些activity需要改变bar样式，修改该view的子view即可 */
-    protected ViewGroup ll_top_content;
+    public ViewGroup ll_top_content;
     /** 返回按钮 */
-    protected RelativeLayout rl_back;
+    public RelativeLayout rl_back;
     /** 该页面标题 */
-    protected TextView tv_title;
+    public TextView tv_title;
     /** 右侧添加按钮区域 */
-    protected RelativeLayout rl_top_extra_content;
+    public RelativeLayout rl_top_extra_content;
     /** 内容区域 */
-    protected FrameLayout base_content;
+    public FrameLayout base_content;
     /** 全屏的半透明显示 */
     protected View ll_full_screen;
     /** 底部popWindow */
@@ -339,5 +340,11 @@ public abstract class BaseActivity extends RootActivity{
             //需要滚动到顶部
             sv_bottom_content.scrollTo(0, 0);
         }
+    }
+
+    /**
+     * 处理来自fragment的消息
+     */
+    protected void onHandleMessageFromFragment(Message msg){
     }
 }

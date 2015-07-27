@@ -5,10 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/fl_content"
+    <ProgressBar
+        android:id="@+id/pb_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?android:progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/bg_progress_bar"/>
+
+    <WebView
+        android:id="@+id/wb_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    </FrameLayout>
+    </WebView>
 
 </LinearLayout>

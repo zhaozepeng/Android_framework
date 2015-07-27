@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.View;
 
 /**
  * Description: 所有基础{@linkplain Fragment}的基类<br/>
@@ -18,8 +19,9 @@ import android.support.v4.app.Fragment;
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-08
  */
-public class RootFragment extends Fragment{
+public abstract class RootFragment extends Fragment{
     protected BroadcastReceiver receiver;
+    protected View viewContainer;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.PersistableBundle;
+import android.support.v7.app.AppCompatActivity;
 
 import com.android.libcore.application.RootApplication;
 
@@ -17,7 +17,7 @@ import com.android.libcore.application.RootApplication;
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-07
  */
-public abstract class RootActivity extends Activity{
+public abstract class RootActivity extends AppCompatActivity{
 
     /** 用来在页面之间进行广播的传递 */
     private BroadcastReceiver receiver;

@@ -1,10 +1,12 @@
-package com.android.libcore_ui.webactivity;
+package com.android.libcore_ui.webview;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.JsPromptResult;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -12,35 +14,40 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.libcore.Toast.T;
 import com.android.libcore.dialog.BaseDialog;
 import com.android.libcore_ui.R;
-import com.android.libcore_ui.activity.BaseActivity;
+import com.android.libcore_ui.activity.BaseFragment;
 import com.android.libcore_ui.dialog.DialogFactory;
 import com.android.libcore_ui.dialog.LoadingDialog;
 
+import java.lang.reflect.Method;
+
 /**
- * Description: 应用基础的网页浏览activity
+ * Description: WebView显示fragment
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-27
  */
-public class WebActivity extends BaseActivity{
+public class WebFragment extends BaseFragment{
 
-    public static final String EXTRA_URL = "extra_url";
-
+    private ProgressBar pb_bar;
     private WebView webView;
     private FrameworkWebViewClient webViewClient = new FrameworkWebViewClient();
     private FrameworkChromeClient chromeClient = new FrameworkChromeClient();
 
     private LoadingDialog dialog;
+    @Override
+    protected View setContentView(LayoutInflater inflater, @Nullable ViewGroup container) {
+        return null;
+    }
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initView() {
-        setContentViewSrc(R.layout.activity_web_layout);
+        pb_bar = (ProgressBar) findViewById(R.id.pb_bar);
         webView = (WebView) findViewById(R.id.wb_content);
         webView.setWebViewClient(webViewClient);
         webView.setWebChromeClient(chromeClient);
@@ -55,25 +62,21 @@ public class WebActivity extends BaseActivity{
         //支持js
         settings.setJavaScriptEnabled(true);
 
-        dialog = new LoadingDialog(this);
+        dialog = new LoadingDialog(getActivity());
     }
 
     @Override
     protected void initData() {
-        String url = getIntent().getStringExtra(EXTRA_URL);
-        if (url != null)
-            webView.loadUrl(url);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (webView.canGoBack())
-            webView.goBack();
-        else
-            super.onBackPressed();
+    /**
+     * 加载url
+     */
+    public void loadUrl(String url){
+
     }
 
-    private class FrameworkWebViewClient extends WebViewClient{
+    private class FrameworkWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -93,10 +96,10 @@ public class WebActivity extends BaseActivity{
         }
     }
 
-    private class FrameworkChromeClient extends WebChromeClient{
+    private class FrameworkChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            super.onProgressChanged(view, newProgress);
+            pb_bar.setProgress(newProgress);
         }
 
         @Override
@@ -140,7 +143,7 @@ public class WebActivity extends BaseActivity{
         //提示框
         @Override
         public boolean onJsPrompt(WebView view, String url, String message, String defaultValue, final JsPromptResult result) {
-            final View v = View.inflate(WebActivity.this, R.layout.dialog_js_prompt_message_layout, null);
+            final View v = View.inflate(getActivity(), R.layout.dialog_js_prompt_message_layout, null);
             ((TextView)(v.findViewById(R.id.tv_message))).setText(message);
             ((EditText)(v.findViewById(R.id.et_content))).setText(defaultValue);
             Dialog dialog = DialogFactory.createDialog(null, v, getString(R.string.confirm), getString(R.string.cancel))
@@ -156,8 +159,33 @@ public class WebActivity extends BaseActivity{
                     });
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
-             return true;
+            return true;
         }
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        invokeMethod("onResume");
+        webView.resumeTimers();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        //当页面不可见时，停止内核所有的动作，省电，省流量等
+        invokeMethod("onPause");
+        //不仅仅针对当前的webview而是全局的全应用程序的webview，它会暂停所有webview的layout，parsing，javascript timer，降低CPU功耗。
+        webView.pauseTimers();
+    }
+
+    protected void invokeMethod(String method){
+        try {
+            Method m = WebView.class.getMethod(method);
+            m.setAccessible(true);
+            m.invoke(webView);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
