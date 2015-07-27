@@ -11,13 +11,14 @@
         android:layout_height="wrap_content"
         android:textColor="@color/text_normal"
         android:layout_gravity="center_horizontal"
-        android:textSize="16sp"
-        android:text="确定"/>
+        android:textSize="16sp"/>
 
     <EditText
         android:id="@+id/et_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"/>
+        android:layout_marginTop="5dp"
+        android:singleLine="true"
+        android:background="@drawable/bg_edittext"/>
 
 </LinearLayout>
