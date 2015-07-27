@@ -55,6 +55,10 @@
             android:label="@string/activity_test_cache"
             android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.android.sample.test_webview.WebViewActivity"
+                  android:label="@string/activity_test_webview"
+                  android:screenOrientation="portrait">
+        </activity>
 
     </application>
 

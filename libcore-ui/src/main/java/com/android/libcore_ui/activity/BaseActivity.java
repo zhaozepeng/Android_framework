@@ -85,8 +85,8 @@ public abstract class BaseActivity extends RootActivity{
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_layout);
         ll_top_content = (ViewGroup) findViewById(R.id.ll_top_content);
         rl_back = (RelativeLayout) findViewById(R.id.rl_back);

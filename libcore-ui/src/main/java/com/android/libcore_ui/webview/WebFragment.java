@@ -1,9 +1,12 @@
 package com.android.libcore_ui.webview;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +38,7 @@ import java.lang.reflect.Method;
 public class WebFragment extends BaseFragment{
 
     private ProgressBar pb_bar;
-    private WebView webView;
+    public WebView webView;
     private FrameworkWebViewClient webViewClient = new FrameworkWebViewClient();
     private FrameworkChromeClient chromeClient = new FrameworkChromeClient();
 
@@ -45,6 +48,7 @@ public class WebFragment extends BaseFragment{
         return null;
     }
 
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initView() {
         pb_bar = (ProgressBar) findViewById(R.id.pb_bar);
@@ -73,7 +77,7 @@ public class WebFragment extends BaseFragment{
      * 加载url
      */
     public void loadUrl(String url){
-
+        webView.loadUrl(url);
     }
 
     private class FrameworkWebViewClient extends WebViewClient {

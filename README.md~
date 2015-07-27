@@ -27,13 +27,14 @@
 <li>GuideManager类，用来显示指引蒙版</li>
 <li>dialog类，定义了一个应用dialog所应该具备的基础行为</li>
 <li>database类，将最基本的数据库类进行了非常便捷的封装，数据库的访问只需要继承自BaseDBHelper类即可，每一个数据库最好都写一个操作封装DBHelper类，另外对表名和列名进行了枚举的封装，其他地方不会直接使用表名和列名而使用枚举封装对象，对数据库的版本升级也做了相应快捷的处理</li>
+<li>CacheManager类，这个类使用SharedPreference来存储基本对象，有临时和永久两种，临时存储将会在每次应用退出之后自动清空，永久存储则永久存储</li>
 </ol>
 
 ###第二层libcore-ui层###
 该层为基础核心扩展层，扩展libcore的层的代码，并且定义应用的基本样式，这样一个公司的不同应用就能够统一样式，方便管理
 
 <ol>
-<li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式，如底部的弹出框，顶部bar的样式等</li>
+<li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式，如底部的弹出框，顶部bar的样式等；Fragment类定义了fragment和activity之间的通信方式和控件的交互</li>
 <li>继承自libcore层的dialog类，定义一个应用的dialog所具备的样式，并且完善dialog的功能</li>
 <li>PermanentCacheDB类，用来存储一些和应用生命周期相关的变量，写入数据库，永久保存</li>
 <li>基本实用的控件：

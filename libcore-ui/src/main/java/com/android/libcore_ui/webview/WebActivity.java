@@ -42,4 +42,12 @@ public class WebActivity extends BaseActivity{
     protected void onPause() {
         super.onPause();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (webView.webView.canGoBack())
+            webView.webView.goBack();
+        else
+            super.onBackPressed();
+    }
 }

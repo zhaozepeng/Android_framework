@@ -2,6 +2,7 @@ package com.android.sample;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -13,6 +14,7 @@ import com.android.sample.test_cache.CacheActivity;
 import com.android.sample.test_db.DBActivity;
 import com.android.sample.test_dialog.DialogActivity;
 import com.android.sample.test_guide.GuideActivity;
+import com.android.sample.test_webview.WebViewActivity;
 
 /**
  * Description: homepage
@@ -34,6 +36,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     private Button btn_test_db;
     /** 测试cache */
     private Button btn_test_cache;
+    /** 测试webview */
+    private Button btn_test_webview;
     private TextView tv_info;
 
     @Override
@@ -45,11 +49,13 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         btn_test_dialog = (Button) findViewById(R.id.btn_test_dialog);
         btn_test_db = (Button) findViewById(R.id.btn_test_db);
         btn_test_cache = (Button) findViewById(R.id.btn_test_cache);
+        btn_test_webview = (Button) findViewById(R.id.btn_test_webview);
         btn_test_activity.setOnClickListener(this);
         btn_test_guide.setOnClickListener(this);
         btn_test_dialog.setOnClickListener(this);
         btn_test_db.setOnClickListener(this);
         btn_test_cache.setOnClickListener(this);
+        btn_test_webview.setOnClickListener(this);
         tv_info = (TextView) findViewById(R.id.tv_info);
         //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
         setTitle("主页");
@@ -86,6 +92,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
             case R.id.btn_test_cache:
                 intent.setClass(this, CacheActivity.class);
                 break;
+            case R.id.btn_test_webview:
+                intent.setClass(this, WebViewActivity.class);
             default:
                 return;
         }
