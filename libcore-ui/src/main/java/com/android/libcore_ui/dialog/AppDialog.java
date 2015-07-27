@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -83,7 +82,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
     }
 
     private LinearLayout generateLayout(String text){
-        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_item_button, null);
+        LinearLayout layout = (LinearLayout) inflater.inflate(R.layout.dialog_item_button_layout, null);
         View v_line = layout.findViewById(R.id.v_line);
         TextView tv_text = (TextView) layout.findViewById(R.id.tv_text);
         tv_text.setText(text);
@@ -136,7 +135,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         View layout = positive;
         //超过一个view,应该加上一条分割线
         if (ll_bottom_button.getChildCount() > 0){
-            layout = inflater.inflate(R.layout.dialog_item_button, null);
+            layout = inflater.inflate(R.layout.dialog_item_button_layout, null);
             ((ViewGroup)layout).removeViewAt(1);
             ((ViewGroup)layout).addView(positive);
         }
@@ -163,7 +162,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         View layout = negative;
         //超过一个view,应该加上一条分割线
         if (ll_bottom_button.getChildCount() > 0){
-            layout = inflater.inflate(R.layout.dialog_item_button, null);
+            layout = inflater.inflate(R.layout.dialog_item_button_layout, null);
             ((ViewGroup)layout).removeViewAt(1);
             ((ViewGroup)layout).addView(negative);
         }
@@ -190,7 +189,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         View layout = neutral;
         //超过一个view,应该加上一条分割线
         if (ll_bottom_button.getChildCount() > 0){
-            layout = inflater.inflate(R.layout.dialog_item_button, null);
+            layout = inflater.inflate(R.layout.dialog_item_button_layout, null);
             ((ViewGroup)layout).removeViewAt(1);
             ((ViewGroup)layout).addView(neutral);
         }
@@ -223,7 +222,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         }
         reBuildCircle();
         View layout = other;
-        layout = inflater.inflate(R.layout.dialog_item_button, null);
+        layout = inflater.inflate(R.layout.dialog_item_button_layout, null);
         //超过一个view,应该加上一条分割线
         if (ll_bottom_button.getChildCount() == 0){
             ((ViewGroup)layout).removeViewAt(0);
