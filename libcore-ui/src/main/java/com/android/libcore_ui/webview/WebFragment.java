@@ -5,8 +5,6 @@ import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.Nullable;
-import android.text.InputFilter;
-import android.text.Spanned;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +20,7 @@ import android.widget.TextView;
 
 import com.android.libcore.Toast.T;
 import com.android.libcore.dialog.BaseDialog;
+import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
 import com.android.libcore_ui.activity.BaseFragment;
 import com.android.libcore_ui.dialog.DialogFactory;
@@ -42,10 +41,12 @@ public class WebFragment extends BaseFragment{
     private FrameworkWebViewClient webViewClient = new FrameworkWebViewClient();
     private FrameworkChromeClient chromeClient = new FrameworkChromeClient();
 
+    private String url;
+
     private LoadingDialog dialog;
     @Override
     protected View setContentView(LayoutInflater inflater, @Nullable ViewGroup container) {
-        return null;
+        return inflater.inflate(R.layout.fragment_web_layout, container, false);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
@@ -71,13 +72,15 @@ public class WebFragment extends BaseFragment{
 
     @Override
     protected void initData() {
+        if (url != null)
+            webView.loadUrl(url);
     }
 
     /**
      * 加载url
      */
     public void loadUrl(String url){
-        webView.loadUrl(url);
+        this.url = url;
     }
 
     private class FrameworkWebViewClient extends WebViewClient {
@@ -85,7 +88,7 @@ public class WebFragment extends BaseFragment{
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             //使用应用浏览器加载
-            webView.loadUrl(url);
+            view.loadUrl(url);
             return true;
         }
 
@@ -104,12 +107,14 @@ public class WebFragment extends BaseFragment{
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             pb_bar.setProgress(newProgress);
+            if (newProgress == 100)
+                pb_bar.setVisibility(View.GONE);
         }
 
         @Override
         public void onReceivedIcon(WebView view, Bitmap icon) {
             BitmapDrawable drawable = new BitmapDrawable(getResources(), icon);
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            drawable.setBounds(0, 0, CommonUtils.dp2px(20), CommonUtils.dp2px(20));
             tv_title.setCompoundDrawables(drawable, null, null, null);
         }
 

@@ -34,16 +34,6 @@ public class WebActivity extends BaseActivity{
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
     public void onBackPressed() {
         if (webView.webView.canGoBack())
             webView.webView.goBack();

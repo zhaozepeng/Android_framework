@@ -27,8 +27,8 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(this, WebViewActivity.class);
-        intent.putExtra(WebActivity.EXTRA_URL, "www.baidu.com");
+        Intent intent = new Intent(this, WebActivity.class);
+        intent.putExtra(WebActivity.EXTRA_URL, "https://www.baidu.com/");
         startActivity(intent);
     }
 }

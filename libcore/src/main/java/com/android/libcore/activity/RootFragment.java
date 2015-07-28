@@ -22,6 +22,7 @@ import android.view.View;
 public abstract class RootFragment extends Fragment{
     protected BroadcastReceiver receiver;
     protected View viewContainer;
+    private Boolean isNeedUnRegister = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,11 +40,13 @@ public abstract class RootFragment extends Fragment{
     protected void registerReceiver(String action){
         IntentFilter filter = new IntentFilter(action);
         getActivity().registerReceiver(receiver, filter);
+        isNeedUnRegister = true;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().unregisterReceiver(receiver);
+        if (isNeedUnRegister)
+            getActivity().unregisterReceiver(receiver);
     }
 }

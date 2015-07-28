@@ -94,6 +94,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_test_webview:
                 intent.setClass(this, WebViewActivity.class);
+                break;
             default:
                 return;
         }

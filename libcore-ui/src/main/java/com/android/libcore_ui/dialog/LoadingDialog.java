@@ -37,6 +37,7 @@ public class LoadingDialog extends Dialog{
     private int currentIndex = 0;
     private Animator upAnimator;
     private Animator downAnimator;
+    private RotateAnimation animation;
 
     public LoadingDialog(Context context) {
         this(context, R.style.theme_dialog);
@@ -60,14 +61,34 @@ public class LoadingDialog extends Dialog{
      * 初始化显示动画
      */
     private void initView(){
-        RotateAnimation animation = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
+        this.setOnDismissListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                if (Build.VERSION.SDK_INT >= 11) {
+                    upAnimator.end();
+                    downAnimator.end();
+                }
+                animation.cancel();
+            }
+        });
+    }
+
+    /**
+     * 设置当前所显示的字
+     */
+    public void setLoadingText(String text){
+        tv_loading_text.setText(text);
+    }
+
+    @Override
+    public void show() {
+        animation = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF,
                 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
         animation.setInterpolator(new LinearInterpolator());
         animation.setDuration(1500);
         animation.setRepeatCount(-1);
         iv_loading_image.setAnimation(animation);
         animation.startNow();
-
         if (Build.VERSION.SDK_INT >= 11) {
             final AccelerateDecelerateInterpolator interpolator = new AccelerateDecelerateInterpolator();
             downAnimator = null;
@@ -100,28 +121,12 @@ public class LoadingDialog extends Dialog{
                     if (value == 0.0f) {
                         currentIndex++;
                         upAnimator.start();
-                    }            }
+                    }
+                }
             });
             downAnimator.setDuration(300);
             upAnimator.start();
-            this.setOnDismissListener(new OnDismissListener() {
-                @Override
-                public void onDismiss(DialogInterface dialog) {
-                    ((ObjectAnimator) upAnimator).removeAllUpdateListeners();
-                    ((ObjectAnimator) downAnimator).removeAllUpdateListeners();
-                    upAnimator.end();
-                    upAnimator = null;
-                    downAnimator.end();
-                    downAnimator = null;
-                }
-            });
         }
-    }
-
-    /**
-     * 设置当前所显示的字
-     */
-    public void setLoadingText(String text){
-        tv_loading_text.setText(text);
+        super.show();
     }
 }
