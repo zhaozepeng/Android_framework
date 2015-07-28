@@ -3,7 +3,7 @@
 
     <application>
         <activity android:name=".webview.WebActivity"
-            android:screenOrientation="portrait">
+            android:hardwareAccelerated="true">
         </activity>
     </application>
 </manifest>

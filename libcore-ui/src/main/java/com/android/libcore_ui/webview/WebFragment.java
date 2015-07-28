@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.android.libcore.Toast.T;
 import com.android.libcore.dialog.BaseDialog;
-import com.android.libcore.log.L;
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
 import com.android.libcore_ui.activity.BaseFragment;
@@ -153,8 +152,8 @@ public class WebFragment extends BaseFragment{
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            titles.add(title);
-            tv_title.setText(" "+title);
+            titles.add(" "+title);
+            tv_title.setText(" " + title);
         }
 
         //js警告框

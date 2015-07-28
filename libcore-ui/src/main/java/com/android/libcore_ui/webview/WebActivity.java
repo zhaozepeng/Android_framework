@@ -36,7 +36,7 @@ public class WebActivity extends BaseActivity{
         ft.commit();
 
         refresh = new ImageView(this);
-        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(CommonUtils.dp2px(40), CommonUtils.dp2px(40));
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(CommonUtils.dp2px(30), CommonUtils.dp2px(30));
         params.setMargins(0, 0, CommonUtils.dp2px(10), 0);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         rl_top_extra_content.addView(refresh, params);

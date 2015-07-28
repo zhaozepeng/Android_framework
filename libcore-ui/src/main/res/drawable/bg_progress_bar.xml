@@ -2,13 +2,7 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@android:id/background">
         <shape>
-            <gradient
-                android:startColor="#ff9d9e9d"
-                android:centerColor="#ff5a5d5a"
-                android:centerY="0.75"
-                android:endColor="#ff747674"
-                android:angle="270"
-                />
+            <solid android:color="@color/transparent"/>
         </shape>
     </item>
  <!--   <item android:id="@android:id/secondaryProgress">
@@ -26,7 +20,7 @@
         </clip>
     </item>-->
     <item android:id="@android:id/progress">
-        <clip android:clipOrientation="vertical">
+        <clip>
             <shape>
                 <solid android:color="#FF8080" />
             </shape>
