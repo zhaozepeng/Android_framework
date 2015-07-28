@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,13 +22,14 @@ import android.widget.TextView;
 
 import com.android.libcore.Toast.T;
 import com.android.libcore.dialog.BaseDialog;
+import com.android.libcore.log.L;
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
 import com.android.libcore_ui.activity.BaseFragment;
 import com.android.libcore_ui.dialog.DialogFactory;
-import com.android.libcore_ui.dialog.LoadingDialog;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
  * Description: WebView显示fragment
@@ -37,13 +40,13 @@ import java.lang.reflect.Method;
 public class WebFragment extends BaseFragment{
 
     private ProgressBar pb_bar;
-    public WebView webView;
+    private WebView webView;
     private FrameworkWebViewClient webViewClient = new FrameworkWebViewClient();
     private FrameworkChromeClient chromeClient = new FrameworkChromeClient();
 
     private String url;
-
-    private LoadingDialog dialog;
+    /** 因为onReceivedTitle方法在goBack时不会调用，所以用一个list存储title */
+    private ArrayList<String> titles = new ArrayList<>();
     @Override
     protected View setContentView(LayoutInflater inflater, @Nullable ViewGroup container) {
         return inflater.inflate(R.layout.fragment_web_layout, container, false);
@@ -64,10 +67,11 @@ public class WebFragment extends BaseFragment{
         //支持缩放
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
+        //隐藏缩放栏
+        if (Build.VERSION.SDK_INT >= 11)
+            settings.setDisplayZoomControls(false);
         //支持js
         settings.setJavaScriptEnabled(true);
-
-        dialog = new LoadingDialog(getActivity());
     }
 
     @Override
@@ -83,6 +87,24 @@ public class WebFragment extends BaseFragment{
         this.url = url;
     }
 
+    public boolean canGoBack(){
+        return webView.canGoBack();
+    }
+
+    public void goBack(){
+        titles.remove(titles.size()-1);
+        tv_title.setText(titles.get(titles.size()-1));
+        webView.goBack();
+    }
+
+    public void refresh(){
+        webView.reload();
+    }
+
+    public void stopLoading(){
+        webView.stopLoading();
+    }
+
     private class FrameworkWebViewClient extends WebViewClient {
 
         @Override
@@ -94,21 +116,32 @@ public class WebFragment extends BaseFragment{
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            dialog.show();
+            Message msg = Message.obtain();
+            msg.what = 1;
+            sendMessageToActivity(msg);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
-            dialog.dismiss();
+            Message msg = Message.obtain();
+            msg.what = 2;
+            sendMessageToActivity(msg);
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            super.onReceivedError(view, errorCode, description, failingUrl);
         }
     }
 
     private class FrameworkChromeClient extends WebChromeClient {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
-            pb_bar.setProgress(newProgress);
             if (newProgress == 100)
                 pb_bar.setVisibility(View.GONE);
+            else
+                pb_bar.setVisibility(View.VISIBLE);
+            pb_bar.setProgress(newProgress);
         }
 
         @Override
@@ -120,7 +153,8 @@ public class WebFragment extends BaseFragment{
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
-            tv_title.setText(title);
+            titles.add(title);
+            tv_title.setText(" "+title);
         }
 
         //js警告框
