@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.android.framework.R;
+import com.android.libcore.utils.FileUtils;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.webview.WebActivity;
 
@@ -28,7 +29,11 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, WebActivity.class);
-        intent.putExtra(WebActivity.EXTRA_URL, "https://www.baidu.com/");
+//        intent.putExtra(WebActivity.EXTRA_URL, "http://www.baidu.com");
+        //加载assets文件
+//        intent.putExtra(WebActivity.EXTRA_URL, "file:///android_asset/baidu.html");
+        //加载SD卡文件
+        intent.putExtra(WebActivity.EXTRA_URL, "file:///sdcard/FrameWork/html/baidu.html");
         startActivity(intent);
     }
 }
