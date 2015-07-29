@@ -10,6 +10,7 @@ import android.content.Intent;
 import com.android.libcore.cachemanager.CacheManager;
 import com.android.libcore.log.L;
 import com.android.libcore.activity.ActivityManager;
+import com.android.libcore.utils.FileUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -88,9 +89,10 @@ public class RootApplication extends Application{
      * 检测应用是否退出，并且在应用退出的时候做相关的处理
      */
     public static void checkApplicationDestroy(){
-        //应用被关闭
+        //应用被关闭，删除需要删除的相关目录和文件
         if (ActivityManager.getInstance().getActivity() == null){
             CacheManager.removeTemporary();
+            FileUtils.clearExternalStorageTemp();
         }
     }
 

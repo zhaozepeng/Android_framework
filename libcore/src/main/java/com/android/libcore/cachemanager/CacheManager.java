@@ -181,7 +181,7 @@ public class CacheManager {
 
     /** 清空临时SharedPreference */
     public static void removeTemporary(){
-        L.e("application close remove temporary");
+        L.i("application close remove temporary");
         SharedPreferences sp = RootApplication.getInstance().getSharedPreferences(TEMPORARY, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();
         editor.clear();
