@@ -37,37 +37,6 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         //加载assets文件
 //        intent.putExtra(WebActivity.EXTRA_URL, "file:///android_asset/baidu.html");
         //加载SD卡文件
-        L.e("getDatabasePath():"+getDatabasePath("student.db"));
-        L.e("getCacheDir():"+getCacheDir());
-        L.e("getFilesDir():" + getFilesDir());
-        String[] strings = fileList();
-        for (String path : strings){//为空
-            L.e("fileList():---" + path);
-        }
-        L.e("getDir(\"zhao\"):" + getDir("zhao", MODE_PRIVATE));
-//        L.e("getCodeCacheDir():" + getCodeCacheDir()); //java.lang.NoSuchMethodError
-        L.e("getPackageCodePath():" + getPackageCodePath());
-        L.e("getPackageResourcePath():" + getPackageResourcePath());
-        L.e("getExternalFilesDir():" + getExternalFilesDir(null));
-        File[] paths = getExternalFilesDirs(null);
-        for (File path : paths){
-            L.e("getExternalFilesDirs():---" + path.getPath());
-        }
-        L.e("getExternalCacheDir():" + getExternalCacheDir());
-        paths = getExternalCacheDirs();
-        for (File path : paths){
-            L.e("getExternalCacheDirs():---" + path.getPath());
-        }
-        paths = getObbDirs();
-        for (File path : paths){
-            L.e("getObbDirs():---" + path.getPath());
-        }
-        L.e("Environment.getExternalStorageState():"+ Environment.getExternalStorageState());
-        L.e("Environment.getExternalStorageDirectory():"+Environment.getExternalStorageDirectory());
-        L.e("Environment.getDownloadCacheDirectory():"+Environment.getDownloadCacheDirectory());
-        L.e("Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC):"+Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC));
-        L.e("Environment.getRootDirectory():"+Environment.getRootDirectory());
-
         intent.putExtra(WebActivity.EXTRA_URL, "file:///sdcard/FrameWork/html/baidu.html");
         startActivity(intent);
     }
