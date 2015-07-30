@@ -58,6 +58,8 @@ import java.util.Map;
  */
 public abstract class BaseActivity extends RootActivity{
 
+    /** 获取整个父控件容器 */
+    private RelativeLayout rl_all_content;
     /** 头部bar，如果某些activity需要改变bar样式，修改该view的子view即可 */
     public ViewGroup ll_top_content;
     /** 返回按钮 */
@@ -87,6 +89,7 @@ public abstract class BaseActivity extends RootActivity{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base_layout);
+        rl_all_content = (RelativeLayout) findViewById(R.id.rl_all_content);
         ll_top_content = (ViewGroup) findViewById(R.id.ll_top_content);
         rl_back = (RelativeLayout) findViewById(R.id.rl_back);
         tv_title = (TextView) findViewById(R.id.tv_title);

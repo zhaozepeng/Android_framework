@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Activity_translucent_bar" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">#ff277198</item>
+        <item name="android:navigationBarColor">@color/black</item>
+    </style>
+</resources>
