@@ -12,15 +12,22 @@ import java.lang.reflect.Field;
 
 /**
  * Description: 文件相关的操作，如果需要在SD卡主目录下建立子目录，请在{@link ExternalStorageType}
- * 枚举下建立相同的变量，带上目录名字即可，<strong>所有创建之后的目录末尾自带"/"文件分隔符</strong>
+ * 枚举下建立相同的变量，带上目录名字即可，<strong>所有创建之后的目录末尾自带"/"文件分隔符</strong><br/>
+ * <strong>image,voice,video目录下会有.nomedia文件来屏蔽系统扫描</strong>
  *
  * <ul>
  *     <li>{@link #getExternalStoragePath()}获取SD卡根目录，不要在此进行操作以防污染主目录</li>
  *     <li>{@link #getExternalStorageTempPath()}获取SD卡主目录下缓存目录</li>
+ *     <li>{@link #createFileInImageDirectory(String)}在temp目录下创建文件并返回</li>
+ *     <li>{@link #clearExternalStorageTemp()}应用退出之后删除temp目录</li>
  *     <li>{@link #getExternalStorageImagePath()}获取SD卡主目录下图片目录</li>
+ *     <li>{@link #createFileInImageDirectory(String)}在image目录下创建文件并返回</li>
  *     <li>{@link #getExternalStorageVoicePath()}获取SD卡主目录下声音目录</li>
+ *     <li>{@link #createFileInVoiceDirectory(String)}在voice目录下创建文件并返回</li>
  *     <li>{@link #getExternalStorageVideoPath()}获取SD卡主目录下视频目录</li>
+ *     <li>{@link #createFileInVideoDirectory(String)}在video目录下创建文件并返回</li>
  *     <li>{@link #getExternalStorageHtmlPath()}获取SD卡主目录下网页目录</li>
+ *     <li>{@link #createFileInHtmlDirectory(String)}在html目录下创建文件并返回</li>
  * </ul>
  *
  * @author zzp(zhao_zepeng@hotmail.com)
@@ -61,8 +68,7 @@ public class FileUtils {
      * 在外部{@link #getExternalStorageTempPath()}目录下创建文件，
      */
     public static File createFileInTempDirectory(String filename){
-        ExternalStorageType type = ExternalStorageType.TEMP;
-        return checkAndCreateFile(type.getFilePath(getExternalStoragePath()) + "/" + filename);
+        return checkAndCreateFile(getExternalStorageTempPath() + filename);
     }
 
     /**
@@ -92,8 +98,7 @@ public class FileUtils {
      * 在外部{@link #getExternalStorageImagePath()}目录下创建文件，
      */
     public static File createFileInImageDirectory(String filename){
-        ExternalStorageType type = ExternalStorageType.IMAGE;
-        return checkAndCreateFile(type.getFilePath(getExternalStoragePath()) + "/" + filename);
+        return checkAndCreateFile(getExternalStorageImagePath() + filename);
     }
 
     /**
@@ -110,8 +115,7 @@ public class FileUtils {
      * 在外部{@link #getExternalStorageVoicePath()}目录下创建文件，
      */
     public static File createFileInVoiceDirectory(String filename){
-        ExternalStorageType type = ExternalStorageType.VOICE;
-        return checkAndCreateFile(type.getFilePath(getExternalStoragePath()) + "/" + filename);
+        return checkAndCreateFile(getExternalStorageVoicePath() + filename);
     }
 
     /**
@@ -128,8 +132,7 @@ public class FileUtils {
      * 在外部{@link #getExternalStorageVoicePath()}目录下创建文件，
      */
     public static File createFileInVideoDirectory(String filename){
-        ExternalStorageType type = ExternalStorageType.VIDEO;
-        return checkAndCreateFile(type.getFilePath(getExternalStoragePath()) + "/" + filename);
+        return checkAndCreateFile(getExternalStorageVideoPath() + filename);
     }
 
     /**
@@ -138,6 +141,13 @@ public class FileUtils {
     public static String getExternalStorageHtmlPath(){
         ExternalStorageType type = ExternalStorageType.HTML;
         return checkAndCreateChildDirectory(type.getFilePath(getExternalStoragePath()));
+    }
+
+    /**
+     * 在外部{@link #getExternalStorageHtmlPath()}目录下创建文件，
+     */
+    public static File createFileInHtmlDirectory(String filename){
+        return checkAndCreateFile(getExternalStorageHtmlPath() + filename);
     }
 
     /**

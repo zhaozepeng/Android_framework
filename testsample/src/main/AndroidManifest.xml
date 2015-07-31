@@ -20,7 +20,7 @@
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <!-- 以下连个category用来标识在应用崩溃之后应该启动的activity，记住一定要加上
+                <!-- 以下两个category用来标识在应用崩溃之后应该启动的activity，记住一定要加上
                 android.intent.category.DEFAULT，因为默认带该category，要不然无法响应-->
                 <category android:name="com.android.framework.MAINPAGE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -58,6 +58,14 @@
             android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.android.sample.test_webview.WebViewActivity"
+                  android:label="@string/activity_test_webview"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.android.sample.test_utils.UtilsActivity"
+                  android:label="@string/activity_test_webview"
+                  android:screenOrientation="portrait">
+        </activity>
+        <activity android:name="com.android.sample.test_utils.FileActivity"
                   android:label="@string/activity_test_webview"
                   android:screenOrientation="portrait">
         </activity>

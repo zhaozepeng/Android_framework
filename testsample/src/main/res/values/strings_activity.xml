@@ -10,4 +10,6 @@
     <string name="activity_test_db">测试数据库</string>
     <string name="activity_test_cache">测试Cache</string>
     <string name="activity_test_webview">测试webview</string>
+    <string name="activity_test_utils">测试utils</string>
+    <string name="activity_test_file_utils">测试file utils</string>
 </resources>
