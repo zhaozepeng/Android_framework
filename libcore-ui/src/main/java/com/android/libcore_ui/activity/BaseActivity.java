@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -30,7 +29,10 @@ import java.util.Map;
 /**
  * Description: 继承自{@link RootActivity}的基础activity，在这里进行页面界面
  * 的统一,在这里将样式定位一个仿actionbar的样式，但是为了方便使用和扩展，所以将会使用一个
- * {@link RelativeLayout}做一个actionbar
+ * {@link RelativeLayout}做一个actionbar<br/>
+ *
+ * <strong>为了适配material风格，api>=21使用固定颜色status bar和navigation bar，api>=19使用
+ * view填充status　bar，api<19暂无解决办法</strong>
  *
  * <ol>
  * <li>{@linkplain #receiver}用来在组件之间进行广播的接收</li>
@@ -58,8 +60,10 @@ import java.util.Map;
  */
 public abstract class BaseActivity extends RootActivity{
 
-    /** 获取整个父控件容器 */
-    private RelativeLayout rl_all_content;
+    /** 填充19版本以上SDK　status bar */
+    private View v_status_bar;
+    /** 填充19版本以上SDK　navigation bar */
+    private View v_navigation_bar;
     /** 头部bar，如果某些activity需要改变bar样式，修改该view的子view即可 */
     public ViewGroup ll_top_content;
     /** 返回按钮 */
@@ -88,8 +92,14 @@ public abstract class BaseActivity extends RootActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_layout);
-        rl_all_content = (RelativeLayout) findViewById(R.id.rl_all_content);
+        //仿QQ的material风格和仿bilibili的底部navigation bar透明风格
+        if (Build.VERSION.SDK_INT >= 19){
+            setContentView(R.layout.activity_base_layout_v19);
+            v_status_bar = findViewById(R.id.v_status_bar);
+            v_navigation_bar = findViewById(R.id.v_navigation_bar);
+        }else {
+            setContentView(R.layout.activity_base_layout);
+        }
         ll_top_content = (ViewGroup) findViewById(R.id.ll_top_content);
         rl_back = (RelativeLayout) findViewById(R.id.rl_back);
         tv_title = (TextView) findViewById(R.id.tv_title);
@@ -115,6 +125,16 @@ public abstract class BaseActivity extends RootActivity{
             }
         });
 
+        if (Build.VERSION.SDK_INT >= 19){
+            int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
+            v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
+
+            if (CommonUtils.hasNavigationBar()) {
+                id = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+                v_navigation_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
+            }
+        }
+
         bottomItems = new LinkedHashMap<>();
         inflater = LayoutInflater.from(this);
 
@@ -135,7 +155,7 @@ public abstract class BaseActivity extends RootActivity{
 
     /**
      * 请使用该函数来设置该页面需要显示的内容，不包括topbar
-     * @param object
+     * @param object resource id 或者 view
      */
     protected void setContentViewSrc(Object object){
         if (object instanceof Integer){
@@ -342,6 +362,10 @@ public abstract class BaseActivity extends RootActivity{
             //需要滚动到顶部
             sv_bottom_content.scrollTo(0, 0);
         }
+    }
+
+    public void addBlankOnBottom(){
+        //TODO 底部留白
     }
 
     /**

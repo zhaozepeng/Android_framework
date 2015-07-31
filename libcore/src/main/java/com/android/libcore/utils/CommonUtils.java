@@ -3,6 +3,9 @@ package com.android.libcore.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.ViewConfiguration;
 
 import com.android.libcore.application.RootApplication;
 import com.android.libcore.log.L;
@@ -14,6 +17,7 @@ import com.android.libcore.log.L;
  *     <li>{@link #px2dp(float)}用来将px转换为dp</li>
  *     <li>{@link #isNetworkAvailable()}用来判断网络是否可用</li>
  *     <li>{@link #isNetworkWifi()}用来判断网络是否是wifi</li>
+ *     <li>{@link }</li>
  * </ol>
  *
  * @author zzp(zhao_zepeng@hotmail.com)
@@ -45,6 +49,19 @@ public class CommonUtils {
         NetworkInfo info = cm.getActiveNetworkInfo();
         if (info.getType() == ConnectivityManager.TYPE_WIFI)
             return true;
+        return false;
+    }
+
+    /**
+     * 检查手机是否会有虚拟底部navigation bar
+     */
+    public static boolean hasNavigationBar(){
+        boolean hasMenuKey = ViewConfiguration.get(RootApplication.getInstance()).hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+
+        if(!hasMenuKey && !hasBackKey) {
+            return true;
+        }
         return false;
     }
 }
