@@ -4,10 +4,8 @@ import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
@@ -39,7 +37,8 @@ public class WebActivity extends BaseActivity{
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(CommonUtils.dp2px(30), CommonUtils.dp2px(30));
         params.setMargins(0, 0, CommonUtils.dp2px(10), 0);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
-        rl_top_extra_content.addView(refresh, params);
+        refresh.setLayoutParams(params);
+        addOptionsMenuView(refresh);
         refresh.setBackgroundResource(R.mipmap.ic_refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override

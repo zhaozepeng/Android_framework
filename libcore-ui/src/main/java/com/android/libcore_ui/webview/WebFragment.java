@@ -92,7 +92,7 @@ public class WebFragment extends BaseFragment{
 
     public void goBack(){
         titles.remove(titles.size()-1);
-        tv_title.setText(titles.get(titles.size()-1));
+        setTitle(titles.get(titles.size()-1));
         webView.goBack();
     }
 
@@ -147,13 +147,13 @@ public class WebFragment extends BaseFragment{
         public void onReceivedIcon(WebView view, Bitmap icon) {
             BitmapDrawable drawable = new BitmapDrawable(getResources(), icon);
             drawable.setBounds(0, 0, CommonUtils.dp2px(20), CommonUtils.dp2px(20));
-            tv_title.setCompoundDrawables(drawable, null, null, null);
+//            setTitle.setCompoundDrawables(drawable, null, null, null);
         }
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
             titles.add(" "+title);
-            tv_title.setText(" " + title);
+            setTitle(" " + title);
         }
 
         //js警告框

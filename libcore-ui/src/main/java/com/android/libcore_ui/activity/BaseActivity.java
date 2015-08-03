@@ -5,8 +5,10 @@ import android.animation.ValueAnimator;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -27,18 +29,22 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Description: 继承自{@link RootActivity}的基础activity，在这里进行页面界面
- * 的统一,在这里将样式定位一个仿actionbar的样式，但是为了方便使用和扩展，所以将会使用一个
- * {@link RelativeLayout}做一个actionbar<br/>
+ * Description: 继承自{@link RootActivity}的基础activity，在这里进行页面界面的统一<br/><br/>
  *
- * <strong>为了适配material风格，api>=21使用固定颜色status bar和navigation bar，api>=19使用
- * view填充status　bar，api<19暂无解决办法</strong>
+ *
+ * 应用整体样式现在有status bar颜色修改和底部navigation bar透明两种样式<br/>
+ * 应用的top bar样式有自定义ViewGroup和toolbar两种样式<br/><br/>
+ *
  *
  * <ol>
  * <li>{@linkplain #receiver}用来在组件之间进行广播的接收</li>
  * <li>{@linkplain #initView()}用来初始化该activity的view，第一步调用{@link #setContentViewSrc(Object)}
  * 进行设置布局，参数为layout的id或者view，在里面进行{@link #findViewById(int)}等等操作</li>
  * <li>{@linkplain #initData()}用来初始化该activity的data</li>
+ * <li>{@linkplain #setTitle(String)}用来设置页面标题</li>
+ * <li>{@linkplain #addOptionsMenuView(View)}用来在页面的右侧添加一个按钮</li>
+ * <li>{@linkplain #addNavigationOnBottom(ViewGroup)}将一个和NavigationBar的高度一样的空白的view添加到viewGroup中</li>
+ * <li>{@linkplain #onHandleMessageFromFragment(Message)}用来处理fragment传递过来的消息</li>
  * </ol>
  *
  * 自定义底部弹出框:
@@ -61,19 +67,15 @@ import java.util.Map;
 public abstract class BaseActivity extends RootActivity{
 
     /** 填充19版本以上SDK　status bar */
-    private View v_status_bar;
+    protected View v_status_bar;
     /** 填充19版本以上SDK　navigation bar */
-    private View v_navigation_bar;
-    /** 头部bar，如果某些activity需要改变bar样式，修改该view的子view即可 */
-    public ViewGroup ll_top_content;
-    /** 返回按钮 */
-    public RelativeLayout rl_back;
-    /** 该页面标题 */
-    public TextView tv_title;
-    /** 右侧添加按钮区域 */
-    public RelativeLayout rl_top_extra_content;
+    protected View v_navigation_bar;
+    /** 头部top bar容器 */
+    protected FrameLayout fl_top_bar;
+    /** 头部top bar */
+    public ViewGroup top_bar;
     /** 内容区域 */
-    public FrameLayout base_content;
+    protected FrameLayout base_content;
     /** 全屏的半透明显示 */
     protected View ll_full_screen;
     /** 底部popWindow */
@@ -93,32 +95,23 @@ public abstract class BaseActivity extends RootActivity{
      * navigation bar透明的风格，则下面这个变量会变成true,并且一定不要忘记调用addBlankOnBottom(View view)
      * 函数，将一个空白的view添加进去即可 */
     private boolean isUsingNavigation = false;
+    /** 设置整个应用主题样式是否使用toolbar还是使用自定义view */
+    private boolean useToolbar = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        //如果系统的主题为Activity_translucent_navigation_bar，
-        // 但是没有navigation bar，则将其设置回status bar主题，
+        //如果系统的主题为Activity_translucent_navigation_bar，但是手机没有navigation bar，则将其设置回status bar主题，
         // setTheme设置主题一定要在onCreate()之前
         if (!CommonUtils.hasNavigationBar()
                 && getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar) {
             setTheme(R.style.Activity_translucent_status_bar);
         }
         super.onCreate(savedInstanceState);
-        //仿QQ的material风格
-        if (Build.VERSION.SDK_INT >= 19 &&
-                (getApplicationInfo().theme==R.style.Activity_translucent_status_bar
-                || getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
-            setContentView(R.layout.activity_base_layout_v19);
-            v_status_bar = findViewById(R.id.v_status_bar);
-            v_navigation_bar = findViewById(R.id.v_navigation_bar);
-        }else {
-            setContentView(R.layout.activity_base_layout);
-        }
-        ll_top_content = (ViewGroup) findViewById(R.id.ll_top_content);
-        rl_back = (RelativeLayout) findViewById(R.id.rl_back);
-        tv_title = (TextView) findViewById(R.id.tv_title);
-        rl_top_extra_content = (RelativeLayout) findViewById(R.id.rl_top_extra_content);
+        setContentView(R.layout.activity_base_layout);
+        fl_top_bar = (FrameLayout) findViewById(R.id.fl_top_bar);
         base_content = (FrameLayout) findViewById(R.id.base_content);
+        sv_bottom_content = (ScrollView) findViewById(R.id.sv_bottom_content);
+        ll_bottom_content = (LinearLayout) findViewById(R.id.ll_bottom_content);
         ll_full_screen = findViewById(R.id.ll_full_screen);
         ll_full_screen.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,22 +119,16 @@ public abstract class BaseActivity extends RootActivity{
                 doReverseAnimation();
             }
         });
-        sv_bottom_content = (ScrollView) findViewById(R.id.sv_bottom_content);
-        ll_bottom_content = (LinearLayout) findViewById(R.id.ll_bottom_content);
 
-        /** 通过 android::label 设置的标题 */
-        if (!TextUtils.isEmpty(getTitle()))
-            tv_title.setText(getTitle());
-        rl_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
+        //SDK19版本以上，仿material风格
         if (Build.VERSION.SDK_INT >= 19 &&
                 (getApplicationInfo().theme==R.style.Activity_translucent_status_bar
-                || getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
+                        || getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
+            v_status_bar = findViewById(R.id.v_status_bar);
+            v_navigation_bar = findViewById(R.id.v_navigation_bar);
+            v_status_bar.setVisibility(View.VISIBLE);
+            v_navigation_bar.setVisibility(View.VISIBLE);
+
             int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
             v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
             //如果手机无navigation bar，则直接关闭该功能
@@ -154,6 +141,41 @@ public abstract class BaseActivity extends RootActivity{
                 }
             }
         }
+
+        //添加top bar,现在有两种样式的top bar可以使用：
+        //一种是自定的viewGroup，比如QQ
+        if (!useToolbar) {
+            top_bar = (ViewGroup) View.inflate(this, R.layout.activity_top_bar_layout, null);
+            View rl_back = top_bar.findViewById(R.id.rl_back);
+            rl_back.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            TextView tv_title = (TextView) top_bar.findViewById(R.id.tv_title);
+            // 通过 android::label 设置的标题
+            if (!TextUtils.isEmpty(getTitle()))
+                tv_title.setText(getTitle());
+        }
+        //一种是使用系统控件toolbar，比如微信
+        else{
+            top_bar = (ViewGroup) View.inflate(this, R.layout.activity_top_toolbar_layout, null);
+            Toolbar toolbar = (Toolbar) top_bar;
+            setSupportActionBar(toolbar);
+            ((Toolbar) top_bar).setNavigationIcon(getDrawable(R.mipmap.ic_arrow_back));
+            ((Toolbar) top_bar).setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finish();
+                }
+            });
+            // 通过 android::label 设置的标题
+            if (!TextUtils.isEmpty(getTitle()))
+                toolbar.setTitle(getTitle());
+        }
+
+        fl_top_bar.addView(top_bar);
 
         bottomItems = new LinkedHashMap<>();
         inflater = LayoutInflater.from(this);
@@ -170,7 +192,34 @@ public abstract class BaseActivity extends RootActivity{
      * 设置标题
      */
     protected void setTitle(String title){
-        tv_title.setText(title);
+        if (!useToolbar) {
+            ((TextView) top_bar.findViewById(R.id.tv_title)).setText(title);
+        }else{
+            ((Toolbar) top_bar).setTitle(title);
+        }
+    }
+
+    /**
+     * 将view添加进top bar右侧的相关区域中
+     */
+    protected void addOptionsMenuView(View view){
+        if (!useToolbar){
+            ((ViewGroup) top_bar.findViewById(R.id.rl_top_extra_content)).addView(view);
+        }else{
+            top_bar.addView(view);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (!useToolbar) {
+            L.e("该样式无法使用optionsMenu，请将view单独addView到top bar的相关区域即可");
+            return false;
+        }
+        else{
+            menu.clear();
+            return super.onCreateOptionsMenu(menu);
+        }
     }
 
     /**
@@ -402,6 +451,5 @@ public abstract class BaseActivity extends RootActivity{
     /**
      * 处理来自fragment的消息
      */
-    protected void onHandleMessageFromFragment(Message msg){
-    }
+    protected void onHandleMessageFromFragment(Message msg){}
 }

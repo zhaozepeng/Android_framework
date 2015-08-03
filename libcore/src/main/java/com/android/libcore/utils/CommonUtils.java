@@ -18,7 +18,7 @@ import com.android.libcore.log.L;
  *     <li>{@link #px2dp(float)}用来将px转换为dp</li>
  *     <li>{@link #isNetworkAvailable()}用来判断网络是否可用</li>
  *     <li>{@link #isNetworkWifi()}用来判断网络是否是wifi</li>
- *     <li>{@link }</li>
+ *     <li>{@link #hasNavigationBar()}判断手机是否会有navigation bar</li>
  * </ol>
  *
  * @author zzp(zhao_zepeng@hotmail.com)

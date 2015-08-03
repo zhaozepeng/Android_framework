@@ -7,9 +7,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.android.libcore.activity.RootFragment;
 
@@ -24,25 +21,13 @@ public abstract class BaseFragment extends RootFragment{
     /** fragment所依附的activity */
     protected BaseActivity activity;
     /** 整个activity的头部bar，如果某些activity需要改变bar样式，修改该view的子view即可 */
-    public ViewGroup ll_top_content;
-    /** 整个activity的返回按钮 */
-    public RelativeLayout rl_back;
-    /** 整个activity的该页面标题 */
-    public TextView tv_title;
-    /** 整个activity的右侧添加按钮区域 */
-    public RelativeLayout rl_top_extra_content;
-    /** 整个activity的内容区域 */
-    public FrameLayout base_content;
+    public ViewGroup top_bar;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = (BaseActivity) activity;
-        ll_top_content = ((BaseActivity)activity).ll_top_content;
-        rl_back = ((BaseActivity)activity).rl_back;
-        tv_title = ((BaseActivity)activity).tv_title;
-        rl_top_extra_content = ((BaseActivity)activity).rl_top_extra_content;
-        base_content = ((BaseActivity)activity).base_content;
+        top_bar = ((BaseActivity)activity).top_bar;
     }
 
     @Override
@@ -69,6 +54,13 @@ public abstract class BaseFragment extends RootFragment{
      */
     protected View findViewById(int id){
         return viewContainer.findViewById(id);
+    }
+
+    /**
+     * 设置该activity页面的标题
+     */
+    protected void setTitle(String title){
+        activity.setTitle(title);
     }
 
     /**
