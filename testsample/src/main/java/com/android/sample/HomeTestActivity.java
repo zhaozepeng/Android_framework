@@ -2,9 +2,9 @@ package com.android.sample;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.framework.R;
@@ -14,7 +14,6 @@ import com.android.sample.test_cache.CacheActivity;
 import com.android.sample.test_db.DBActivity;
 import com.android.sample.test_dialog.DialogActivity;
 import com.android.sample.test_guide.GuideActivity;
-import com.android.sample.test_utils.FileActivity;
 import com.android.sample.test_utils.UtilsActivity;
 import com.android.sample.test_webview.WebViewActivity;
 
@@ -42,6 +41,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     private Button btn_test_webview;
     /** 测试utils */
     private Button btn_test_utils;
+    /** 底部的代替navigation bar */
+    private FrameLayout fl_navigation;
     private TextView tv_info;
 
     @Override
@@ -55,6 +56,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         btn_test_cache = (Button) findViewById(R.id.btn_test_cache);
         btn_test_webview = (Button) findViewById(R.id.btn_test_webview);
         btn_test_utils = (Button) findViewById(R.id.btn_test_utils);
+        fl_navigation = (FrameLayout) findViewById(R.id.fl_navigation);
         btn_test_activity.setOnClickListener(this);
         btn_test_guide.setOnClickListener(this);
         btn_test_dialog.setOnClickListener(this);
@@ -65,6 +67,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         tv_info = (TextView) findViewById(R.id.tv_info);
         //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
         setTitle("主页");
+        addNavigationOnBottom(fl_navigation);
     }
 
     @Override

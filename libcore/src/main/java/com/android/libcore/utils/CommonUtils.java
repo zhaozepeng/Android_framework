@@ -3,6 +3,7 @@ package com.android.libcore.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
@@ -56,12 +57,12 @@ public class CommonUtils {
      * 检查手机是否会有虚拟底部navigation bar
      */
     public static boolean hasNavigationBar(){
-        boolean hasMenuKey = ViewConfiguration.get(RootApplication.getInstance()).hasPermanentMenuKey();
         boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
 
-        if(!hasMenuKey && !hasBackKey) {
-            return true;
+        if(hasBackKey && hasHomeKey) {
+            return false;
         }
-        return false;
+        return true;
     }
 }

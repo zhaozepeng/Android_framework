@@ -74,7 +74,7 @@ public final class ActivityManager {
     public Activity getActivity(){
         if (!stack.isEmpty())
             return stack.peek();
-        L.e("Activity 栈为空！！！+getActivity()", ActivityManager.class);
+        L.i("Activity 栈为空！！！+getActivity()", ActivityManager.class);
         return null;
     }
 

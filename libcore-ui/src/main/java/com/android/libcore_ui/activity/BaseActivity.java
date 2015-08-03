@@ -89,11 +89,25 @@ public abstract class BaseActivity extends RootActivity{
     /** 底部弹出框的默认高度 */
     protected int scrollViewMeasureHeight;
 
+    /** 底部navigation是否透明,如果应用使用的是Activity_translucent_navigation_bar风格，
+     * navigation bar透明的风格，则下面这个变量会变成true,并且一定不要忘记调用addBlankOnBottom(View view)
+     * 函数，将一个空白的view添加进去即可 */
+    private boolean isUsingNavigation = false;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        //如果系统的主题为Activity_translucent_navigation_bar，
+        // 但是没有navigation bar，则将其设置回status bar主题，
+        // setTheme设置主题一定要在onCreate()之前
+        if (!CommonUtils.hasNavigationBar()
+                && getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar) {
+            setTheme(R.style.Activity_translucent_status_bar);
+        }
         super.onCreate(savedInstanceState);
-        //仿QQ的material风格和仿bilibili的底部navigation bar透明风格
-        if (Build.VERSION.SDK_INT >= 19){
+        //仿QQ的material风格
+        if (Build.VERSION.SDK_INT >= 19 &&
+                (getApplicationInfo().theme==R.style.Activity_translucent_status_bar
+                || getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
             setContentView(R.layout.activity_base_layout_v19);
             v_status_bar = findViewById(R.id.v_status_bar);
             v_navigation_bar = findViewById(R.id.v_navigation_bar);
@@ -125,13 +139,19 @@ public abstract class BaseActivity extends RootActivity{
             }
         });
 
-        if (Build.VERSION.SDK_INT >= 19){
+        if (Build.VERSION.SDK_INT >= 19 &&
+                (getApplicationInfo().theme==R.style.Activity_translucent_status_bar
+                || getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
             int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
             v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
-
-            if (CommonUtils.hasNavigationBar()) {
-                id = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
-                v_navigation_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
+            //如果手机无navigation bar，则直接关闭该功能
+            if (CommonUtils.hasNavigationBar()){
+                isUsingNavigation = (getApplicationInfo().theme == R.style.Activity_translucent_navigation_bar);
+                //仿bilibili的底部navigation bar透明风格
+                if (isUsingNavigation) {
+                    id = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
+                    v_navigation_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
+                }
             }
         }
 
@@ -364,8 +384,19 @@ public abstract class BaseActivity extends RootActivity{
         }
     }
 
-    public void addBlankOnBottom(){
-        //TODO 底部留白
+    /**
+     * 将一个空白的代替navigation bar的view添加进传入的参数view中，记住该函数只是简单的将view添加进
+     * 底部，所以传进来的view一定要在正确的位置
+     */
+    public void addNavigationOnBottom(ViewGroup view){
+        if (CommonUtils.hasNavigationBar() && isUsingNavigation) {
+            View navigationView = new View(this);
+            ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT, v_navigation_bar.getLayoutParams().height);
+            navigationView.setLayoutParams(params);
+            navigationView.setBackgroundColor(getResources().getColor(R.color.transparent));
+            view.addView(navigationView);
+        }
     }
 
     /**

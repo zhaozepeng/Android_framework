@@ -62,5 +62,10 @@
             android:textSize="18sp"
             android:textColor="@color/black"/>
 
+        <FrameLayout
+            android:id="@+id/fl_navigation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </FrameLayout>
     </LinearLayout>
 </ScrollView>

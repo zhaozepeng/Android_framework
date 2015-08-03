@@ -9,6 +9,8 @@
         <item name="android:windowBackground">@color/transparent</item><!-- 自己想要的背景 -->
         <item name="android:backgroundDimEnabled">true</item><!-- 模糊 -->
     </style>
-    <style name="Activity_translucent_bar" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <style name="Activity_translucent_status_bar" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    </style>
+    <style name="Activity_translucent_navigation_bar" parent="@style/Theme.AppCompat.Light.NoActionBar">
     </style>
 </resources>

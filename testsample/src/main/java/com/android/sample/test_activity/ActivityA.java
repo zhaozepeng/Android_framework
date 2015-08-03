@@ -3,6 +3,7 @@ package com.android.sample.test_activity;
 import android.content.Intent;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -46,6 +47,8 @@ public class ActivityA extends BaseActivity implements View.OnClickListener{
         btn_close.setOnClickListener(this);
 
         tv_all_info = (TextView) findViewById(R.id.tv_all_info);
+
+        addNavigationOnBottom((ViewGroup) findViewById(R.id.fl_navigation));
     }
 
     @Override
