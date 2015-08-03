@@ -207,6 +207,7 @@ public abstract class BaseActivity extends RootActivity{
             ((ViewGroup) top_bar.findViewById(R.id.rl_top_extra_content)).addView(view);
         }else{
             top_bar.addView(view);
+            //TODO toolbar的添加menu有问题
         }
     }
 
