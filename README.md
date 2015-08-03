@@ -34,7 +34,7 @@
 该层为基础核心扩展层，扩展libcore的层的代码，并且定义应用的基本样式，这样一个公司的不同应用就能够统一样式，方便管理
 
 <ol>
-<li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式，如底部的弹出框，顶部bar的样式等；Fragment类定义了fragment和activity之间的通信方式和控件的交互</li>
+<li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式（现在提供两种样式，QQ顶部样式和bilibili底部样式），如底部的弹出框，顶部bar的样式等；Fragment类定义了fragment和activity之间的通信方式和控件的交互，</li>
 <li>继承自libcore层的dialog类，定义一个应用的dialog所具备的样式，并且完善dialog的功能</li>
 <li>PermanentCacheDB类，用来存储一些和应用生命周期相关的变量，写入数据库，永久保存</li>
 <li>基本实用的控件：
