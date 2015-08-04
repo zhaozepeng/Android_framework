@@ -10,7 +10,6 @@
         android:background="@color/status_bar_color"
         android:visibility="gone"/>
     <RelativeLayout
-        android:id="@+id/rl_all_content"
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="0dp">
@@ -24,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </FrameLayout>
-
+            <!-- 内容区域 -->
             <FrameLayout
                 android:id="@+id/base_content"
                 android:layout_width="match_parent"

@@ -94,7 +94,7 @@ public abstract class BaseActivity extends RootActivity{
     /** 底部navigation是否透明,如果应用使用的是Activity_translucent_navigation_bar风格，
      * navigation bar透明的风格，则下面这个变量会变成true,并且一定不要忘记调用addBlankOnBottom(View view)
      * 函数，将一个空白的view添加进去即可 */
-    private boolean isUsingNavigation = false;
+    private boolean isUsingNavigation;
     /** 设置整个应用主题样式是否使用toolbar还是使用自定义view */
     private boolean useToolbar = true;
 
@@ -120,7 +120,7 @@ public abstract class BaseActivity extends RootActivity{
             }
         });
 
-        //SDK19版本以上，仿material风格
+        //SDK19版本以上
         if (Build.VERSION.SDK_INT >= 19 &&
                 (getApplicationInfo().theme==R.style.Activity_translucent_status_bar
                         || getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
@@ -131,14 +131,17 @@ public abstract class BaseActivity extends RootActivity{
 
             int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
             v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
-            //如果手机无navigation bar，则直接关闭该功能
+            //如果手机有navigation bar
             if (CommonUtils.hasNavigationBar()){
                 isUsingNavigation = (getApplicationInfo().theme == R.style.Activity_translucent_navigation_bar);
-                //仿bilibili的底部navigation bar透明风格
+                //底部navigation bar透明风格
                 if (isUsingNavigation) {
                     id = getResources().getIdentifier("navigation_bar_height", "dimen", "android");
                     v_navigation_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
                 }
+            }else{
+                v_navigation_bar.setVisibility(View.GONE);
+                v_navigation_bar = null;
             }
         }
 
@@ -163,8 +166,9 @@ public abstract class BaseActivity extends RootActivity{
             top_bar = (ViewGroup) View.inflate(this, R.layout.activity_top_toolbar_layout, null);
             Toolbar toolbar = (Toolbar) top_bar;
             setSupportActionBar(toolbar);
-            ((Toolbar) top_bar).setNavigationIcon(getDrawable(R.mipmap.ic_arrow_back));
-            ((Toolbar) top_bar).setNavigationOnClickListener(new View.OnClickListener() {
+            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+            toolbar.setNavigationIcon(R.mipmap.ic_arrow_back);
+            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
@@ -206,19 +210,17 @@ public abstract class BaseActivity extends RootActivity{
         if (!useToolbar){
             ((ViewGroup) top_bar.findViewById(R.id.rl_top_extra_content)).addView(view);
         }else{
-            top_bar.addView(view);
-            //TODO toolbar的添加menu有问题
+            L.e("该样式无法使用addOptionsMenuView，请使用onCreateOptionsMenu");
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (!useToolbar) {
-            L.e("该样式无法使用optionsMenu，请将view单独addView到top bar的相关区域即可");
+            L.e("该样式无法使用optionsMenu，请使用addOptionsMenuView");
             return false;
         }
         else{
-            menu.clear();
             return super.onCreateOptionsMenu(menu);
         }
     }
@@ -254,7 +256,7 @@ public abstract class BaseActivity extends RootActivity{
      * @param name 用来显示该item的名字
      */
     protected void addItemToBottomPopWindow(int groupId, int itemId, String name){
-        ArrayList<ItemHolder> temp = null;
+        ArrayList<ItemHolder> temp;
         if (bottomItems.containsKey(groupId)) {
             if (itemId < 0){
                 throw new IllegalArgumentException("groupId can be found,so itemId must bigger than 0 or equal 0");
@@ -280,8 +282,6 @@ public abstract class BaseActivity extends RootActivity{
 
     /**
      * 将item从底部bar中删除
-     * @param groupId
-     * @param itemId
      */
     protected void removeItemFromBottomPopWindow(int groupId, int itemId){
         if (bottomItems.containsKey(groupId)){

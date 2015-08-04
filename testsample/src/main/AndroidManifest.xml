@@ -13,8 +13,8 @@
         android:icon="@mipmap/app_icon"
         android:theme="@style/Activity_translucent_navigation_bar">
         <!--Theme.AppCompat.Light.NoActionBar 最原始主题-->
-        <!--Activity_translucent_status_bar 仿QQ顶部风格-->
-        <!--Activity_translucent_navigation_bar 仿bilibili底部风格-->
+        <!--Activity_translucent_status_bar 顶部透明风格-->
+        <!--Activity_translucent_navigation_bar 底部透明风格-->
 
         <!-- The Application and the first Activity share the same name
         specified in the android:label field of the <activity> item -->
