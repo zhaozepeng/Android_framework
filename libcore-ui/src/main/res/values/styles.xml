@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="theme_dialog" parent="@android:style/Theme.Dialog">
+    <style name="theme_dialog" parent="Theme.AppCompat.Dialog">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowFrame">@null</item><!-- 边框 -->
         <item name="android:windowIsFloating">true</item><!-- 是否浮现在activity之上 -->
@@ -12,5 +12,10 @@
     <style name="Activity_translucent_status_bar" parent="Theme.AppCompat.Light.NoActionBar">
     </style>
     <style name="Activity_translucent_navigation_bar" parent="Theme.AppCompat.Light.NoActionBar">
+    </style>
+    <style name="toolbar_title_appearance">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textStyle">normal</item>
     </style>
 </resources>

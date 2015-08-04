@@ -32,7 +32,7 @@ import java.util.Map;
  * Description: 继承自{@link RootActivity}的基础activity，在这里进行页面界面的统一<br/><br/>
  *
  *
- * 应用整体样式现在有status bar颜色修改和底部navigation bar透明两种样式<br/>
+ * 应用整体样式现在有status bar透明和底部navigation bar透明两种样式<br/>
  * 应用的top bar样式有自定义ViewGroup和toolbar两种样式<br/><br/>
  *
  *
@@ -166,6 +166,7 @@ public abstract class BaseActivity extends RootActivity{
             top_bar = (ViewGroup) View.inflate(this, R.layout.activity_top_toolbar_layout, null);
             Toolbar toolbar = (Toolbar) top_bar;
             setSupportActionBar(toolbar);
+            toolbar.setTitleTextAppearance(this, R.style.toolbar_title_appearance);
             toolbar.setTitleTextColor(getResources().getColor(R.color.white));
             toolbar.setNavigationIcon(R.mipmap.ic_arrow_back);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -204,7 +205,7 @@ public abstract class BaseActivity extends RootActivity{
     }
 
     /**
-     * 将view添加进top bar右侧的相关区域中
+     * 将view添加进top bar右侧的相关区域中，适用于不使用toolbar样式
      */
     protected void addOptionsMenuView(View view){
         if (!useToolbar){
