@@ -32,7 +32,8 @@
 
         <activity android:name="com.android.sample.test_activity.ActivityTestHomePage"
             android:label="@string/activity_test_activity_homepage"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:uiOptions="splitActionBarWhenNarrow">
         </activity>
 
         <activity android:name="com.android.sample.test_activity.ActivityA"
