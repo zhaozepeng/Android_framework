@@ -95,6 +95,7 @@ public abstract class BaseActivity extends RootActivity{
      * navigation bar透明的风格，则下面这个变量会变成true,并且一定不要忘记调用addBlankOnBottom(View view)
      * 函数，将一个空白的view添加进去即可 */
     private boolean isUsingNavigation;
+
     /** 设置整个应用主题样式是否使用toolbar还是使用自定义view */
     private boolean useToolbar = true;
 
@@ -448,6 +449,13 @@ public abstract class BaseActivity extends RootActivity{
             navigationView.setBackgroundColor(getResources().getColor(R.color.transparent));
             view.addView(navigationView);
         }
+    }
+
+    /**
+     * 用来获取是否使用toolbar样式
+     */
+    public boolean isUseToolbar() {
+        return useToolbar;
     }
 
     /**

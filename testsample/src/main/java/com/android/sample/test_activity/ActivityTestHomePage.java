@@ -1,6 +1,10 @@
 package com.android.sample.test_activity;
 
 import android.content.Intent;
+import android.support.v4.view.MenuItemCompat;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -67,6 +71,24 @@ public class ActivityTestHomePage extends BaseActivity implements View.OnClickLi
         addItemToBottomPopWindow(5, 3, "5测试3");
         addItemToBottomPopWindow(5, 4, "5测试4");
         addItemToBottomPopWindow(5, 5, "5测试5");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (isUseToolbar()) {
+            getMenuInflater().inflate(R.menu.menu_activity_home_test, menu);
+
+            MenuItem item = menu.findItem(R.id.action_search);
+            View v = MenuItemCompat.getActionView(item);
+            v.findViewById(R.id.btn_click).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    T.getInstance().showShort("我被点击");
+                }
+            });
+            return true;
+        }
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

@@ -61,42 +61,6 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textColor="@color/black"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_homepage_selector"
-            android:text="测试utils"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_homepage_selector"
-            android:text="测试utils"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_homepage_selector"
-            android:text="测试utils"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_homepage_selector"
-            android:text="测试utils"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_homepage_selector"
-            android:text="测试utils"/>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/button_homepage_selector"
-            android:text="测试utils"/>
         <FrameLayout
             android:id="@+id/fl_navigation"
             android:layout_width="match_parent"

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_menu"
+        android:icon="@mipmap/ic_menu_white_24dp"
+        android:title="@string/menu"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@mipmap/ic_refresh_white_24dp"
+        android:title="@string/menu"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/action_search"
+        android:icon="@mipmap/ic_search_white_24dp"
+        android:title="@string/menu"
+        app:actionLayout="@layout/menu_activity_home_test_search"
+        app:showAsAction="always"/>
+
+</menu>
