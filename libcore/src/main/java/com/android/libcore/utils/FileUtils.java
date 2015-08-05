@@ -8,7 +8,6 @@ import com.android.libcore.log.L;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Field;
 
 /**
  * Description: 文件相关的操作，如果需要在SD卡主目录下建立子目录，请在{@link ExternalStorageType}

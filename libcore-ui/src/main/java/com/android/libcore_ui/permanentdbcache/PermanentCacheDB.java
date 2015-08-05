@@ -16,8 +16,6 @@ import java.util.ArrayList;
  */
 public class PermanentCacheDB extends BaseDB{
 
-    public static final String TABLE_CACHE = "cache";
-
     public PermanentCacheDB(IBaseDBTableEnum table, boolean writable) {
         super(table, writable);
     }
