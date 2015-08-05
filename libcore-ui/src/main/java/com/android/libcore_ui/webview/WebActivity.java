@@ -3,7 +3,11 @@ package com.android.libcore_ui.webview;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.MenuItemCompat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -20,14 +24,14 @@ import com.android.libcore_ui.activity.BaseActivity;
 public class WebActivity extends BaseActivity{
 
     public static final String EXTRA_URL = "extra_url";
-    private WebFragment webView;
+    private WebActivityFragment webView;
     private ImageView refresh;
     private boolean isLoading = false;
 
     @Override
     protected void initView() {
         setContentViewSrc(R.layout.activity_web_layout);
-        webView = new WebFragment();
+        webView = new WebActivityFragment();
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.fl_content, webView);
@@ -38,7 +42,8 @@ public class WebActivity extends BaseActivity{
         params.setMargins(0, 0, CommonUtils.dp2px(10), 0);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         refresh.setLayoutParams(params);
-        addOptionsMenuView(refresh);
+        if (!isUseToolbar())
+            addOptionsMenuView(refresh);
         refresh.setBackgroundResource(R.mipmap.ic_refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +60,20 @@ public class WebActivity extends BaseActivity{
     protected void initData() {
         String url = getIntent().getStringExtra(EXTRA_URL);
         webView.loadUrl(url);
+        addNavigationOnBottom((ViewGroup) findViewById(R.id.fl_bottom_blank));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (isUseToolbar()){
+            getMenuInflater().inflate(R.menu.menu_webactivity_refresh, menu);
+            MenuItem item = menu.findItem(R.id.menu_refresh);
+            View view = MenuItemCompat.getActionView(item);
+            ((ViewGroup) view).addView(refresh);
+            return true;
+        }
+        else
+            return super.onCreateOptionsMenu(menu);
     }
 
     @Override

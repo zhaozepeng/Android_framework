@@ -2,4 +2,5 @@
     <string name="loading_process">正在加载</string>
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
+    <string name="refresh">刷新</string>
 </resources>

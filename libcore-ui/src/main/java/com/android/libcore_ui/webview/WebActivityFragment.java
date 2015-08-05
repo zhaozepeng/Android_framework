@@ -2,7 +2,10 @@ package com.android.libcore_ui.webview;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.os.Bundle;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,39 +17,40 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.android.libcore.Toast.T;
 import com.android.libcore.dialog.BaseDialog;
+import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
-import com.android.libcore_ui.activity.BaseFragment;
 import com.android.libcore_ui.dialog.DialogFactory;
 
-import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 /**
- * Description: 最基本的webFragment，可以作为fragment嵌入activity的任何部分
+ * Description: WebView显示fragment
  *
  * @author zzp(zhao_zepeng@hotmail.com)
- * @since 2015-08-03
+ * @since 2015-07-27
  */
-public class WebFragment extends BaseFragment{
-    public static final String EXTRA_URL = "extra_url";
+public class WebActivityFragment extends WebFragment{
+    private ProgressBar pb_bar;
+    private InnerFrameworkWebViewClient webViewClient = new InnerFrameworkWebViewClient();
+    private InnerFrameworkChromeClient chromeClient = new InnerFrameworkChromeClient();
 
-    protected WebView webView;
-    protected FrameworkWebViewClient webViewClient = new FrameworkWebViewClient();
-    protected FrameworkChromeClient chromeClient = new FrameworkChromeClient();
-
-    protected String url;
+    /** 因为onReceivedTitle方法在goBack时不会调用，所以用一个list存储title */
+    private ArrayList<String> titles = new ArrayList<>();
     @Override
     protected View setContentView(LayoutInflater inflater, @Nullable ViewGroup container) {
-        return new WebView(activity);
+        return inflater.inflate(R.layout.fragment_web_layout, container, false);
     }
 
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initView() {
-        webView = (WebView) viewContainer;
+        pb_bar = (ProgressBar) findViewById(R.id.pb_bar);
+        webView = (WebView) findViewById(R.id.wb_content);
         webView.setWebViewClient(webViewClient);
         webView.setWebChromeClient(chromeClient);
 
@@ -54,54 +58,23 @@ public class WebFragment extends BaseFragment{
         //设置网页大小自适应
         settings.setUseWideViewPort(true);
         settings.setLoadWithOverviewMode(true);
+        //支持缩放
+        settings.setBuiltInZoomControls(true);
+        settings.setSupportZoom(true);
+        //隐藏缩放栏
+        if (Build.VERSION.SDK_INT >= 11)
+            settings.setDisplayZoomControls(false);
         //支持js
         settings.setJavaScriptEnabled(true);
     }
 
     @Override
     protected void initData() {
-        Bundle data = getArguments();
-        url = data.getString(EXTRA_URL);
         if (url != null)
             webView.loadUrl(url);
     }
 
-    /**
-     * 加载url
-     */
-    public void loadUrl(String url){
-        this.url = url;
-    }
-
-    /**
-     * 能否返回上一个页面
-     */
-    public boolean canGoBack(){
-        return webView.canGoBack();
-    }
-
-    /**
-     * 返回上一个页面
-     */
-    public void goBack(){
-        webView.goBack();
-    }
-
-    /**
-     * 刷新webview
-     */
-    public void refresh(){
-        webView.reload();
-    }
-
-    /**
-     * 停止加载
-     */
-    public void stopLoading(){
-        webView.stopLoading();
-    }
-
-    private class FrameworkWebViewClient extends WebViewClient {
+    private class InnerFrameworkWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -111,12 +84,47 @@ public class WebFragment extends BaseFragment{
         }
 
         @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            Message msg = Message.obtain();
+            msg.what = 1;
+            sendMessageToActivity(msg);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            Message msg = Message.obtain();
+            msg.what = 2;
+            sendMessageToActivity(msg);
+        }
+
+        @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
     }
 
-    private class FrameworkChromeClient extends WebChromeClient {
+    private class InnerFrameworkChromeClient extends WebChromeClient {
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            if (newProgress == 100)
+                pb_bar.setVisibility(View.GONE);
+            else
+                pb_bar.setVisibility(View.VISIBLE);
+            pb_bar.setProgress(newProgress);
+        }
+
+        @Override
+        public void onReceivedIcon(WebView view, Bitmap icon) {
+            BitmapDrawable drawable = new BitmapDrawable(getResources(), icon);
+            drawable.setBounds(0, 0, CommonUtils.dp2px(20), CommonUtils.dp2px(20));
+//            setTitle.setCompoundDrawables(drawable, null, null, null);
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            titles.add(" "+title);
+            setTitle(" " + title);
+        }
 
         //js警告框
         @Override
@@ -164,32 +172,6 @@ public class WebFragment extends BaseFragment{
             dialog.setCanceledOnTouchOutside(false);
             dialog.show();
             return true;
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        invokeMethod("onResume");
-        webView.resumeTimers();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        //当页面不可见时，停止内核所有的动作，省电，省流量等
-        invokeMethod("onPause");
-        //不仅仅针对当前的webview而是全局的全应用程序的webview，它会暂停所有webview的layout，parsing，javascript timer，降低CPU功耗。
-        webView.pauseTimers();
-    }
-
-    protected void invokeMethod(String method){
-        try {
-            Method m = WebView.class.getMethod(method);
-            m.setAccessible(true);
-            m.invoke(webView);
-        }catch (Exception e){
-            e.printStackTrace();
         }
     }
 }

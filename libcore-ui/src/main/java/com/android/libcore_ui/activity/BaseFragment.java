@@ -26,8 +26,10 @@ public abstract class BaseFragment extends RootFragment{
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity = (BaseActivity) activity;
-        top_bar = ((BaseActivity)activity).top_bar;
+        if (activity instanceof BaseActivity) {
+            this.activity = (BaseActivity) activity;
+            top_bar = ((BaseActivity) activity).top_bar;
+        }
     }
 
     @Override
