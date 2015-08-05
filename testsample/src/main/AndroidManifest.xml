@@ -66,11 +66,11 @@
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.android.sample.test_utils.UtilsActivity"
-                  android:label="@string/activity_test_webview"
+                  android:label="@string/activity_test_utils"
                   android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.android.sample.test_utils.FileActivity"
-                  android:label="@string/activity_test_webview"
+                  android:label="@string/activity_test_file_utils"
                   android:screenOrientation="portrait">
         </activity>
 

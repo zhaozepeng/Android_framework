@@ -61,7 +61,8 @@ public class WebFragment extends BaseFragment{
     @Override
     protected void initData() {
         Bundle data = getArguments();
-        url = data.getString(EXTRA_URL);
+        if (data != null)
+            url = data.getString(EXTRA_URL);
         if (url != null)
             webView.loadUrl(url);
     }

@@ -90,8 +90,9 @@ public class FileUtils {
     public static String getExternalStorageImagePath(){
         ExternalStorageType type = ExternalStorageType.IMAGE;
         String path = type.getFilePath(getExternalStoragePath());
+        String result = checkAndCreateChildDirectory(path);
         checkAndCreateNoMedia(path);
-        return checkAndCreateChildDirectory(path);
+        return result;
     }
 
     /**
@@ -107,8 +108,9 @@ public class FileUtils {
     public static String getExternalStorageVoicePath(){
         ExternalStorageType type = ExternalStorageType.VOICE;
         String path = type.getFilePath(getExternalStoragePath());
+        String result = checkAndCreateChildDirectory(path);
         checkAndCreateNoMedia(path);
-        return checkAndCreateChildDirectory(path);
+        return result;
     }
 
     /**
@@ -124,8 +126,9 @@ public class FileUtils {
     public static String getExternalStorageVideoPath(){
         ExternalStorageType type = ExternalStorageType.VIDEO;
         String path = type.getFilePath(getExternalStoragePath());
+        String result = checkAndCreateChildDirectory(path);
         checkAndCreateNoMedia(path);
-        return checkAndCreateChildDirectory(path);
+        return result;
     }
 
     /**
