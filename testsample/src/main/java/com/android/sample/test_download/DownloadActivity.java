@@ -44,11 +44,17 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_start:
-                manager.startDownload();
+                manager.start();
                 break;
             case R.id.btn_stop:
-                manager.stopDownload();
+                manager.stop();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        manager.stop();
+        super.onDestroy();
     }
 }

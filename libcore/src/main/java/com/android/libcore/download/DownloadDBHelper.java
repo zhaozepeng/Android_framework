@@ -14,16 +14,20 @@ import java.util.HashMap;
 public class DownloadDBHelper extends BaseDBHelper{
 
     /**
-     * 插入一个线程的下载信息
+     * 一次性插入大量数据
      */
-    public void insertInfo(String url, long startPos, long endPos, long completeSize){
+    public void insertInfos(String url, ArrayList<FileDownloadManager.DownloadInfo> infos){
         ArrayList<String> columns = DownloadDB.TABLES.DOWNLOAD.getTableColumns();
-        HashMap<String, String> map = new HashMap<>();
-        map.put(columns.get(1), url);
-        map.put(columns.get(2), startPos+"");
-        map.put(columns.get(3), endPos+"");
-        map.put(columns.get(4), completeSize+"");
-        insert(map, false);
+        ArrayList<HashMap<String, String>> lists = new ArrayList<>();
+        for (FileDownloadManager.DownloadInfo info : infos){
+            HashMap<String, String> map = new HashMap<>();
+            map.put(columns.get(1), url);
+            map.put(columns.get(2), info.startPos+"");
+            map.put(columns.get(3), info.endPos+"");
+            map.put(columns.get(4), info.completeSize+"");
+            lists.add(map);
+        }
+        insertAll(lists, false);
     }
 
     /**
@@ -39,13 +43,29 @@ public class DownloadDBHelper extends BaseDBHelper{
     /**
      * 更新该线程下载的完成度
      */
-    public void updateInfo(int id, String url, long completeSize){
+    public void updateInfos(String url, ArrayList<FileDownloadManager.DownloadInfo> infos){
         ArrayList<String> columns = DownloadDB.TABLES.DOWNLOAD.getTableColumns();
         HashMap<String, String> maps = new HashMap<>();
-        maps.put(columns.get(4), completeSize+"");
-        String whereClause = columns.get(0)+"=? and "+columns.get(1)+"=?";
-        String[] whereArgs = new String[]{id+"", url};
-        update(maps, whereClause, whereArgs);
+
+        initUpdateDB();
+        if (db == null)
+            return;
+        try {
+            db.beginTransaction();
+            for (FileDownloadManager.DownloadInfo info : infos){
+                maps.clear();
+                maps.put(columns.get(4), info.completeSize+"");
+                String whereClause = columns.get(0)+"=? and "+columns.get(1)+"=?";
+                String[] whereArgs = new String[]{info.id+"", url};
+                db.update(maps, whereClause, whereArgs);
+            }
+            db.setTransactionSuccessful();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            db.endTransaction();
+            db.close();
+        }
     }
 
     /**

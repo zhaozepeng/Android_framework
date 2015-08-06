@@ -6,7 +6,8 @@ import java.util.HashMap;
 /**
  * Description: 所有数据库操作的操作封装类，在此可以封装单次的插入操作，也可以封装大量数据的一次插入，
  * 其他类只能通过helper的子类进行数据库的操作，不能直接操作数据库，每一个数据库对应一个数据库helper，
- * 这样就能够保证数据库访问的统一性，以便以后的数据库修改
+ * 这样就能够保证数据库访问的统一性，以便以后的数据库修改，继承自该helper类之后也可增加方法去操作
+ * {@link #db}
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-21
@@ -72,6 +73,9 @@ public abstract class BaseDBHelper {
         return count;
     }
 
+    /**
+     * 删除
+     */
     protected long delete(String selection, String[] selectionArgs){
         initDeleteDB();
         if (db == null)
@@ -90,6 +94,9 @@ public abstract class BaseDBHelper {
         return count;
     }
 
+    /**
+     * 修改
+     */
     protected long update(HashMap<String, String> maps, String whereClause, String[] whereArgs){
         initUpdateDB();
         if (db == null)
