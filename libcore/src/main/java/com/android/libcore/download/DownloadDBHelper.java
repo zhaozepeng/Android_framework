@@ -31,16 +31,6 @@ public class DownloadDBHelper extends BaseDBHelper{
     }
 
     /**
-     * 将该url的下载信息全部删除，代表该文件已经下载完成
-     */
-    public void deleteInfo(String url){
-        ArrayList<String> columns = DownloadDB.TABLES.DOWNLOAD.getTableColumns();
-        String selection = columns.get(1)+"=?";
-        String[] selectionArgs  = new String[]{url};
-        delete(selection, selectionArgs);
-    }
-
-    /**
      * 更新该线程下载的完成度
      */
     public void updateInfos(String url, ArrayList<FileDownloadManager.DownloadInfo> infos){

@@ -88,6 +88,7 @@ public class FileDownloadManager {
         if (isDownloadFinish || isFileDownloadFinish(maps)){
             isDownloadFinish = true;
             T.getInstance().showShort("文件已下载完成");
+            return;
         }
         downloadState = true;
 
@@ -133,6 +134,7 @@ public class FileDownloadManager {
      */
     private void createDownloadInfos(){
         try {
+            //TODO 获取文件大小超级慢
             URL url = new URL(FileDownloadManager.this.url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setConnectTimeout(5000);
@@ -272,32 +274,30 @@ public class FileDownloadManager {
 
         @Override
         public void run() {
-            L.e("1");
+            //TODO 文件超过１００Ｍ，会停止
+            L.e("下载"+info.startPos+"   "+info.endPos+"  ");
             HttpURLConnection connection = null;
             RandomAccessFile randomAccessFile = null;
             InputStream is = null;
             try {
-                L.e("2");
                 URL url = new URL(FileDownloadManager.this.url);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setConnectTimeout(5000);
                 connection.setRequestMethod("GET");
+                //TODO 确定字节的确定范围
                 // 设置范围，格式为Range：bytes x-y;
-                connection.setRequestProperty("Range", "bytes="+(info.startPos + info.completeSize) + "-" + info.endPos);
+                connection.setRequestProperty("Range", "bytes=" + (info.startPos + info.completeSize) + "-" + info.endPos);
 
-                L.e("3");
                 randomAccessFile = new RandomAccessFile(path, "rwd");
                 randomAccessFile.seek(info.startPos + info.completeSize);
                 // 将要下载的字节写到上次写的末尾
                 is = connection.getInputStream();
                 byte[] buffer = new byte[1024 * 8];
-                L.e("4");
                 int length;
-                L.e("5");
                 while ((length = is.read(buffer)) != -1) {
-                    L.e("正在下载");
                     randomAccessFile.write(buffer, 0, length);
                     info.completeSize += length;
+                    L.e("完成"+info.completeSize+"   "+info.endPos);
                     if (!downloadState)
                         break;
                 }
