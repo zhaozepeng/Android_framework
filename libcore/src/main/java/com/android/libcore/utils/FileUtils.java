@@ -15,10 +15,13 @@ import java.io.IOException;
  * <strong>image,voice,video目录下会有.nomedia文件来屏蔽系统扫描</strong>
  *
  * <ul>
+ *     <li>{@link #checkAndCreateFile(String)}根据path创建文件</li>
  *     <li>{@link #getExternalStoragePath()}获取SD卡根目录，不要在此进行操作以防污染主目录</li>
  *     <li>{@link #getExternalStorageTempPath()}获取SD卡主目录下缓存目录</li>
  *     <li>{@link #createFileInImageDirectory(String)}在temp目录下创建文件并返回</li>
  *     <li>{@link #clearExternalStorageTemp()}应用退出之后删除temp目录</li>
+ *     <li>{@link #getExternalStorageFilePath()} 获取SD卡主目录下文件目录</li>
+ *     <li>{@link #createFileInFileDirectory(String)} 在file目录下创建文件并返回</li>
  *     <li>{@link #getExternalStorageImagePath()}获取SD卡主目录下图片目录</li>
  *     <li>{@link #createFileInImageDirectory(String)}在image目录下创建文件并返回</li>
  *     <li>{@link #getExternalStorageVoicePath()}获取SD卡主目录下声音目录</li>
@@ -81,6 +84,21 @@ public class FileUtils {
             for (File temp : files)
                 temp.delete();
         }
+    }
+
+    /**
+     * 获取外部文件目录，过大会自动删除
+     */
+    public static String getExternalStorageFilePath(){
+        ExternalStorageType type = ExternalStorageType.FILE;
+        return checkAndCreateChildDirectory(type.getFilePath(getExternalStoragePath()));
+    }
+
+    /**
+     * 在外部{@link #getExternalStorageFilePath()}目录下创建文件，
+     */
+    public static File createFileInFileDirectory(String filename){
+        return checkAndCreateFile(getExternalStorageTempPath() + filename);
     }
 
     /**
@@ -177,7 +195,7 @@ public class FileUtils {
      * 所有在外部存储目录下的子目录都需要在此定义文件夹名
      */
     public enum ExternalStorageType{
-        TEMP("temp"),IMAGE("image"),VOICE("voice"),VIDEO("video"),HTML("html");
+        TEMP("temp"),FILE("file"),IMAGE("image"),VOICE("voice"),VIDEO("video"),HTML("html");
 
         private String typeName;
         ExternalStorageType(String typeName){
@@ -203,7 +221,7 @@ public class FileUtils {
     /**
      * 检测并且创建文件
      */
-    private static File checkAndCreateFile(String path){
+    public static File checkAndCreateFile(String path){
         File file = new File(path);
         if (!file.exists())
             try {

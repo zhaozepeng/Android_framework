@@ -1,4 +1,4 @@
-package com.android.libcore_ui.permanentdbcache;
+package com.android.libcore.download;
 
 import android.database.sqlite.SQLiteDatabase;
 
@@ -9,20 +9,20 @@ import com.android.libcore.log.L;
 import java.util.ArrayList;
 
 /**
- * Description: 缓存{@link PermanentCacheDBHelper}的数据库表
+ * Description: 保存下载信息的数据库
  *
  * @author zzp(zhao_zepeng@hotmail.com)
- * @since 2015-07-20
+ * @since 2015-08-05
  */
-public class PermanentCacheDB extends BaseDB{
+public class DownloadDB extends BaseDB{
 
-    public PermanentCacheDB(IBaseDBTableEnum table, boolean writable) {
+    public DownloadDB(IBaseDBTableEnum table, boolean writable) {
         super(table, writable);
     }
 
     @Override
     protected String getDBName() {
-        return "permanentCache.db";
+        return "download.db";
     }
 
     @Override
@@ -35,9 +35,12 @@ public class PermanentCacheDB extends BaseDB{
         try {
             db.beginTransaction();
             String sql;
-            sql = "create table cache_" + getDBVersion() + " (";
-            sql += "key varchar(40) not null primary key default '', ";
-            sql += "value varchar(4000) not null default ''";
+            sql = "create table download_" + getDBVersion() + " (";
+            sql += "id integer not null default '0', ";
+            sql += "url varchar(4000) not null default '', ";
+            sql += "start_pos varchar(50) not null default '0', ";
+            sql += "end_pos varchar(50) not null default '0', ";
+            sql += "complete_size varchar(50) not null default '0'";
             sql += ")";
             db.execSQL(sql);
             db.setTransactionSuccessful();
@@ -50,28 +53,22 @@ public class PermanentCacheDB extends BaseDB{
 
     @Override
     protected void onDBUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        switch (oldVersion){
-            case 1:
-                L.e("我要升级到2");
-                break;
-            case 2:
-                L.e("我要升级到3");
-                break;
-            default:
-                break;
-        }
+
     }
 
     /**
      * 将该数据库中所有的表使用枚举封装
      */
     public enum TABLES implements IBaseDBTableEnum{
-        CACHE("cache"){
+        DOWNLOAD("download"){
             @Override
             public ArrayList<String> getTableColumns() {
                 ArrayList<String> columns = new ArrayList<>();
-                columns.add("key");//键
-                columns.add("value");//值
+                columns.add("id");//id
+                columns.add("url");//下载url
+                columns.add("start_pos");//该线程开始位置
+                columns.add("end_pos");//该线程结束位置
+                columns.add("complete_size");//线程当前完成的数
                 return columns;
             }
         };

@@ -13,6 +13,7 @@ import com.android.sample.test_activity.ActivityTestHomePage;
 import com.android.sample.test_cache.CacheActivity;
 import com.android.sample.test_db.DBActivity;
 import com.android.sample.test_dialog.DialogActivity;
+import com.android.sample.test_download.DownloadActivity;
 import com.android.sample.test_guide.GuideActivity;
 import com.android.sample.test_utils.UtilsActivity;
 import com.android.sample.test_webview.WebViewActivity;
@@ -39,6 +40,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     private Button btn_test_cache;
     /** 测试webview */
     private Button btn_test_webview;
+    /** 测试断点续传 */
+    private Button btn_test_download;
     /** 测试utils */
     private Button btn_test_utils;
     /** 底部的代替navigation bar */
@@ -55,6 +58,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         btn_test_db = (Button) findViewById(R.id.btn_test_db);
         btn_test_cache = (Button) findViewById(R.id.btn_test_cache);
         btn_test_webview = (Button) findViewById(R.id.btn_test_webview);
+        btn_test_download = (Button) findViewById(R.id.btn_test_download);
         btn_test_utils = (Button) findViewById(R.id.btn_test_utils);
         fl_navigation = (FrameLayout) findViewById(R.id.fl_navigation);
         btn_test_activity.setOnClickListener(this);
@@ -64,6 +68,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         btn_test_cache.setOnClickListener(this);
         btn_test_webview.setOnClickListener(this);
         btn_test_utils.setOnClickListener(this);
+        btn_test_download.setOnClickListener(this);
         tv_info = (TextView) findViewById(R.id.tv_info);
         //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
         setTitle("主页");
@@ -103,6 +108,9 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_test_webview:
                 intent.setClass(this, WebViewActivity.class);
+                break;
+            case R.id.btn_test_download:
+                intent.setClass(this, DownloadActivity.class);
                 break;
             case R.id.btn_test_utils:
                 intent.setClass(this, UtilsActivity.class);

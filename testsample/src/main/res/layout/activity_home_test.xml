@@ -49,6 +49,13 @@
             android:background="@drawable/button_homepage_selector"
             android:text="测试webview"/>
         <Button
+            android:id="@+id/btn_test_download"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_homepage_selector"
+            android:text="测试断点续传"/>
+        <Button
             android:id="@+id/btn_test_utils"
             android:layout_width="match_parent"
             android:layout_height="50dp"

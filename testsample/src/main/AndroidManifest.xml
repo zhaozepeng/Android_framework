@@ -65,6 +65,10 @@
                   android:label="@string/activity_test_webview"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.android.sample.test_download.DownloadActivity"
+                  android:label="@string/activity_test_download"
+                  android:screenOrientation="portrait">
+        </activity>
         <activity android:name="com.android.sample.test_utils.UtilsActivity"
                   android:label="@string/activity_test_utils"
                   android:screenOrientation="portrait">
