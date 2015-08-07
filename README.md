@@ -27,6 +27,7 @@
 <li>dialog类，定义了一个应用dialog所应该具备的基础行为</li>
 <li>database类，将数据库类进行了非常便捷的封装，创建数据库应该继承自BaseDB类，为了该数据库的访问应该再创建一个helper类继承自BaseDBHelper，封装该数据库的所有操作，另外还需要对表名和列名进行了枚举的封装，这样使用该数据库直接使用该枚举类获取表名和表的相关列名。对数据库的版本升级也做了相应快捷的处理</li>
 <li>CacheManager类，这个类使用SharedPreference来存储基本对象，有临时和永久两种，临时存储将会在每次应用退出之后自动清空，永久存储则永久存储</li>
+<li>DownloadManager类，用来下载相关文件，为多线程断点续传式下载，功能更全</li>
 <li>Utils类：
 <ul>
 <li>CommonUtils，用来集中管理一些杂项函数，比如dp2px等</li>
