@@ -357,7 +357,6 @@ public class FileDownloadManager {
     }
 
     private void finishDownload(){
-        currentState = STATE_FINISH;
         downloadState = false;
         isDownloadFinish = true;
         progressChangeHandler.sendEmptyMessage(STATE_FINISH);
@@ -390,6 +389,7 @@ public class FileDownloadManager {
             }
             //下载状态更新
             else {
+                L.e("state"+msg.what);
                 if (currentState != msg.what){
                     currentState = msg.what;
                     if (activityWeakReference.get().listener != null)
