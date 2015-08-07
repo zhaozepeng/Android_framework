@@ -7,6 +7,8 @@ import com.android.libcore.Toast.T;
 import com.android.libcore.log.L;
 import com.android.libcore.utils.FileUtils;
 
+import org.apache.http.HttpResponse;
+
 import java.io.File;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
@@ -39,7 +41,7 @@ public class FileDownloadManager {
     private static int currentState = STATE_STOPED;
 
     /** 下载一个文件所开启的线程数量 */
-    private final int THREAD_NUM = 1;
+    private final int THREAD_NUM = 4;
     /** 下载一个文件的所有线程信息 */
     private ArrayList<DownloadInfo> infos;
     /** 开始下载线程 */
@@ -220,7 +222,7 @@ public class FileDownloadManager {
                         }
                     }
                     try {
-                        Thread.sleep(100);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -243,18 +245,13 @@ public class FileDownloadManager {
         try {
             //更新状态为正在获取文件大小
             progressChangeHandler.sendEmptyMessage(STATE_GETSIZE);
-            //TODO 获取文件大小很慢
-            long time = System.currentTimeMillis();
             URL url = new URL(FileDownloadManager.this.url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setConnectTimeout(5*1000);
+            conn.setConnectTimeout(5 * 1000);
             conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-            conn.setRequestProperty("Accept-Language", "zh-CN");
-            conn.setRequestProperty("Referer", FileDownloadManager.this.url);
-            conn.setRequestProperty("Charset", "UTF-8");
-            conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-            conn.setRequestProperty("Connection", "Keep-Alive");
+            //添加这句话，要不然disconnect()会花费很多时间
+            conn.setRequestMethod("HEAD");
+            conn.setAllowUserInteraction(true);
             conn.connect();
             if (conn.getResponseCode()==200) {
                 fileSize = conn.getContentLength();
@@ -264,8 +261,9 @@ public class FileDownloadManager {
                 accessFile.setLength(fileSize);
                 accessFile.close();
             }
+            long time = System.currentTimeMillis();
             conn.disconnect();
-            L.e("get size time = "+(System.currentTimeMillis()-time));
+            L.e("get size time 333333= "+(System.currentTimeMillis()-time));
         } catch (Exception e) {
             e.printStackTrace();
             T.getInstance().showShort("获取文件长度发生错误");
@@ -413,7 +411,7 @@ public class FileDownloadManager {
         public int id;
         public long startPos;
         public long endPos;
-        public long completeSize;
+        public volatile long completeSize;
     }
 
     /**
@@ -433,25 +431,18 @@ public class FileDownloadManager {
         @Override
         public void run() {
             //TODO 文件超过１００Ｍ，会停止
-            L.e("下载"+info.startPos+"   "+info.endPos+"  ");
             HttpURLConnection connection = null;
             RandomAccessFile randomAccessFile = null;
             InputStream is = null;
             try {
                 URL url = new URL(FileDownloadManager.this.url);
                 connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(5000);
+                connection.setConnectTimeout(2000);
                 connection.setRequestMethod("GET");
+                connection.setAllowUserInteraction(true);
 
                 // 设置范围，格式为Range：bytes x-y;
-                connection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-                connection.setRequestProperty("Accept-Language", "zh-CN");
-                connection.setRequestProperty("Referer", FileDownloadManager.this.url);
-                connection.setRequestProperty("Charset", "UTF-8");
                 connection.setRequestProperty("Range", "bytes=" + (info.startPos + info.completeSize) + "-" + info.endPos);
-                connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR " +
-                        "2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-                connection.setRequestProperty("Connection", "Keep-Alive");
                 randomAccessFile = new RandomAccessFile(path, "rwd");
                 randomAccessFile.seek(info.startPos + info.completeSize);
                 // 将要下载的字节写到上次写的末尾
@@ -471,13 +462,10 @@ public class FileDownloadManager {
             } finally {
                 try {
                     long time = System.currentTimeMillis();
-                    L.e("time" + time);
+                    //android 4.x disconnect或者close会耗费很长的时间，解决了很长时间，暂未找到方法，有的联系我
                     is.close();
-                    L.e("1-----" + (System.currentTimeMillis() - time));
                     randomAccessFile.close();
-                    L.e("2-----" + (System.currentTimeMillis() - time));
                     connection.disconnect();
-                    L.e("3-----" + (System.currentTimeMillis() - time));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
