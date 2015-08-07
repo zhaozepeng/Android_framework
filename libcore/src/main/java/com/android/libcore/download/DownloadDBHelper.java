@@ -27,7 +27,7 @@ public class DownloadDBHelper extends BaseDBHelper{
             map.put(columns.get(4), info.completeSize+"");
             lists.add(map);
         }
-        insertAll(lists, false);
+        insertAll(lists, true);
     }
 
     /**

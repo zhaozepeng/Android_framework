@@ -36,7 +36,7 @@ public class DownloadDB extends BaseDB{
             db.beginTransaction();
             String sql;
             sql = "create table download_" + getDBVersion() + " (";
-            sql += "id integer not null default '0', ";
+            sql += "id integer not null primary key autoincrement, ";
             sql += "url varchar(4000) not null default '', ";
             sql += "start_pos varchar(50) not null default '0', ";
             sql += "end_pos varchar(50) not null default '0', ";

@@ -7,8 +7,6 @@ import com.android.libcore.Toast.T;
 import com.android.libcore.log.L;
 import com.android.libcore.utils.FileUtils;
 
-import org.apache.http.HttpResponse;
-
 import java.io.File;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
@@ -222,11 +220,10 @@ public class FileDownloadManager {
                         }
                     }
                     try {
-                        Thread.sleep(1000);
+                        Thread.sleep(100);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    L.e("下载线程还未结束");
                     //还有线程在执行，所以状态还为正在停止中
                     progressChangeHandler.sendEmptyMessage(STATE_STOPING);
                 }
@@ -261,9 +258,7 @@ public class FileDownloadManager {
                 accessFile.setLength(fileSize);
                 accessFile.close();
             }
-            long time = System.currentTimeMillis();
             conn.disconnect();
-            L.e("get size time 333333= "+(System.currentTimeMillis()-time));
         } catch (Exception e) {
             e.printStackTrace();
             T.getInstance().showShort("获取文件长度发生错误");
@@ -287,8 +282,8 @@ public class FileDownloadManager {
             //下一个任务的开始位置要＋１
             startPos ++;
             infos.add(info);
-            helper.insertInfos(url, infos);
         }
+        helper.insertInfos(url, infos);
     }
 
     /**
