@@ -103,9 +103,7 @@ public class FileDownloadManager {
     public boolean checkFileFinish(){
         if (isDownloadFinish || isFileDownloadFinish(helper.getInfo(url))){
             isDownloadFinish = true;
-            Message msg = Message.obtain();
-            msg.what = STATE_FINISH;
-            progressChangeHandler.sendMessage(msg);
+            progressChangeHandler.sendEmptyMessage(STATE_FINISH);
             return true;
         }
         return false;
@@ -177,19 +175,17 @@ public class FileDownloadManager {
                 }
 
                 //更新文件状态为正在下载
-                Message msg = Message.obtain();
-                msg.what = STATE_STARTING;
-                progressChangeHandler.sendMessage(msg);
+                progressChangeHandler.sendEmptyMessage(STATE_STARTING);
 
                 //上次的线程完成之后才能开启新的下载线程开始下载
+                threads.clear();
                 for (DownloadInfo info : infos){
                     DownloadThread thread = new DownloadThread(info);
                     threads.add(thread);
-                    thread.start();
                 }
+                L.e("准备开启下载线程");
 
-                updateThread = new UpdateThread();
-                updateThread.run();
+                progressChangeHandler.sendEmptyMessage(-1);
             }
         });
         startDownloadThread.start();
@@ -209,9 +205,7 @@ public class FileDownloadManager {
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    Message msg = Message.obtain();
-                    msg.what = STATE_STOPING;
-                    progressChangeHandler.sendMessage(msg);
+                    progressChangeHandler.sendEmptyMessage(STATE_STOPING);
                     state = (startDownloadThread!=null&&startDownloadThread.isAlive());
                 }
 
@@ -232,15 +226,11 @@ public class FileDownloadManager {
                     }
                     L.e("下载线程还未结束");
                     //还有线程在执行，所以状态还为正在停止中
-                    Message msg = Message.obtain();
-                    msg.what = STATE_STOPING;
-                    progressChangeHandler.sendMessage(msg);
+                    progressChangeHandler.sendEmptyMessage(STATE_STOPING);
                 }
 
                 //确保开始线程和下载线程都已经执行完成之后才能将状态修改为停止成功
-                Message msg = Message.obtain();
-                msg.what = STATE_STOPED;
-                progressChangeHandler.sendMessage(msg);
+                progressChangeHandler.sendEmptyMessage(STATE_STOPED);
             }
         });
         stopDownloadThread.start();
@@ -252,10 +242,9 @@ public class FileDownloadManager {
     private void createDownloadInfos(){
         try {
             //更新状态为正在获取文件大小
-            Message msg = Message.obtain();
-            msg.what = STATE_GETSIZE;
-            progressChangeHandler.sendMessage(msg);
-
+            progressChangeHandler.sendEmptyMessage(STATE_GETSIZE);
+            //TODO 获取文件大小很慢
+            long time = System.currentTimeMillis();
             URL url = new URL(FileDownloadManager.this.url);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setConnectTimeout(5*1000);
@@ -276,6 +265,7 @@ public class FileDownloadManager {
                 accessFile.close();
             }
             conn.disconnect();
+            L.e("get size time = "+(System.currentTimeMillis()-time));
         } catch (Exception e) {
             e.printStackTrace();
             T.getInstance().showShort("获取文件长度发生错误");
@@ -362,6 +352,26 @@ public class FileDownloadManager {
         void onStateChanged(int state);
     }
 
+    /**
+     * 开启更新界面线程和开启下载线程
+     */
+    private void startThreads(){
+        //准备开启线程
+        updateThread = new UpdateThread();
+        updateThread.start();
+        for (Thread thread : threads)
+            thread.start();
+    }
+
+    private void finishDownload(){
+        currentState = STATE_FINISH;
+        downloadState = false;
+        isDownloadFinish = true;
+        progressChangeHandler.sendEmptyMessage(STATE_FINISH);
+        if (updateThread!=null && updateThread.isAlive())
+            updateThread.canRun = false;
+    }
+
     private static class ProgressChangeHandler extends Handler{
         private WeakReference<FileDownloadManager> activityWeakReference;
 
@@ -371,11 +381,14 @@ public class FileDownloadManager {
 
         @Override
         public void handleMessage(Message msg) {
+            if (msg.what == -1){
+                L.e("开启线程");
+                activityWeakReference.get().startThreads();
+            }
             //下载进度更新
-            if (msg.what == 0) {
+            else if (msg.what == 0) {
                 if (activityWeakReference.get().getCompleteSize() >= activityWeakReference.get().fileSize) {
-                    activityWeakReference.get().downloadState = false;
-                    activityWeakReference.get().isDownloadFinish = true;
+                    activityWeakReference.get().finishDownload();
                     T.getInstance().showShort("下载完成");
                 }
                 if (activityWeakReference.get().listener != null)
@@ -448,16 +461,23 @@ public class FileDownloadManager {
                 while ((length = is.read(buffer)) != -1) {
                     randomAccessFile.write(buffer, 0, length);
                     info.completeSize += length;
-                    if (!downloadState)
+                    if (!downloadState) {
+                        L.e("我到里面来了");
                         break;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
+                    long time = System.currentTimeMillis();
+                    L.e("time" + time);
                     is.close();
+                    L.e("1-----" + (System.currentTimeMillis() - time));
                     randomAccessFile.close();
+                    L.e("2-----" + (System.currentTimeMillis() - time));
                     connection.disconnect();
+                    L.e("3-----" + (System.currentTimeMillis() - time));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -477,11 +497,9 @@ public class FileDownloadManager {
                 while (canRun) {
                     // 更新数据库中的下载信息
                     helper.updateInfos(url, infos);
+                    L.e("更新界面  " + getCompleteSize() + "   fileSize" + fileSize);
                     //更新界面
-                    Message msg = Message.obtain();
-                    msg.what = 0;
-                    progressChangeHandler.sendMessage(msg);
-                    L.e("更新界面  "+getCompleteSize());
+                    progressChangeHandler.sendEmptyMessage(0);
                     //每隔１秒操作数据库和更新界面，防止频繁的更新
                     try {
                         Thread.sleep(1000);
