@@ -17,6 +17,7 @@ import com.android.libcore_ui.activity.BaseActivity;
 public class DownloadActivity extends BaseActivity implements View.OnClickListener{
     ProgressBar pb_bar;
     TextView tv_progress;
+    TextView tv_state;
     FileDownloadManager manager;
 
     @Override
@@ -24,18 +25,24 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
         setContentViewSrc(R.layout.activity_test_download);
         pb_bar = (ProgressBar) findViewById(R.id.pb_bar);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
+        tv_state = (TextView) findViewById(R.id.tv_state);
         findViewById(R.id.btn_start).setOnClickListener(this);
         findViewById(R.id.btn_stop).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        manager = new FileDownloadManager("http://gdown.baidu.com/data/wisegame/1ef00e0a000f22d1/QQ_260.apk", "a.apk");
+        manager = new FileDownloadManager("http://125.91.249.24/ws.acgvideo.com/b/37/4194276-1.mp4?wsTime=1438884300&wsSecret=f92d8726706bcbe09cfd1ce27bc24055&wshc_tag=0&wsts_tag=55c331ae&wsid_tag=77894933&wsiphost=ipdbm", "a.apk");
         manager.setListener(new FileDownloadManager.IDownloadProgressChangedListener() {
             @Override
             public void onProgressChanged(long completeSize, long totalSize) {
                 pb_bar.setProgress((int) ((completeSize*1.0/totalSize*1.0)*100));
                 tv_progress.setText(completeSize+"/"+totalSize);
+            }
+
+            @Override
+            public void onStateChanged(int state) {
+                tv_state.setText(state+"   ");
             }
         });
     }

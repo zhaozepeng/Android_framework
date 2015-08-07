@@ -2,7 +2,6 @@ package com.android.libcore.download;
 
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 
 import com.android.libcore.Toast.T;
 import com.android.libcore.log.L;
@@ -24,12 +23,33 @@ import java.util.HashMap;
  * @since 2015-08-05
  */
 public class FileDownloadManager {
+
+    /** 下载状态，正在获取文件大小 */
+    public static final int STATE_GETSIZE = 1;
+    /** 下载状态，开始下载 */
+    public static final int STATE_STARTING = 2;
+    /** 下载状态，正在停止 */
+    public static final int STATE_STOPING = 3;
+    /** 下载状态，停止成功 */
+    public static final int STATE_STOPED = 4;
+    /** 下载状态，下载完成 */
+    public static final int STATE_FINISH = 5;
+
+    /** 当前文件的下载状态，默认为停止成功，即为下载完成，且随时可以开始下载 */
+    private static int currentState = STATE_STOPED;
+
     /** 下载一个文件所开启的线程数量 */
     private final int THREAD_NUM = 1;
     /** 下载一个文件的所有线程信息 */
     private ArrayList<DownloadInfo> infos;
-    /** 下载一个文件的线程 */
+    /** 开始下载线程 */
+    private Thread startDownloadThread;
+    /** 结束下载线程，用来检测下载线程的完成程度，更新状态 */
+    private Thread stopDownloadThread;
+    /** 下载一个文件的线程队列 */
     private ArrayList<DownloadThread> threads;
+    /** 更新下载信息，更新界面线程 */
+    private UpdateThread updateThread;
     /** 数据库操作对象 */
     private DownloadDBHelper helper;
     /** 该文件下载的url */
@@ -74,26 +94,46 @@ public class FileDownloadManager {
         infos = new ArrayList<>();
         threads = new ArrayList<>();
         progressChangeHandler = new ProgressChangeHandler(this);
+        checkFileFinish();
+    }
+
+    /**
+     * 检测该文件是否已经下载完成
+     */
+    public boolean checkFileFinish(){
+        if (isDownloadFinish || isFileDownloadFinish(helper.getInfo(url))){
+            isDownloadFinish = true;
+            Message msg = Message.obtain();
+            msg.what = STATE_FINISH;
+            progressChangeHandler.sendMessage(msg);
+            return true;
+        }
+        return false;
     }
 
     /**
      * 开启下载
      */
     public void start(){
+        if (checkFileFinish()){
+            T.getInstance().showShort("文件已下载完成");
+            return;
+        }
+
         if (downloadState){
             T.getInstance().showShort("已经启动下载");
             return;
         }
-        ArrayList<HashMap<String, String>> maps = helper.getInfo(url);
-        if (isDownloadFinish || isFileDownloadFinish(maps)){
-            isDownloadFinish = true;
-            T.getInstance().showShort("文件已下载完成");
+
+        if (currentState == STATE_STOPING){
+            T.getInstance().showShort("文件还未停止成功");
             return;
         }
+
         downloadState = true;
 
         //开启下载任务
-        startDownload(maps);
+        startDownload(helper.getInfo(url));
     }
 
     /**
@@ -101,32 +141,109 @@ public class FileDownloadManager {
      */
     public void stop(){
         downloadState = false;
-        threads.clear();
+        //停止更新界面线程，一定要保证最多只有一个更新线程在执行
+        if (updateThread != null && updateThread.isAlive())
+            updateThread.canRun = false;
+
+        if (checkFileFinish()){
+            T.getInstance().showShort("文件已下载完成");
+            return;
+        }
+
+        if (currentState == STATE_STOPING){
+            T.getInstance().showShort("正在停止，稍后...");
+            return;
+        }
+
+        if (currentState == STATE_STOPED){
+            T.getInstance().showShort("已停止");
+            return;
+        }
+
+        stopDownload();
     }
 
-    /**
-     * 数据库中没有以前的下载信息，所以新建下载信息
-     */
     private void startDownload(final ArrayList<HashMap<String, String>> maps){
-        new Thread(new Runnable() {
+        startDownloadThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if (maps==null || maps.size()==0){
-                    createDownloadInfos();
-                }else{
-                    revertDownloadInfos(maps);
+                //如果没有下载信息，则需要创建
+                if (infos==null || infos.size()==0) {
+                    if (maps == null || maps.size() == 0) {
+                        createDownloadInfos();
+                    } else {
+                        revertDownloadInfos(maps);
+                    }
                 }
 
-                //开启线程开始下载
+                //更新文件状态为正在下载
+                Message msg = Message.obtain();
+                msg.what = STATE_STARTING;
+                progressChangeHandler.sendMessage(msg);
+
+                //上次的线程完成之后才能开启新的下载线程开始下载
                 for (DownloadInfo info : infos){
                     DownloadThread thread = new DownloadThread(info);
                     threads.add(thread);
                     thread.start();
                 }
-                new UpdateThread().start();
 
+                updateThread = new UpdateThread();
+                updateThread.run();
             }
-        }).start();
+        });
+        startDownloadThread.start();
+    }
+
+    private void stopDownload(){
+        stopDownloadThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //如果开始线程还未停止，比如用户摁完开始下载之后快速摁停止下载，
+                // 这时状态更新为正在停止下载，直到开始线程完成
+                boolean state = (startDownloadThread!=null&&startDownloadThread.isAlive());
+                while (state){
+                    L.e("开始线程还未结束");
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Message msg = Message.obtain();
+                    msg.what = STATE_STOPING;
+                    progressChangeHandler.sendMessage(msg);
+                    state = (startDownloadThread!=null&&startDownloadThread.isAlive());
+                }
+
+                //接着开始检测下载线程，确保下载线程要全部执行完成
+                state = threads.size()>0;
+                while(state){
+                    state = false;
+                    for (DownloadThread thread : threads){
+                        if (thread.isAlive()){
+                            state = true;
+                            break;
+                        }
+                    }
+                    try {
+                        Thread.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    L.e("下载线程还未结束");
+                    //还有线程在执行，所以状态还为正在停止中
+                    Message msg = Message.obtain();
+                    msg.what = STATE_STOPING;
+                    progressChangeHandler.sendMessage(msg);
+                }
+
+                //确保开始线程和下载线程都已经执行完成之后才能将状态修改为停止成功
+                Message msg = Message.obtain();
+                msg.what = STATE_STOPED;
+                progressChangeHandler.sendMessage(msg);
+            }
+        });
+        stopDownloadThread.start();
     }
 
     /**
@@ -134,20 +251,35 @@ public class FileDownloadManager {
      */
     private void createDownloadInfos(){
         try {
-            //TODO 获取文件大小超级慢
+            //更新状态为正在获取文件大小
+            Message msg = Message.obtain();
+            msg.what = STATE_GETSIZE;
+            progressChangeHandler.sendMessage(msg);
+
             URL url = new URL(FileDownloadManager.this.url);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setConnectTimeout(5000);
-            connection.setRequestMethod("GET");
-            fileSize = connection.getContentLength();
-            File file = FileUtils.checkAndCreateFile(path);
-            // 本地访问文件
-            RandomAccessFile accessFile = new RandomAccessFile(file, "rwd");
-            accessFile.setLength(fileSize);
-            accessFile.close();
-            connection.disconnect();
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setConnectTimeout(5*1000);
+            conn.setRequestMethod("GET");
+            conn.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
+            conn.setRequestProperty("Accept-Language", "zh-CN");
+            conn.setRequestProperty("Referer", FileDownloadManager.this.url);
+            conn.setRequestProperty("Charset", "UTF-8");
+            conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            conn.connect();
+            if (conn.getResponseCode()==200) {
+                fileSize = conn.getContentLength();
+                File file = FileUtils.checkAndCreateFile(path);
+                // 本地访问文件
+                RandomAccessFile accessFile = new RandomAccessFile(file, "rwd");
+                accessFile.setLength(fileSize);
+                accessFile.close();
+            }
+            conn.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
+            T.getInstance().showShort("获取文件长度发生错误");
+            return;
         }
 
         //开始计算每个线程下载的字节范围
@@ -159,6 +291,7 @@ public class FileDownloadManager {
             info.id = i;
             info.startPos = startPos;
             startPos += perSize;
+            startPos -= 1;
             if (startPos >= fileSize)
                 startPos = fileSize-1;
             info.endPos = startPos;
@@ -226,6 +359,7 @@ public class FileDownloadManager {
      */
     public interface IDownloadProgressChangedListener{
         void onProgressChanged(long completeSize, long totalSize);
+        void onStateChanged(int state);
     }
 
     private static class ProgressChangeHandler extends Handler{
@@ -237,14 +371,25 @@ public class FileDownloadManager {
 
         @Override
         public void handleMessage(Message msg) {
-            if (activityWeakReference.get().getCompleteSize() >= activityWeakReference.get().fileSize) {
-                activityWeakReference.get().downloadState = false;
-                activityWeakReference.get().isDownloadFinish = true;
-                T.getInstance().showShort("下载完成");
+            //下载进度更新
+            if (msg.what == 0) {
+                if (activityWeakReference.get().getCompleteSize() >= activityWeakReference.get().fileSize) {
+                    activityWeakReference.get().downloadState = false;
+                    activityWeakReference.get().isDownloadFinish = true;
+                    T.getInstance().showShort("下载完成");
+                }
+                if (activityWeakReference.get().listener != null)
+                    activityWeakReference.get().listener.onProgressChanged
+                            (activityWeakReference.get().getCompleteSize(), activityWeakReference.get().fileSize);
             }
-            if (activityWeakReference.get().listener != null)
-                activityWeakReference.get().listener.onProgressChanged
-                        (activityWeakReference.get().getCompleteSize(), activityWeakReference.get().fileSize);
+            //下载状态更新
+            else {
+                if (currentState != msg.what){
+                    currentState = msg.what;
+                    if (activityWeakReference.get().listener != null)
+                        activityWeakReference.get().listener.onStateChanged(currentState);
+                }
+            }
         }
     }
 
@@ -284,10 +429,16 @@ public class FileDownloadManager {
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setConnectTimeout(5000);
                 connection.setRequestMethod("GET");
-                //TODO 确定字节的确定范围
-                // 设置范围，格式为Range：bytes x-y;
-                connection.setRequestProperty("Range", "bytes=" + (info.startPos + info.completeSize) + "-" + info.endPos);
 
+                // 设置范围，格式为Range：bytes x-y;
+                connection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
+                connection.setRequestProperty("Accept-Language", "zh-CN");
+                connection.setRequestProperty("Referer", FileDownloadManager.this.url);
+                connection.setRequestProperty("Charset", "UTF-8");
+                connection.setRequestProperty("Range", "bytes=" + (info.startPos + info.completeSize) + "-" + info.endPos);
+                connection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR " +
+                        "2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
+                connection.setRequestProperty("Connection", "Keep-Alive");
                 randomAccessFile = new RandomAccessFile(path, "rwd");
                 randomAccessFile.seek(info.startPos + info.completeSize);
                 // 将要下载的字节写到上次写的末尾
@@ -297,7 +448,6 @@ public class FileDownloadManager {
                 while ((length = is.read(buffer)) != -1) {
                     randomAccessFile.write(buffer, 0, length);
                     info.completeSize += length;
-                    L.e("完成"+info.completeSize+"   "+info.endPos);
                     if (!downloadState)
                         break;
                 }
@@ -319,14 +469,18 @@ public class FileDownloadManager {
      * 更新数据库和界面线程
      */
     private class UpdateThread extends Thread{
+
+        public boolean canRun = true;
         @Override
         public void run() {
             try {
-                while (downloadState) {
+                while (canRun) {
                     // 更新数据库中的下载信息
                     helper.updateInfos(url, infos);
                     //更新界面
-                    progressChangeHandler.sendMessage(Message.obtain());
+                    Message msg = Message.obtain();
+                    msg.what = 0;
+                    progressChangeHandler.sendMessage(msg);
                     L.e("更新界面  "+getCompleteSize());
                     //每隔１秒操作数据库和更新界面，防止频繁的更新
                     try {
