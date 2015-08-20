@@ -1,5 +1,6 @@
-package com.android.libcore_ui.webview;
+package com.android.libcore_ui.webview.webactivity;
 
+import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -14,6 +15,7 @@ import android.widget.RelativeLayout;
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
 import com.android.libcore_ui.activity.BaseActivity;
+import com.android.libcore_ui.webview.WebFragment;
 
 /**
  * Description: 应用基础的网页浏览activity
@@ -58,8 +60,10 @@ public class WebActivity extends BaseActivity{
 
     @Override
     protected void initData() {
+        Bundle bundle = new Bundle();
         String url = getIntent().getStringExtra(EXTRA_URL);
-        webView.loadUrl(url);
+        bundle.putString(WebFragment.EXTRA_URL, url);
+        webView.setArguments(bundle);
         addNavigationOnBottom((ViewGroup) findViewById(R.id.fl_bottom_blank));
     }
 

@@ -2,19 +2,14 @@ package com.android.sample.test_webview;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
 import com.android.framework.R;
-import com.android.libcore.log.L;
 import com.android.libcore_ui.activity.BaseActivity;
-import com.android.libcore_ui.webview.WebActivity;
+import com.android.libcore_ui.webview.webactivity.WebActivity;
 import com.android.libcore_ui.webview.WebFragment;
-
-import java.io.File;
-import java.lang.reflect.Field;
 
 /**
  * Description: 测试WebView
@@ -37,7 +32,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         ft.add(R.id.fl_webfragment, webFragment);
         ft.commit();
         Bundle bundle = new Bundle();
-        bundle.putString(WebFragment.EXTRA_URL, "https://www.baidu.com");
+        bundle.putString(WebFragment.EXTRA_URL, "file:///android_asset/1.html");
         webFragment.setArguments(bundle);
     }
 

@@ -2,6 +2,7 @@ package com.android.libcore_ui.webview;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -102,22 +103,60 @@ public class WebFragment extends BaseFragment{
         webView.stopLoading();
     }
 
+    /** 是否是内部url，不需要跳转url */
+    protected boolean handleUrlBeforeLoad(String url){
+        return false;
+    }
+
+    protected void onPageStarted(WebView view, String url, Bitmap favicon){}
+    protected void onPageFinished(WebView view, String url){}
+
     private class FrameworkWebViewClient extends WebViewClient {
 
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            //使用应用浏览器加载
-            view.loadUrl(url);
+            if (!handleUrlBeforeLoad(url))
+                view.loadUrl(url);
             return true;
         }
 
         @Override
+        public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            onPageStarted(view, url, favicon);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            onPageFinished(view, url);
+        }
+
+        @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            T.getInstance().showShort("errorCode:"+errorCode+" description:" + description + " failingUrl:" + failingUrl);
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
     }
 
+    protected void onProgressChanged(WebView view, int newProgress){}
+    protected void onReceivedIcon(WebView view, Bitmap icon){}
+    protected void onReceivedTitle(WebView view, String title){}
+
     private class FrameworkChromeClient extends WebChromeClient {
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            onProgressChanged(view, newProgress);
+        }
+
+        @Override
+        public void onReceivedIcon(WebView view, Bitmap icon) {
+            onReceivedIcon(view, icon);
+        }
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            onReceivedTitle(view, title);
+        }
 
         //js警告框
         @Override

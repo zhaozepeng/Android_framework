@@ -2,7 +2,7 @@
           package="com.android.libcore_ui">
 
     <application>
-        <activity android:name=".webview.WebActivity"
+        <activity android:name=".webview.webactivity.WebActivity"
             android:hardwareAccelerated="true">
         </activity>
     </application>
