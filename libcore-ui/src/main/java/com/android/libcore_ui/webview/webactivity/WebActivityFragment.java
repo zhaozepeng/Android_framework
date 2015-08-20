@@ -1,7 +1,5 @@
 package com.android.libcore_ui.webview.webactivity;
 
-import android.annotation.SuppressLint;
-import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
@@ -10,21 +8,12 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.JsPromptResult;
-import android.webkit.JsResult;
-import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.EditText;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import com.android.libcore.Toast.T;
-import com.android.libcore.dialog.BaseDialog;
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
-import com.android.libcore_ui.dialog.DialogFactory;
 import com.android.libcore_ui.webview.WebFragment;
 
 import java.util.ArrayList;
@@ -45,7 +34,6 @@ public class WebActivityFragment extends WebFragment {
         return inflater.inflate(R.layout.fragment_web_layout, container, false);
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initView() {
         super.initView();

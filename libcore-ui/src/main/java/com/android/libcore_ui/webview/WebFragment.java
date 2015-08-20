@@ -39,6 +39,8 @@ public class WebFragment extends BaseFragment{
     protected FrameworkChromeClient chromeClient = new FrameworkChromeClient();
 
     protected String url;
+
+    protected WebCallback callback;
     @Override
     protected View setContentView(LayoutInflater inflater, @Nullable ViewGroup container) {
         return new WebView(activity);
@@ -122,19 +124,25 @@ public class WebFragment extends BaseFragment{
 
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
+            if (callback != null)
+                callback.onPageStarted();
             onPageStarted(view, url, favicon);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
+            if (callback != null)
+                callback.onPageFinished();
             onPageFinished(view, url);
         }
 
         @Override
         public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
-            T.getInstance().showShort("errorCode:"+errorCode+" description:" + description + " failingUrl:" + failingUrl);
+            T.getInstance().showShort("errorCode:" + errorCode + " description:" + description + " failingUrl:" + failingUrl);
             super.onReceivedError(view, errorCode, description, failingUrl);
         }
+
+
     }
 
     protected void onProgressChanged(WebView view, int newProgress){}
@@ -145,16 +153,22 @@ public class WebFragment extends BaseFragment{
 
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
+            if (callback != null)
+                callback.onProgressChanged(newProgress);
             onProgressChanged(view, newProgress);
         }
 
         @Override
         public void onReceivedIcon(WebView view, Bitmap icon) {
+            if (callback != null)
+                callback.onReceivedIcon(icon);
             onReceivedIcon(view, icon);
         }
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
+            if (callback != null)
+                callback.onReceivedTitle(title);
             onReceivedTitle(view, title);
         }
 
@@ -231,5 +245,21 @@ public class WebFragment extends BaseFragment{
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 设置回调
+     */
+    public void setCallback(WebCallback callback) {
+        this.callback = callback;
+    }
+
+    /** web页的回调 */
+    public class WebCallback{
+        public void onPageStarted(){}
+        public void onPageFinished(){}
+        public void onProgressChanged(int progress){}
+        public void onReceivedIcon(Bitmap icon){}
+        public void onReceivedTitle(String title){}
     }
 }

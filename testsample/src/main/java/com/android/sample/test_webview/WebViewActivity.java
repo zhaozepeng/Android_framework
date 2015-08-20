@@ -8,8 +8,8 @@ import android.view.View;
 
 import com.android.framework.R;
 import com.android.libcore_ui.activity.BaseActivity;
-import com.android.libcore_ui.webview.webactivity.WebActivity;
 import com.android.libcore_ui.webview.WebFragment;
+import com.android.libcore_ui.webview.webactivity.WebActivity;
 
 /**
  * Description: 测试WebView
