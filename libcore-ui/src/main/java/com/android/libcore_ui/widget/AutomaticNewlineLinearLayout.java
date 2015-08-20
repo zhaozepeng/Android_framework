@@ -1,11 +1,12 @@
-package com.okwei.mobile.widget;
+package com.android.libcore_ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.okwei.mobile.R;
+import com.android.libcore_ui.R;
+
 
 /**
  * @author: zzp
