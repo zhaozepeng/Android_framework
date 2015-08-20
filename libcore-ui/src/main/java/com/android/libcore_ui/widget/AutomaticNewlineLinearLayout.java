@@ -1,11 +1,11 @@
-package com.android.libcore_ui.widget;
+package com.okwei.mobile.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
-import com.android.libcore_ui.R;
+import com.okwei.mobile.R;
 
 /**
  * @author: zzp
@@ -38,17 +38,29 @@ public class AutomaticNewlineLinearLayout extends LinearLayout{
 
         int margin_bottom = ((LayoutParams)(getChildAt(0).getLayoutParams())).bottomMargin;
         int childHeight = ((LayoutParams)(getChildAt(0).getLayoutParams())).height;
+        int childWidth = ((LayoutParams)(getChildAt(0).getLayoutParams())).width;
+
+        int heightChildSpec;
+        if (childHeight <= 0){
+            getChildAt(0).measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+            childHeight = getChildAt(0).getMeasuredHeight();
+        }
+        heightChildSpec = MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.AT_MOST);
+
+        int widthChildSpec;
+        if (childWidth <= 0) {
+            getChildAt(0).measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+            childWidth = getChildAt(0).getMeasuredWidth();
+        }
+        widthChildSpec = MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.AT_MOST);
 
         int lines = (int)Math.ceil(((getChildCount()*1.0) / (NUMS_PER_LINE*1.0)));
         int height = lines * (margin_bottom + childHeight);
-        int heightChildSpec = MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.AT_MOST);
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.getMode(heightMeasureSpec));
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
 
         int count = getChildCount();
         for (int i = 0; i < count ; i++){
-            int childWidth = ((LayoutParams)(getChildAt(i).getLayoutParams())).width;
-            int widthChildSpec = MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.AT_MOST);
             getChildAt(i).measure(widthChildSpec, heightChildSpec);
         }
     }
@@ -60,10 +72,16 @@ public class AutomaticNewlineLinearLayout extends LinearLayout{
             return;
         }
         int childHeight = ((LayoutParams)(getChildAt(0).getLayoutParams())).height;
+        if (childHeight <= 0){
+            childHeight = getChildAt(0).getMeasuredHeight();
+        }
         int childHeightWithMargin = childHeight + ((LayoutParams)(getChildAt(0).getLayoutParams())).bottomMargin;
 
         for (int i=0; i<getChildCount(); i++){
             int childWidth = ((LayoutParams)(getChildAt(i).getLayoutParams())).width;
+            if (childWidth <= 0){
+                childWidth = getChildAt(i).getMeasuredWidth();
+            }
             int position = i%NUMS_PER_LINE;
             int xPos = (position)*((((r-l)-childWidth*NUMS_PER_LINE)/(NUMS_PER_LINE-1))+childWidth);
             int yPos= (i/NUMS_PER_LINE)* childHeightWithMargin;

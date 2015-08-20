@@ -1,6 +1,7 @@
 package com.android.sample.test_webview;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -35,7 +36,9 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         FragmentTransaction ft = fm.beginTransaction();
         ft.add(R.id.fl_webfragment, webFragment);
         ft.commit();
-        webFragment.loadUrl("https://www.baidu.com");
+        Bundle bundle = new Bundle();
+        bundle.putString(WebFragment.EXTRA_URL, "https://www.baidu.com");
+        webFragment.setArguments(bundle);
     }
 
     @Override

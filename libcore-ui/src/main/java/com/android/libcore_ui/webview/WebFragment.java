@@ -71,7 +71,7 @@ public class WebFragment extends BaseFragment{
      * 加载url
      */
     public void loadUrl(String url){
-        this.url = url;
+        webView.loadUrl(url);
     }
 
     /**
