@@ -70,6 +70,7 @@ public abstract class BaseFragment extends RootFragment{
      * @param msg fragment发送给activity的消息
      */
     protected void sendMessageToActivity(Message msg){
+        //通过intent传递的数据量最好不要超过1M,而使用msg.obg变量则可以使用堆中的剩余存储
         activity.onHandleMessageFromFragment(msg);
     }
 }

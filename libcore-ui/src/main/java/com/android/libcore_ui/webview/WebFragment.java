@@ -126,14 +126,14 @@ public class WebFragment extends BaseFragment{
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             if (callback != null)
                 callback.onPageStarted();
-            onPageStarted(view, url, favicon);
+            WebFragment.this.onPageStarted(view, url, favicon);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             if (callback != null)
                 callback.onPageFinished();
-            onPageFinished(view, url);
+            WebFragment.this.onPageFinished(view, url);
         }
 
         @Override
@@ -155,21 +155,21 @@ public class WebFragment extends BaseFragment{
         public void onProgressChanged(WebView view, int newProgress) {
             if (callback != null)
                 callback.onProgressChanged(newProgress);
-            onProgressChanged(view, newProgress);
+            WebFragment.this.onProgressChanged(view, newProgress);
         }
 
         @Override
         public void onReceivedIcon(WebView view, Bitmap icon) {
             if (callback != null)
                 callback.onReceivedIcon(icon);
-            onReceivedIcon(view, icon);
+            WebFragment.this.onReceivedIcon(view, icon);
         }
 
         @Override
         public void onReceivedTitle(WebView view, String title) {
             if (callback != null)
                 callback.onReceivedTitle(title);
-            onReceivedTitle(view, title);
+            WebFragment.this.onReceivedTitle(view, title);
         }
 
         //js警告框
@@ -255,7 +255,7 @@ public class WebFragment extends BaseFragment{
     }
 
     /** web页的回调 */
-    public class WebCallback{
+    public static class WebCallback{
         public void onPageStarted(){}
         public void onPageFinished(){}
         public void onProgressChanged(int progress){}

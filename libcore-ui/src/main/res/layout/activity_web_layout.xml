@@ -5,12 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <FrameLayout
-        android:id="@+id/fl_content"
+    <RelativeLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1">
-    </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </FrameLayout>
+
+        <ProgressBar
+            android:id="@+id/pb_bar"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            style="?android:progressBarStyleHorizontal"
+            android:progressDrawable="@drawable/bg_progress_bar"/>
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/fl_bottom_blank"
         android:layout_width="match_parent"
