@@ -46,8 +46,9 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(this, WebActivity.class);
+        intent.putExtra(WebActivity.EXTRA_URL, "https://www.baidu.com");
         //加载assets文件
-        intent.putExtra(WebActivity.EXTRA_URL, "file:///android_asset/1.html");
+//        intent.putExtra(WebActivity.EXTRA_URL, "file:///android_asset/1.html");
 //        intent.putExtra(WebActivity.EXTRA_URL, "file:///android_asset/baidu.html");
         //加载SD卡文件
 //        intent.putExtra(WebActivity.EXTRA_URL, "file:///sdcard/FrameWork/html/baidu.html");

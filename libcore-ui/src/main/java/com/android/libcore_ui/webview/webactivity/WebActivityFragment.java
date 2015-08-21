@@ -1,7 +1,11 @@
 package com.android.libcore_ui.webview.webactivity;
 
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -17,6 +21,7 @@ import com.android.libcore_ui.R;
 import com.android.libcore_ui.webview.WebFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Description: 用于在{@link WebActivity}中显示的webfragment
@@ -40,6 +45,23 @@ public class WebActivityFragment extends WebFragment {
 
     @Override
     protected boolean handleUrlBeforeLoad(String url) {
+        try {
+            PackageManager pm = getActivity().getPackageManager();
+            // 以下固定写法
+            final Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(url));
+            List<ResolveInfo> infos = pm.queryIntentActivities(intent, PackageManager.GET_RESOLVED_FILTER);
+            //如果除了浏览器之外还有应用能够打开该链接，则打开一个选择器
+            if (infos.size() >= 2) {
+                Intent chooser = Intent.createChooser(intent, getResources().getString(R.string.choose_application));
+                chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(chooser);
+            }
+        } catch (Exception e) {
+            // 防止没有安装的情况
+            e.printStackTrace();
+        }
         return false;
     }
 
