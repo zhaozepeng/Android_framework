@@ -3,7 +3,6 @@ package com.android.sample.test_activity;
 import android.content.Intent;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +11,6 @@ import com.android.framework.R;
 import com.android.libcore.Toast.T;
 import com.android.libcore.activity.ActivityManager;
 import com.android.libcore.application.RootApplication;
-import com.android.libcore.log.L;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.sample.HomeTestActivity;
 

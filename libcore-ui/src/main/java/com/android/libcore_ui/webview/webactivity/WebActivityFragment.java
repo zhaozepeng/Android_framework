@@ -57,7 +57,6 @@ public class WebActivityFragment extends WebFragment {
                 Intent chooser = Intent.createChooser(intent, getResources().getString(R.string.choose_application));
                 chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(chooser);
-                return true;
             }
         } catch (Exception e) {
             // 防止没有安装的情况
