@@ -16,6 +16,8 @@ import java.io.IOException;
  *
  * <ul>
  *     <li>{@link #checkAndCreateFile(String)}根据path创建文件</li>
+ *     <li>{@link #checkAndCreateChildDirectory(String)}根据path创建子目录,自动会在末尾添加"/"文件分隔符</li>
+ *
  *     <li>{@link #getExternalStoragePath()}获取SD卡根目录，不要在此进行操作以防污染主目录</li>
  *     <li>{@link #getExternalStorageTempPath()}获取SD卡主目录下缓存目录</li>
  *     <li>{@link #createFileInImageDirectory(String)}在temp目录下创建文件并返回</li>
@@ -30,6 +32,8 @@ import java.io.IOException;
  *     <li>{@link #createFileInVideoDirectory(String)}在video目录下创建文件并返回</li>
  *     <li>{@link #getExternalStorageHtmlPath()}获取SD卡主目录下网页目录</li>
  *     <li>{@link #createFileInHtmlDirectory(String)}在html目录下创建文件并返回</li>
+ *
+ *     <li>{@link #getFileOrDirectorySize(String)}获取目录或者文件的大小，单位KB</li>
  * </ul>
  *
  * @author zzp(zhao_zepeng@hotmail.com)
@@ -42,14 +46,39 @@ public class FileUtils {
     private static final long K_BYTES_TO_DELETE = 10 * 1024;
 
     /**
+     * 检测并且创建文件
+     */
+    public static File checkAndCreateFile(String path){
+        File file = new File(path);
+        if (!file.exists())
+            try {
+                file.createNewFile();
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        return file;
+    }
+
+    /**
+     * 创建主目录下子目录，自动会在末尾添加"/"文件分隔符
+     */
+    public static String checkAndCreateChildDirectory(String path){
+        File file = new File(path);
+        if (!file.exists())
+            file.mkdirs();
+        if (!file.exists())
+            return null;
+        return path+"/";
+    }
+
+    /**
      * 外部最好不要使用外部目录的根目录进行操作，建立一个子目录去处理
      */
     public static String getExternalStoragePath(){
         String path = null;
         //需要检测外部SD卡的挂载状态
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-            path = checkAndCreateChildDirectory(Environment.getExternalStorageDirectory().getPath()
-                    + EXTERNAL_STORAGE_PATH);
+            path = checkAndCreateChildDirectory(Environment.getExternalStorageDirectory().getPath() + EXTERNAL_STORAGE_PATH);
         }
         if (path == null){
             //如果外部SD卡不可用，使用"/data/data/com.android.framework/files/"目录
@@ -192,44 +221,10 @@ public class FileUtils {
     }
 
     /**
-     * 所有在外部存储目录下的子目录都需要在此定义文件夹名
-     */
-    public enum ExternalStorageType{
-        TEMP("temp"),FILE("file"),IMAGE("image"),VOICE("voice"),VIDEO("video"),HTML("html");
-
-        private String typeName;
-        ExternalStorageType(String typeName){
-            this.typeName = typeName;
-        }
-
-        public String getFilePath(String parentPath) {
-            String path = parentPath;
-            if (!(parentPath.charAt(parentPath.length()-1)=='/')){
-                path += "/";
-            }
-            return path+typeName;
-        }
-    }
-
-    /**
      * 检测该目录下是否有nomedia文件，如果没有就创建
      */
     private static void checkAndCreateNoMedia(String path){
         checkAndCreateFile(path + "/.nomedia");
-    }
-
-    /**
-     * 检测并且创建文件
-     */
-    public static File checkAndCreateFile(String path){
-        File file = new File(path);
-        if (!file.exists())
-            try {
-                file.createNewFile();
-            }catch (IOException e){
-                e.printStackTrace();
-            }
-        return file;
     }
 
     /**
@@ -249,14 +244,22 @@ public class FileUtils {
     }
 
     /**
-     * 创建主目录下子目录，自动会在末尾添加"/"文件分隔符
+     * 所有在外部存储目录下的子目录都需要在此定义文件夹名
      */
-    private static String checkAndCreateChildDirectory(String path){
-        File file = new File(path);
-        if (!file.exists())
-            file.mkdirs();
-        if (!file.exists())
-            return null;
-        return path+"/";
+    public enum ExternalStorageType{
+        TEMP("temp"),FILE("file"),IMAGE("image"),VOICE("voice"),VIDEO("video"),HTML("html");
+
+        private String typeName;
+        ExternalStorageType(String typeName){
+            this.typeName = typeName;
+        }
+
+        public String getFilePath(String parentPath) {
+            String path = parentPath;
+            if (!(parentPath.charAt(parentPath.length()-1)=='/')){
+                path += "/";
+            }
+            return path+typeName;
+        }
     }
 }

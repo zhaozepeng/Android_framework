@@ -1,6 +1,7 @@
 package com.android.libcore.utils;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
@@ -11,7 +12,9 @@ import android.view.ViewConfiguration;
 import com.android.libcore.application.RootApplication;
 import com.android.libcore.log.L;
 
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Description: 基础工具类，该类的所有函数如下所示(所有添加到该类的函数都应该在这标识出来，以防重复)
@@ -39,12 +42,18 @@ public class CommonUtils {
         return (int) (px / scale + 0.5f);
     }
 
+    /**
+     * 判断当前网络是是否可用
+     */
     public static boolean isNetworkAvailable(){
         ConnectivityManager cm = (ConnectivityManager) RootApplication.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo info = cm.getActiveNetworkInfo();
         return info!=null && info.isAvailable();
     }
 
+    /**
+     * 判断当前的网络是否是wifi
+     */
     public static boolean isNetworkWifi(){
         if (!isNetworkAvailable()){
             L.e("当前网络可用，请先调用isNetworkAvailable()函数");
@@ -56,31 +65,25 @@ public class CommonUtils {
         return false;
     }
 
-    public static String md5(String s){
-        char hexDigits[]={'0','1','2','3','4','5','6','7','8','9','A','B','C','D','E','F'};
-
+    /**
+     * md5加密
+     */
+    public static String md5(String string) {
+        byte[] hash;
         try {
-            byte[] btInput = s.getBytes();
-            // 获得MD5摘要算法的 MessageDigest 对象
-            MessageDigest mdInst = MessageDigest.getInstance("MD5");
-            // 使用指定的字节更新摘要
-            mdInst.update(btInput);
-            // 获得密文
-            byte[] md = mdInst.digest();
-            // 把密文转换成十六进制的字符串形式
-            int j = md.length;
-            char str[] = new char[j * 2];
-            int k = 0;
-            for (int i = 0; i < j; i++) {
-                byte byte0 = md[i];
-                str[k++] = hexDigits[byte0 >>> 4 & 0xf];
-                str[k++] = hexDigits[byte0 & 0xf];
-            }
-            return new String(str);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
+            hash = MessageDigest.getInstance("MD5").digest(string.getBytes("UTF-8"));
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException("Huh, MD5 should be supported?", e);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Huh, UTF-8 should be supported?", e);
         }
+
+        StringBuilder hex = new StringBuilder(hash.length * 2);
+        for (byte b : hash) {
+            if ((b & 0xFF) < 0x10) hex.append("0");
+            hex.append(Integer.toHexString(b & 0xFF));
+        }
+        return hex.toString();
     }
 
     /**

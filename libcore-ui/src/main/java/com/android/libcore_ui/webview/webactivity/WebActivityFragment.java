@@ -54,9 +54,7 @@ public class WebActivityFragment extends WebFragment {
             List<ResolveInfo> infos = pm.queryIntentActivities(intent, PackageManager.GET_RESOLVED_FILTER);
             //如果除了浏览器之外还有应用能够打开该链接，则打开一个选择器
             if (infos.size() >= 2) {
-                Intent chooser = Intent.createChooser(intent, getResources().getString(R.string.choose_application));
-                chooser.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                startActivity(chooser);
+                startActivity(intent);
             }
         } catch (Exception e) {
             // 防止没有安装的情况
