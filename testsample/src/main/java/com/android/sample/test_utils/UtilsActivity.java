@@ -17,6 +17,8 @@ public class UtilsActivity extends BaseActivity implements View.OnClickListener{
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_utils);
         findViewById(R.id.btn_test_file).setOnClickListener(this);
+        findViewById(R.id.btn_test_image).setOnClickListener(this);
+        findViewById(R.id.btn_test_common).setOnClickListener(this);
     }
 
     @Override
@@ -29,6 +31,12 @@ public class UtilsActivity extends BaseActivity implements View.OnClickListener{
         switch (v.getId()){
             case R.id.btn_test_file:
                 startActivity(new Intent(this, FileActivity.class));
+                break;
+            case R.id.btn_test_image:
+                startActivity(new Intent(this, ImageActivity.class));
+                break;
+            case R.id.btn_test_common:
+                startActivity(new Intent(this, CommonActivity.class));
                 break;
         }
     }

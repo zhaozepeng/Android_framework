@@ -22,7 +22,7 @@
 <li>最基础的Activity和Fragment类，配合Application类和ActivityManager类进行Activity的集中管理</li>
 <li>ActivityManager类，使用栈来管理所有的activity</li>
 <li>log类，用来打印log</li>
-<li>Toast类，该类用来弹出toast，支持弹出toase的位置</li>
+<li>Toast类，该类用来弹出toast，支持弹出toast的位置</li>
 <li>GuideManager类，用来显示指引蒙版，支持全屏展示和只在内容区域展示</li>
 <li>dialog类，定义了一个应用dialog所应该具备的基础行为</li>
 <li>database类，将数据库类进行了非常便捷的封装，创建数据库应该继承自BaseDB类，为了该数据库的访问应该再创建一个helper类继承自BaseDBHelper，封装该数据库的所有操作，另外还需要对表名和列名进行了枚举的封装，这样使用该数据库直接使用该枚举类获取表名和表的相关列名。对数据库的版本升级也做了相应快捷的处理</li>

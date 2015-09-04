@@ -84,6 +84,12 @@
                   android:label="@string/activity_test_file_utils"
                   android:screenOrientation="portrait">
         </activity>
+        <activity android:name="com.android.sample.test_utils.ImageActivity"
+            android:label="@string/activity_test_image_utils"
+            android:screenOrientation="portrait"/>
+        <activity android:name="com.android.sample.test_utils.CommonActivity"
+            android:label="@string/activity_test_common_utils"
+            android:screenOrientation="portrait"/>
 
     </application>
 
