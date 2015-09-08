@@ -1,5 +1,6 @@
 package com.android.libcore.utils;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -7,6 +8,13 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.view.View;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Description: 图片相关处理类
@@ -14,6 +22,9 @@ import android.graphics.RectF;
  * <ol>
  *     <li>{@link #centerSquareScaleBitmap(Bitmap, int)}截取图片的正中部分</li>
  *     <li>{@link #toRoundCorner(Bitmap, int)}将图片截成圆角的方法</li>
+ *     <li>{@link #saveBitmap(Bitmap, String)}保存图片到制定路径下</li>
+ *     <li>{@link #screenShot(Activity)}截取手机当前屏幕</li>
+ *     <li>{@link #viewShot(View)}截取view的整个显示内容</li>
  * </ol>
  *
  * @author zzp(zhao_zepeng@hotmail.com)
@@ -71,6 +82,71 @@ public class ImageUtils {
         }catch (OutOfMemoryError e){
             e.printStackTrace();
             return null;
+        }
+    }
+
+    /**
+     * 截屏，只能截取当前屏幕显示的区域，不包含status bar
+     */
+    public static Bitmap screenShot(Activity activity){
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap b1 = view.getDrawingCache();
+        // 获取状态栏高度
+        Rect frame = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        int statusBarHeight = frame.top;
+        // 获取屏幕长和高
+        int width = CommonUtils.getScreenWidth();
+        int height = CommonUtils.getScreenHeight();
+        // 去掉标题栏
+        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height - statusBarHeight);
+        view.destroyDrawingCache();
+        return b;
+    }
+
+    /**
+     * view截图，webview和scrollview(scrollview需要传入子view)之类的view能够截取整个长度的bitmap
+     */
+    public static Bitmap viewShot(View view){
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        if (view.getMeasuredWidth()<=0 || view.getMeasuredHeight()<=0) {
+            int measureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+            view.measure(measureSpec, measureSpec);
+        }
+        Bitmap bm = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        Canvas bigCanvas = new Canvas(bm);
+        Paint paint = new Paint();
+        int iHeight = bm.getHeight();
+        bigCanvas.drawBitmap(bm, 0, iHeight, paint);
+        view.draw(bigCanvas);
+        return bm;
+    }
+
+    /**
+     * 保存bitmap到指定路径下
+     */
+    public static void saveBitmap(Bitmap bitmap, String filePath) {
+        try {
+            File file = new File(filePath);
+            if (!file.exists())
+                file.createNewFile();
+            else {
+                file.delete();
+                file.createNewFile();
+            }
+            FileOutputStream fos = new FileOutputStream(file);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            fos.write(baos.toByteArray());
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 }

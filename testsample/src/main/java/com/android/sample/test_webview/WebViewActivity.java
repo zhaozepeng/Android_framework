@@ -1,13 +1,18 @@
 package com.android.sample.test_webview;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.webkit.WebView;
 
 import com.android.framework.R;
 import com.android.libcore.Toast.T;
+import com.android.libcore.utils.FileUtils;
+import com.android.libcore.utils.ImageUtils;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.webview.WebFragment;
 import com.android.libcore_ui.webview.webactivity.WebActivity;
@@ -19,19 +24,23 @@ import com.android.libcore_ui.webview.webactivity.WebActivity;
  * @since 2015-07-27
  */
 public class WebViewActivity extends BaseActivity implements View.OnClickListener{
+    private WebView webView;
+
     @Override
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_webview);
         findViewById(R.id.btn_webview).setOnClickListener(this);
+        findViewById(R.id.btn_screenshot).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        WebFragment webFragment = new WebFragment();
+        final TestWebFragment webFragment = new TestWebFragment();
         webFragment.setCallback(new WebFragment.WebCallback() {
             @Override
-            public void onPageFinished() {
+            public void onPageFinished(String url) {
                 T.getInstance().showShort("加载完成");
+                webView = webFragment.mWebView;
             }
         });
         FragmentManager fm = getSupportFragmentManager();
@@ -39,7 +48,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         ft.add(R.id.fl_webfragment, webFragment);
         ft.commit();
         Bundle bundle = new Bundle();
-        bundle.putString(WebFragment.EXTRA_URL, "https://www.baidu.com");
+        bundle.putString(WebFragment.EXTRA_URL, "http://www.sohu.com");
         webFragment.setArguments(bundle);
     }
 

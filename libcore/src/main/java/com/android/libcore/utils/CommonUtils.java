@@ -1,10 +1,12 @@
 package com.android.libcore.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
+import android.util.DisplayMetrics;
 import android.view.KeyCharacterMap;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
@@ -21,6 +23,8 @@ import java.security.NoSuchAlgorithmException;
  * <ol>
  *     <li>{@link #dp2px(float)}用来将dp转换为px</li>
  *     <li>{@link #px2dp(float)}用来将px转换为dp</li>
+ *     <li>{@link #getScreenWidth()}获取手机屏幕宽度</li>
+ *     <li>{@link #getScreenHeight()}获取手机屏幕高度（有些手机会除去navigation bar高度）</li>
  *     <li>{@link #isNetworkAvailable()}用来判断网络是否可用</li>
  *     <li>{@link #isNetworkWifi()}用来判断网络是否是wifi</li>
  *     <li>{@link #hasNavigationBar()}判断手机是否会有navigation bar</li>
@@ -40,6 +44,18 @@ public class CommonUtils {
     public static int px2dp(float px) {
         final float scale = RootApplication.getInstance().getResources().getDisplayMetrics().density;
         return (int) (px / scale + 0.5f);
+    }
+
+    public static int getScreenWidth(){
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity)RootApplication.getInstance()).getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm.widthPixels;
+    }
+
+    public static int getScreenHeight(){
+        DisplayMetrics dm = new DisplayMetrics();
+        ((Activity)RootApplication.getInstance()).getWindow().getWindowManager().getDefaultDisplay().getMetrics(dm);
+        return dm.heightPixels;
     }
 
     /**

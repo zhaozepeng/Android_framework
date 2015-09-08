@@ -24,5 +24,25 @@
             android:id="@+id/toRoundCorner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <Button
+            android:id="@+id/btn_test_screenshot"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试截屏"
+            android:background="@drawable/button_thirdpage_selector"
+            android:layout_marginBottom="10dp"/>
+        <Button
+            android:id="@+id/btn_test_webview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="测试截取webview"
+            android:background="@drawable/button_thirdpage_selector"
+            android:layout_marginBottom="10dp"/>
+        <FrameLayout
+            android:id="@+id/fl_content"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </FrameLayout>
     </LinearLayout>
 </ScrollView>

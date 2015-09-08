@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.framework.R;
+import com.android.libcore.utils.FileUtils;
+import com.android.libcore.utils.ImageUtils;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.sample.test_activity.ActivityTestHomePage;
 import com.android.sample.test_cache.CacheActivity;
@@ -51,7 +53,6 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     @Override
     protected void initView() {
         setContentViewSrc(R.layout.activity_home_test);
-
         btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
         btn_test_guide = (Button) findViewById(R.id.btn_test_guide);
         btn_test_dialog = (Button) findViewById(R.id.btn_test_dialog);

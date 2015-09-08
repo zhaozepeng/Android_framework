@@ -109,7 +109,6 @@ public class WebFragment extends BaseFragment{
     protected boolean handleUrlBeforeLoad(String url){
         return false;
     }
-
     protected void onPageStarted(WebView view, String url, Bitmap favicon){}
     protected void onPageFinished(WebView view, String url){}
 
@@ -125,14 +124,14 @@ public class WebFragment extends BaseFragment{
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             if (callback != null)
-                callback.onPageStarted();
+                callback.onPageStarted(url, favicon);
             WebFragment.this.onPageStarted(view, url, favicon);
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             if (callback != null)
-                callback.onPageFinished();
+                callback.onPageFinished(url);
             WebFragment.this.onPageFinished(view, url);
         }
 
@@ -256,8 +255,8 @@ public class WebFragment extends BaseFragment{
 
     /** web页的回调 */
     public static class WebCallback{
-        public void onPageStarted(){}
-        public void onPageFinished(){}
+        public void onPageStarted(String url, Bitmap favicon){}
+        public void onPageFinished(String url){}
         public void onProgressChanged(int progress){}
         public void onReceivedIcon(Bitmap icon){}
         public void onReceivedTitle(String title){}

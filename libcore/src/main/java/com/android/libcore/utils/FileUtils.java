@@ -72,7 +72,8 @@ public class FileUtils {
     }
 
     /**
-     * 外部最好不要使用外部目录的根目录进行操作，建立一个子目录去处理
+     * 外部{@link #EXTERNAL_STORAGE_PATH}目录或者/data/data/com.android.framework/files/目录（如果SD卡不可用）,
+     * 末尾自带"/"符号
      */
     public static String getExternalStoragePath(){
         String path = null;
@@ -84,6 +85,8 @@ public class FileUtils {
             //如果外部SD卡不可用，使用"/data/data/com.android.framework/files/"目录
             path = RootApplication.getInstance().getFilesDir().getPath();
         }
+        if (!path.subSequence(path.length()-2, path.length()-1).equals("/"))
+            path += "/";
         return path;
     }
 
