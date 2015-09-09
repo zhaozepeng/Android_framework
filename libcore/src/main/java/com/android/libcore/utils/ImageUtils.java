@@ -114,7 +114,8 @@ public class ImageUtils {
 
     /**
      * view截图，webview和scrollview(scrollview需要传入子view)之类的view能够截取整个长度的bitmap，
-     * 由于如果webview内容很多，view.draw(Canvas)方法会很耗时，所以需要在子线程里面进行操作，回调bitmap
+     * 如果webview内容很多，view.draw(Canvas)方法会很耗时，在子进程中操作会有额外的问题，所以会暂时阻塞
+     * UI主线程
      */
     public static Bitmap viewShot(final View view){
         if (view == null)
