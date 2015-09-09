@@ -8,7 +8,13 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
+
+import com.android.libcore.Toast.T;
+import com.android.libcore.application.RootApplication;
+import com.android.libcore.log.L;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -22,7 +28,7 @@ import java.io.IOException;
  * <ol>
  *     <li>{@link #centerSquareScaleBitmap(Bitmap, int)}截取图片的正中部分</li>
  *     <li>{@link #toRoundCorner(Bitmap, int)}将图片截成圆角的方法</li>
- *     <li>{@link #saveBitmap(Bitmap, String)}保存图片到制定路径下</li>
+ *     <li>{@link #saveBitmap(Bitmap, String, Runnable)}保存图片到制定路径下</li>
  *     <li>{@link #screenShot(Activity)}截取手机当前屏幕</li>
  *     <li>{@link #viewShot(View)}截取view的整个显示内容</li>
  * </ol>
@@ -107,16 +113,35 @@ public class ImageUtils {
     }
 
     /**
-     * view截图，webview和scrollview(scrollview需要传入子view)之类的view能够截取整个长度的bitmap
+     * view截图，webview和scrollview(scrollview需要传入子view)之类的view能够截取整个长度的bitmap，
+     * 由于如果webview内容很多，view.draw(Canvas)方法会很耗时，所以需要在子线程里面进行操作，回调bitmap
      */
-    public static Bitmap viewShot(View view){
+    public static Bitmap viewShot(final View view){
+        if (view == null)
+            return null;
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
         if (view.getMeasuredWidth()<=0 || view.getMeasuredHeight()<=0) {
             int measureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
             view.measure(measureSpec, measureSpec);
         }
-        Bitmap bm = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        if (view.getMeasuredWidth()<=0 || view.getMeasuredHeight()<=0) {
+            L.e("ImageUtils.viewShot size error");
+            return null;
+        }
+        Bitmap bm;
+        try {
+            bm = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+        }catch (OutOfMemoryError e){
+            System.gc();
+            try {
+                bm = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+            }catch (OutOfMemoryError ee){
+                L.e("ImageUtils.viewShot error", ee);
+                return null;
+            }
+        }
         Canvas bigCanvas = new Canvas(bm);
         Paint paint = new Paint();
         int iHeight = bm.getHeight();
@@ -127,26 +152,33 @@ public class ImageUtils {
 
     /**
      * 保存bitmap到指定路径下
+     * @param finish 保存完之后的回调，注意不在主线程执行
      */
-    public static void saveBitmap(Bitmap bitmap, String filePath) {
-        try {
-            File file = new File(filePath);
-            if (!file.exists())
-                file.createNewFile();
-            else {
-                file.delete();
-                file.createNewFile();
+    public static void saveBitmap(final Bitmap bitmap, final String filePath, final Runnable finish) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    File file = new File(filePath);
+                    if (!file.exists())
+                        file.createNewFile();
+                    else {
+                        file.delete();
+                        file.createNewFile();
+                    }
+                    //使用FileOutputStream防止OOM
+                    FileOutputStream fos = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                    fos.flush();
+                    fos.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (finish != null)
+                    finish.run();
             }
-            FileOutputStream fos = new FileOutputStream(file);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-            fos.write(baos.toByteArray());
-            fos.flush();
-            fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        }).start();
     }
 }

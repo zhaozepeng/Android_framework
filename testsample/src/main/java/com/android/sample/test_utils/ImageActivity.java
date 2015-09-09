@@ -16,6 +16,7 @@ import com.android.libcore.Toast.T;
 import com.android.libcore.utils.FileUtils;
 import com.android.libcore.utils.ImageUtils;
 import com.android.libcore_ui.activity.BaseActivity;
+import com.android.libcore_ui.dialog.LoadingDialog;
 import com.android.libcore_ui.webview.WebFragment;
 import com.android.sample.test_webview.TestWebFragment;
 
@@ -68,12 +69,35 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
     public void onClick(View v) {
+        final LoadingDialog ld = new LoadingDialog(this);
+        ld.setLoadingText("正在保存图片");
+        ld.show();
         if (v.getId() == R.id.btn_test_screenshot){
-            ImageUtils.saveBitmap(ImageUtils.screenShot(this), FileUtils.getExternalStoragePath()+"screenshot.png");
-            T.getInstance().showLong("图片位于"+FileUtils.getExternalStoragePath()+"screenshot.png");
+            ImageUtils.saveBitmap(ImageUtils.screenShot(this), FileUtils.getExternalStoragePath() + "screenshot.png", new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            T.getInstance().showLong("图片位于" + FileUtils.getExternalStoragePath() + "screenshot.png");
+                            ld.dismiss();
+                        }
+                    });
+                }
+            });
         }else if (v.getId() == R.id.btn_test_webview){
-            ImageUtils.saveBitmap(ImageUtils.viewShot(webView), FileUtils.getExternalStoragePath()+"webview.png");
-            T.getInstance().showLong("图片位于" + FileUtils.getExternalStoragePath() + "webview.png");
+            ImageUtils.saveBitmap(ImageUtils.viewShot(webView), FileUtils.getExternalStoragePath() + "webview.png", new Runnable() {
+                @Override
+                public void run() {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            T.getInstance().showLong("图片位于" + FileUtils.getExternalStoragePath() + "webview.png");
+                            ld.dismiss();
+                        }
+                    });
+                }
+            });
         }
     }
 }
