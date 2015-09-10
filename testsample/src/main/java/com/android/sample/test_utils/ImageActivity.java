@@ -9,6 +9,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.framework.R;
@@ -31,6 +32,10 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
 
     private ImageView centerSquareScaleBitmap;
     private ImageView toRoundCorner;
+    private ImageView compressBitmap;
+    private ImageView resizeBitmap;
+    private TextView getPictureDegree;
+    private ImageView rotateBitmap;
     private Bitmap bitmap;
 
     @Override
@@ -38,6 +43,10 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
         setContentViewSrc(R.layout.activity_test_image);
         centerSquareScaleBitmap = (ImageView) findViewById(R.id.centerSquareScaleBitmap);
         toRoundCorner = (ImageView) findViewById(R.id.toRoundCorner);
+        compressBitmap = (ImageView) findViewById(R.id.compressBitmap);
+        resizeBitmap = (ImageView) findViewById(R.id.resizeBitmap);
+        getPictureDegree = (TextView) findViewById(R.id.getPictureDegree);
+        rotateBitmap = (ImageView) findViewById(R.id.rotateBitmap);
 
         final TestWebFragment webFragment = new TestWebFragment();
         webFragment.setCallback(new WebFragment.WebCallback() {
@@ -65,6 +74,10 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
         centerSquareScaleBitmap.setImageBitmap(ImageUtils.centerSquareScaleBitmap(bitmap,
                 bitmap.getWidth()>bitmap.getHeight()?bitmap.getHeight():bitmap.getWidth()));
         toRoundCorner.setImageBitmap(ImageUtils.toRoundCorner(bitmap, 120));
+        compressBitmap.setImageBitmap(ImageUtils.compressBitmap(FileUtils.getExternalStoragePath() + "IMAG0020.jpg", 500, 500));
+        resizeBitmap.setImageBitmap(ImageUtils.resizeBitmap(bitmap, 150, 300));
+        getPictureDegree.setText(ImageUtils.getPictureDegree(FileUtils.getExternalStoragePath() + "IMAG0020.jpg") + "");
+        rotateBitmap.setImageBitmap(ImageUtils.rotateBitmap(bitmap, 90));
     }
 
     @Override

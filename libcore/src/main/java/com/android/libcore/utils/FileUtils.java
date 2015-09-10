@@ -85,7 +85,7 @@ public class FileUtils {
             //如果外部SD卡不可用，使用"/data/data/com.android.framework/files/"目录
             path = RootApplication.getInstance().getFilesDir().getPath();
         }
-        if (!path.subSequence(path.length()-2, path.length()-1).equals("/"))
+        if (!path.subSequence(path.length()-1, path.length()).equals("/"))
             path += "/";
         return path;
     }

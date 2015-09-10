@@ -24,6 +24,40 @@
             android:id="@+id/toRoundCorner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="compressBitmap"/>
+        <ImageView
+            android:id="@+id/compressBitmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="resizeBitmap"/>
+        <ImageView
+            android:id="@+id/resizeBitmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="getPictureDegree"/>
+        <TextView
+            android:id="@+id/getPictureDegree"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="rotateBitmap"/>
+
+        <ImageView
+            android:id="@+id/rotateBitmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
         <Button
             android:id="@+id/btn_test_screenshot"
             android:layout_width="match_parent"
