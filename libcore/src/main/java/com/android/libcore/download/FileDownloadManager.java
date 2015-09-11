@@ -1,10 +1,12 @@
 package com.android.libcore.download;
 
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 
 import com.android.libcore.Toast.T;
 import com.android.libcore.log.L;
+import com.android.libcore.utils.CommonUtils;
 import com.android.libcore.utils.FileUtils;
 
 import java.io.File;
@@ -17,7 +19,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
- * Description: 单个文件下载，支持断点续传
+ * Description: 单个文件下载，支持断点续传，相同url的被认为为同一个文件</br>
+ * {@link #start()}开启下载</br>
+ * {@link #stop()}停止下载</br>
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-08-05
@@ -34,9 +38,13 @@ public class FileDownloadManager {
     public static final int STATE_STOPED = 4;
     /** 下载状态，下载完成 */
     public static final int STATE_FINISH = 5;
+    /** 下载状态，正在删除 */
+    public static final int STATE_DELETING = 6;
+    /** 下载状态，删除成功 */
+    public static final int STATE_DELETE = 7;
 
     /** 当前文件的下载状态，默认为停止成功，即为下载完成，且随时可以开始下载 */
-    private static int currentState = STATE_STOPED;
+    private int currentState = STATE_STOPED;
 
     /** 下载一个文件所开启的线程数量 */
     private final int THREAD_NUM = 4;
@@ -44,14 +52,18 @@ public class FileDownloadManager {
     private ArrayList<DownloadInfo> infos;
     /** 开始下载线程 */
     private Thread startDownloadThread;
-    /** 结束下载线程，用来检测下载线程的完成程度，更新状态 */
+    /** 结束下载线程 */
     private Thread stopDownloadThread;
+    /** 删除下载线程 */
+    private Thread deleteDownloadThread;
     /** 下载一个文件的线程队列 */
     private ArrayList<DownloadThread> threads;
     /** 更新下载信息，更新界面线程 */
     private UpdateThread updateThread;
     /** 数据库操作对象 */
     private DownloadDBHelper helper;
+    /** 该文件下载名 */
+    private String fileName;
     /** 该文件下载的url */
     private String url;
     /** 该文件下载路径，默认为SD卡file目录 */
@@ -64,14 +76,14 @@ public class FileDownloadManager {
     private ProgressChangeHandler progressChangeHandler;
     /** 文件下载进度更新 */
     private IDownloadProgressChangedListener listener;
-    /** 文件的下载状态 */
+    /** 文件的下载状态，true表示正在下载 */
     private boolean downloadState = false;
     /** 文件是否下载完成 */
     private boolean isDownloadFinish = false;
 
     /**
      * @param url　文件下载url
-     * @param fileName 文件名
+     * @param fileName 文件名，默认将会下载到sd卡file目录下
      */
     public FileDownloadManager(String url, String fileName){
         this(url, fileName, null);
@@ -89,7 +101,14 @@ public class FileDownloadManager {
         if (!this.path.substring(this.path.length()-1).equals("/")){
             this.path += "/";
         }
-        this.path += fileName;
+
+        //保存该文件原路径
+        this.fileName = this.path + fileName;
+
+        //将文件名字先进行md5，最后等文件下载完成之后再更改文件名字
+        String md5 = CommonUtils.md5(fileName);
+        this.path += md5;
+
         helper = new DownloadDBHelper();
         infos = new ArrayList<>();
         threads = new ArrayList<>();
@@ -100,7 +119,7 @@ public class FileDownloadManager {
     /**
      * 检测该文件是否已经下载完成
      */
-    public boolean checkFileFinish(){
+    private boolean checkFileFinish(){
         if (isDownloadFinish || isFileDownloadFinish(helper.getInfo(url))){
             isDownloadFinish = true;
             progressChangeHandler.sendEmptyMessage(STATE_FINISH);
@@ -125,6 +144,16 @@ public class FileDownloadManager {
 
         if (currentState == STATE_STOPING){
             T.getInstance().showShort("文件还未停止成功");
+            return;
+        }
+
+        if (currentState == STATE_DELETING){
+            T.getInstance().showShort("文件正在删除");
+            return;
+        }
+
+        if (currentState == STATE_DELETE){
+            T.getInstance().showShort("文件已删除");
             return;
         }
 
@@ -158,13 +187,64 @@ public class FileDownloadManager {
             return;
         }
 
+        if (currentState == STATE_DELETING){
+            T.getInstance().showShort("文件正在删除");
+            return;
+        }
+
+        if (currentState == STATE_DELETE){
+            T.getInstance().showShort("文件已删除");
+            return;
+        }
+
         stopDownload();
+    }
+
+    /**
+     * 删除该文件下载的相关所有信息，成功之后，该对象将自动置为null
+     */
+    public void delete(){
+        //停止下载线程
+        downloadState = false;
+        //停止更新界面线程，一定要保证最多只有一个更新线程在执行
+        if (updateThread != null && updateThread.isAlive())
+            updateThread.canRun = false;
+
+        if (currentState == STATE_DELETING){
+            T.getInstance().showShort("正在删除，稍后...");
+            return;
+        }
+
+        if (currentState == STATE_DELETE){
+            T.getInstance().showShort("已删除");
+            return;
+        }
+
+        if (currentState == STATE_STOPING){
+            T.getInstance().showShort("正在停止，稍后...");
+            return;
+        }
+        deleteDownload();
     }
 
     private void startDownload(final ArrayList<HashMap<String, String>> maps){
         startDownloadThread = new Thread(new Runnable() {
             @Override
             public void run() {
+                if (stopDownloadThread!=null && stopDownloadThread.isAlive()){
+                    Looper.prepare();
+                    T.getInstance().showShort("正在停止，稍后...");
+                    Looper.loop();
+                    return;
+                }
+
+                if (deleteDownloadThread!=null && deleteDownloadThread.isAlive()){
+                    Looper.prepare();
+                    T.getInstance().showShort("文件正在删除");
+                    Looper.loop();
+                    return;
+                }
+
                 //如果没有下载信息，则需要创建
                 if (infos==null || infos.size()==0) {
                     if (maps == null || maps.size() == 0) {
@@ -183,7 +263,7 @@ public class FileDownloadManager {
                     DownloadThread thread = new DownloadThread(info);
                     threads.add(thread);
                 }
-                L.e("准备开启下载线程");
+                L.i("准备开启下载线程");
 
                 progressChangeHandler.sendEmptyMessage(-1);
             }
@@ -195,44 +275,94 @@ public class FileDownloadManager {
         stopDownloadThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                //如果开始线程还未停止，比如用户摁完开始下载之后快速摁停止下载，
-                // 这时状态更新为正在停止下载，直到开始线程完成
-                boolean state = (startDownloadThread!=null&&startDownloadThread.isAlive());
-                while (state){
-                    L.e("开始线程还未结束");
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    progressChangeHandler.sendEmptyMessage(STATE_STOPING);
-                    state = (startDownloadThread!=null&&startDownloadThread.isAlive());
+                if (deleteDownloadThread!=null && deleteDownloadThread.isAlive()){
+                    Looper.prepare();
+                    T.getInstance().showShort("文件正在删除");
+                    Looper.loop();
+                    return;
                 }
 
-                //接着开始检测下载线程，确保下载线程要全部执行完成
-                state = threads.size()>0;
-                while(state){
-                    state = false;
-                    for (DownloadThread thread : threads){
-                        if (thread.isAlive()){
-                            state = true;
-                            break;
-                        }
-                    }
-                    try {
-                        Thread.sleep(100);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    //还有线程在执行，所以状态还为正在停止中
-                    progressChangeHandler.sendEmptyMessage(STATE_STOPING);
-                }
+                stopStartThread(STATE_STOPING);
+                stopDownloadThread(STATE_STOPING);
 
                 //确保开始线程和下载线程都已经执行完成之后才能将状态修改为停止成功
                 progressChangeHandler.sendEmptyMessage(STATE_STOPED);
             }
         });
         stopDownloadThread.start();
+    }
+
+    private void deleteDownload(){
+        deleteDownloadThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if (stopDownloadThread!=null && stopDownloadThread.isAlive()){
+                    Looper.prepare();
+                    T.getInstance().showShort("正在停止，稍后...");
+                    Looper.loop();
+                    return;
+                }
+
+                stopStartThread(STATE_DELETING);
+                stopDownloadThread(STATE_DELETING);
+
+                //确保开始线程，停止线程和下载线程都已经执行完成之后才能开始删除下载的相关信息
+                helper.deleteInfos(url);
+                File file = new File(path);
+                if (file.exists()){
+                    file.delete();
+                }else{
+                    L.w("FileDownloadManager deleteDownload file not exist");
+                }
+                progressChangeHandler.sendEmptyMessage(STATE_DELETE);
+            }
+        });
+        deleteDownloadThread.start();
+    }
+
+    /**
+     * 停止开始线程
+     */
+    private void stopStartThread(int sendState){
+        boolean state;
+        do {
+            //如果开始线程还未停止，比如用户摁完开始下载之后快速摁停止下载或删除，
+            // 这时需要更新状态，直到开始线程完成
+            state = (startDownloadThread!=null&&startDownloadThread.isAlive());
+            L.i("开始线程还未结束");
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            progressChangeHandler.sendEmptyMessage(sendState);
+        }while (state);
+    }
+
+    /**
+     * 停止下载线程
+     */
+    private void stopDownloadThread(int sendState){
+        boolean state;
+
+        //检测下载线程，确保下载线程要全部执行完成
+        state = threads.size()>0;
+        while(state){
+            state = false;
+            for (DownloadThread thread : threads){
+                if (thread.isAlive()){
+                    state = true;
+                    break;
+                }
+            }
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //还有线程在执行，所以状态还需要相应变更
+            progressChangeHandler.sendEmptyMessage(sendState);
+        }
     }
 
     /**
@@ -279,7 +409,7 @@ public class FileDownloadManager {
                 startPos = fileSize-1;
             info.endPos = startPos;
             info.completeSize = 0;
-            //下一个任务的开始位置要＋１
+            //下一个任务的开始位置要+1
             startPos ++;
             infos.add(info);
         }
@@ -356,12 +486,22 @@ public class FileDownloadManager {
             thread.start();
     }
 
+    /**
+     * 下载完成之后的处理工作
+     */
     private void finishDownload(){
         downloadState = false;
         isDownloadFinish = true;
         progressChangeHandler.sendEmptyMessage(STATE_FINISH);
         if (updateThread!=null && updateThread.isAlive())
             updateThread.canRun = false;
+
+        File file = new File(path);
+        File newFile = new File(fileName);
+        if (file.exists()){
+            file.renameTo(newFile);
+        }
+        helper.deleteInfos(url);
     }
 
     private static class ProgressChangeHandler extends Handler{
@@ -374,7 +514,7 @@ public class FileDownloadManager {
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == -1){
-                L.e("开启线程");
+                L.i("开启线程");
                 activityWeakReference.get().startThreads();
             }
             //下载进度更新
@@ -389,11 +529,11 @@ public class FileDownloadManager {
             }
             //下载状态更新
             else {
-                L.e("state"+msg.what);
-                if (currentState != msg.what){
-                    currentState = msg.what;
+                L.i("state"+msg.what);
+                if (activityWeakReference.get().currentState != msg.what){
+                    activityWeakReference.get().currentState = msg.what;
                     if (activityWeakReference.get().listener != null)
-                        activityWeakReference.get().listener.onStateChanged(currentState);
+                        activityWeakReference.get().listener.onStateChanged(activityWeakReference.get().currentState);
                 }
             }
         }
@@ -425,7 +565,6 @@ public class FileDownloadManager {
 
         @Override
         public void run() {
-            //TODO 文件超过１００Ｍ，会停止
             HttpURLConnection connection = null;
             RandomAccessFile randomAccessFile = null;
             InputStream is = null;
@@ -448,7 +587,7 @@ public class FileDownloadManager {
                     randomAccessFile.write(buffer, 0, length);
                     info.completeSize += length;
                     if (!downloadState) {
-                        L.e("我到里面来了");
+                        L.i("结束下载线程");
                         break;
                     }
                 }
@@ -480,7 +619,7 @@ public class FileDownloadManager {
                 while (canRun) {
                     // 更新数据库中的下载信息
                     helper.updateInfos(url, infos);
-                    L.e("更新界面  " + getCompleteSize() + "   fileSize" + fileSize);
+                    L.i("更新界面  " + getCompleteSize() + "   fileSize" + fileSize);
                     //更新界面
                     progressChangeHandler.sendEmptyMessage(0);
                     //每隔１秒操作数据库和更新界面，防止频繁的更新

@@ -3,7 +3,7 @@ package com.android.libcore_ui.application;
 import com.android.libcore.application.RootApplication;
 
 /**
- * Description: #TODO
+ * Description:
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-09

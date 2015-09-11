@@ -68,6 +68,16 @@ public class DownloadDBHelper extends BaseDBHelper{
         return query(selection, selectionArgs, null, null, null, null);
     }
 
+    /**
+     * 删除该url的相关下载信息
+     */
+    public void deleteInfos(String url){
+        ArrayList<String> columns = DownloadDB.TABLES.DOWNLOAD.getTableColumns();
+        String selection = columns.get(1)+"=?";
+        String[] selectionArgs = new String[]{url};
+        delete(selection, selectionArgs);
+    }
+
     @Override
     protected void initInsertDB() {
         db = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, true);

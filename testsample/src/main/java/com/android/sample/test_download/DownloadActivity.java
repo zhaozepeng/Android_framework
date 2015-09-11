@@ -28,12 +28,13 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
         tv_state = (TextView) findViewById(R.id.tv_state);
         findViewById(R.id.btn_start).setOnClickListener(this);
         findViewById(R.id.btn_stop).setOnClickListener(this);
+        findViewById(R.id.btn_delete).setOnClickListener(this);
     }
 
     @Override
     protected void initData() {
-        String url = "http://125.91.249.24/ws.acgvideo.com/b/37/4194276-1.mp4?wsTime=1438884300&wsSecret=f92d8726706bcbe09cfd1ce27bc24055&wshc_tag=0&wsts_tag=55c331aa&wsid_tag=77894933&wsiphost=ipdbm";
-        manager = new FileDownloadManager(url, "a.apk");
+        String url = "http://cn-bj5-dx.acgvideo.com/f/6c/4514737-1.flv?expires=1441983300&ssig=1zU-ia7SyyxND8G22wZDoQ&o=3702884569&appkey=f0b0e2bb41cd5f23&rate=64000";
+        manager = new FileDownloadManager(url, "a.mp4");
         manager.setListener(new FileDownloadManager.IDownloadProgressChangedListener() {
             @Override
             public void onProgressChanged(long completeSize, long totalSize) {
@@ -43,7 +44,29 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
 
             @Override
             public void onStateChanged(int state) {
-                tv_state.setText(state+"   ");
+                switch (state){
+                    case 1:
+                        tv_state.setText("正在获取文件大小");
+                        break;
+                    case 2:
+                        tv_state.setText("开始下载");
+                        break;
+                    case 3:
+                        tv_state.setText("正在停止");
+                        break;
+                    case 4:
+                        tv_state.setText("停止成功");
+                        break;
+                    case 5:
+                        tv_state.setText("下载完成");
+                        break;
+                    case 6:
+                        tv_state.setText("正在删除");
+                        break;
+                    case 7:
+                        tv_state.setText("删除成功");
+                        break;
+                }
             }
         });
     }
@@ -56,6 +79,9 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_stop:
                 manager.stop();
+                break;
+            case R.id.btn_delete:
+                manager.delete();
                 break;
         }
     }

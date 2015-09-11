@@ -35,12 +35,12 @@ public class DownloadDB extends BaseDB{
         try {
             db.beginTransaction();
             String sql;
-            sql = "create table download_" + getDBVersion() + " (";
-            sql += "id integer not null primary key autoincrement, ";
-            sql += "url varchar(4000) not null default '', ";
-            sql += "start_pos varchar(50) not null default '0', ";
-            sql += "end_pos varchar(50) not null default '0', ";
-            sql += "complete_size varchar(50) not null default '0'";
+            sql = "create table "+TABLES.DOWNLOAD.getTableName()+"_" + getDBVersion() + " (";
+            sql += TABLES.DOWNLOAD.getTableColumns().get(0)+" integer not null primary key autoincrement, ";
+            sql += TABLES.DOWNLOAD.getTableColumns().get(1)+" varchar(4000) not null default '', ";
+            sql += TABLES.DOWNLOAD.getTableColumns().get(2)+" varchar(50) not null default '0', ";
+            sql += TABLES.DOWNLOAD.getTableColumns().get(3)+" varchar(50) not null default '0', ";
+            sql += TABLES.DOWNLOAD.getTableColumns().get(4)+" varchar(50) not null default '0'";
             sql += ")";
             db.execSQL(sql);
             db.setTransactionSuccessful();
