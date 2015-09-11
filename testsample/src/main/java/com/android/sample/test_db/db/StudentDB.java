@@ -34,17 +34,17 @@ public class StudentDB extends BaseDB{
         try {
             db.beginTransaction();
             String sql;
-            sql = "create table studentInfo_" + getDBVersion() + " (";
-            sql += "id integer not null primary key autoincrement, ";
-            sql += "name varchar(40) not null default 'unknown', ";
-            sql += "gender varchar(10) not null default 'male',";
-            sql += "weight integer not null default '60'";
+            sql = "create table "+ TABLES.STUDENTINFO.getTableName()+"_" + getDBVersion() + " (";
+            sql += TABLES.STUDENTINFO.getTableColumns().get(0)+" integer not null primary key autoincrement, ";
+            sql += TABLES.STUDENTINFO.getTableColumns().get(1)+" varchar(40) not null default 'unknown', ";
+            sql += TABLES.STUDENTINFO.getTableColumns().get(2)+" varchar(10) not null default 'male',";
+            sql += TABLES.STUDENTINFO.getTableColumns().get(3)+" integer not null default '60'";
             sql += ")";
             db.execSQL(sql);
-            sql = "create table studentGrade_" + getDBVersion() + " (";
-            sql += "id integer not null primary key autoincrement, ";
-            sql += "class integer not null default '1', ";
-            sql += "grade integer not null default '60'";
+            sql = "create table "+TABLES.STUDENTGRADE.getTableName()+"_" + getDBVersion() + " (";
+            sql += TABLES.STUDENTGRADE.getTableColumns().get(0)+" integer not null primary key autoincrement, ";
+            sql += TABLES.STUDENTGRADE.getTableColumns().get(1)+" integer not null default '1', ";
+            sql += TABLES.STUDENTGRADE.getTableColumns().get(2)+" integer not null default '60'";
             sql += ")";
             db.execSQL(sql);
             db.setTransactionSuccessful();
