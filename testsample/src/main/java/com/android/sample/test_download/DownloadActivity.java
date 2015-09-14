@@ -33,8 +33,8 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void initData() {
-        String url = "http://cn-bj5-dx.acgvideo.com/f/6c/4514737-1.flv?expires=1441983300&ssig=1zU-ia7SyyxND8G22wZDoQ&o=3702884569&appkey=f0b0e2bb41cd5f23&rate=64000";
-        manager = new FileDownloadManager(url, "a.mp4");
+        String url = "http://gdown.baidu.com/data/wisegame/ce89b7ee349d6918/QQ_270.apk";
+        manager = new FileDownloadManager(url, "QQ_270.apk");
         manager.setListener(new FileDownloadManager.IDownloadProgressChangedListener() {
             @Override
             public void onProgressChanged(long completeSize, long totalSize) {

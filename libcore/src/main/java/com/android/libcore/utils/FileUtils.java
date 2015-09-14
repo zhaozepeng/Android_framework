@@ -91,6 +91,26 @@ public class FileUtils {
     }
 
     /**
+     * 所有在外部存储目录下的子目录都需要在此定义文件夹名
+     */
+    public enum ExternalStorageType{
+        TEMP("temp"),FILE("file"),IMAGE("image"),VOICE("voice"),VIDEO("video"),HTML("html");
+
+        private String typeName;
+        ExternalStorageType(String typeName){
+            this.typeName = typeName;
+        }
+
+        public String getFilePath(String parentPath) {
+            String path = parentPath;
+            if (!(parentPath.charAt(parentPath.length()-1)=='/')){
+                path += "/";
+            }
+            return path+typeName;
+        }
+    }
+
+    /**
      * 获取外部临时文件目录，过大会自动删除
      */
     public static String getExternalStorageTempPath(){
@@ -244,25 +264,5 @@ public class FileUtils {
             }
         }
         return size;
-    }
-
-    /**
-     * 所有在外部存储目录下的子目录都需要在此定义文件夹名
-     */
-    public enum ExternalStorageType{
-        TEMP("temp"),FILE("file"),IMAGE("image"),VOICE("voice"),VIDEO("video"),HTML("html");
-
-        private String typeName;
-        ExternalStorageType(String typeName){
-            this.typeName = typeName;
-        }
-
-        public String getFilePath(String parentPath) {
-            String path = parentPath;
-            if (!(parentPath.charAt(parentPath.length()-1)=='/')){
-                path += "/";
-            }
-            return path+typeName;
-        }
     }
 }

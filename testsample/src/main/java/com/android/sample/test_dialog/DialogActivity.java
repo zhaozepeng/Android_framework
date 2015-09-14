@@ -2,6 +2,7 @@ package com.android.sample.test_dialog;
 
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,7 +40,7 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void initData() {
-
+        addNavigationOnBottom((ViewGroup) findViewById(R.id.ll_content));
     }
 
     @Override

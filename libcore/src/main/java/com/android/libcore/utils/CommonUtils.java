@@ -88,6 +88,19 @@ public class CommonUtils {
     }
 
     /**
+     * 检查手机是否会有虚拟底部navigation bar
+     */
+    public static boolean hasNavigationBar(){
+        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
+        boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
+
+        if(hasBackKey && hasHomeKey) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * md5加密
      */
     public static String md5(String string) {
@@ -159,15 +172,10 @@ public class CommonUtils {
     }
 
     /**
-     * 检查手机是否会有虚拟底部navigation bar
+     * 制造崩溃
      */
-    public static boolean hasNavigationBar(){
-        boolean hasBackKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_BACK);
-        boolean hasHomeKey = KeyCharacterMap.deviceHasKey(KeyEvent.KEYCODE_HOME);
-
-        if(hasBackKey && hasHomeKey) {
-            return false;
-        }
-        return true;
+    public static int makeCrash(){
+        int a[] = new int[2];
+        return a[3];
     }
 }

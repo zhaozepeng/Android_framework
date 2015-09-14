@@ -8,6 +8,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.android.framework.R;
+import com.android.libcore.log.L;
+import com.android.libcore.utils.CommonUtils;
 import com.android.libcore.utils.FileUtils;
 import com.android.libcore.utils.ImageUtils;
 import com.android.libcore_ui.activity.BaseActivity;
@@ -118,6 +120,11 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
                 break;
             default:
                 return;
+        }
+        try {
+            CommonUtils.makeCrash();
+        }catch (Throwable e){
+            L.e("error", e);
         }
         startActivity(intent);
     }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.libcore.application.RootApplication;
+import com.android.libcore.log.L;
 
 /**
  * Description: 所有基础{@linkplain Activity}的基类，所有的Activity应该
@@ -28,6 +29,14 @@ public abstract class RootActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         RootApplication.setInstanceRef(this);
         ActivityManager.getInstance().addActivity(this);
+
+        //修改L日志类的tag
+        try {
+            L.LOG_TAG = ActivityManager.getInstance().getActivity().getLocalClassName();
+        }catch (Throwable e){
+            L.LOG_TAG = RootApplication.getInstance().getPackageName();
+        }
+
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

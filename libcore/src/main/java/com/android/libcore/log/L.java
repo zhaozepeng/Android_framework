@@ -3,8 +3,9 @@ package com.android.libcore.log;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.android.libcore.BuildConfig;
 import com.android.libcore.application.RootApplication;
+
+import java.util.Locale;
 
 /**
  * Description: log打印类
@@ -14,30 +15,29 @@ import com.android.libcore.application.RootApplication;
  */
 public final class L {
     private static boolean LOG_ENABLE = true;
-    private static String LOG_TAG= "LOG_TAG";
+    public static String LOG_TAG = "LOG_TAG";
 
     private L(){}
 
     static {
-//        LOG_ENABLE = BuildConfig.DEBUG;
         LOG_ENABLE = RootApplication.DEBUG;
         LOG_TAG = RootApplication.getInstance().getPackageName();
     }
 
     /**
      * 打印基本信息
-     * @param objects 需要打印出来的额外信息，每次换行
+     * @param args 需要打印出来的额外信息，每次换行
      */
-    public static void i(String message, Object... objects){
-        log(Log.INFO, message, null, objects);
+    public static void i(String message, Object... args){
+        log(Log.INFO, message, null, args);
     }
 
     /**
      * 打印警告
-     * @param objects 需要打印出来的额外信息，每次换行
+     * @param args 需要打印出来的额外信息，每次换行
      */
-    public static void w(String message, Object... objects){
-        log(Log.WARN, message, null, objects);
+    public static void w(String message, Object... args){
+        log(Log.WARN, message, null, args);
     }
 
     /***
@@ -51,29 +51,53 @@ public final class L {
     /***
      * 打印异常
      */
-    public static void e(String message, Object... objects){
-        log(Log.ERROR, message, null, objects);
+    public static void e(String message, Object... args){
+        log(Log.ERROR, message, null, args);
     }
 
     /***
      * 打印异常
      * @param throwable 需要打印的异常信息
-     * @param objects 需要打印出来的额外信息，每次换行
+     * @param args 需要打印出来的额外信息，每次换行
      */
-    public static void e(String message, Throwable throwable, Object... objects){
-        log(Log.ERROR, message, throwable, objects);
+    public static void e(String message, Throwable throwable, Object... args){
+        log(Log.ERROR, message, throwable, args);
     }
 
-    private static void log(int priority, String message, Throwable throwable, Object... objects){
+    private static void log(int priority, String message, Throwable throwable, Object... args){
         if (!LOG_ENABLE)
             return;
         StringBuilder log = new StringBuilder();
+
+        //获取调用者类，函数信息和行数信息
+        StackTraceElement[] trace = new Throwable().fillInStackTrace().getStackTrace();
+        String caller = "<unknown>";
+        for (int i = 2; i < trace.length; i++) {
+            Class<?> clazz = trace[i].getClass();
+            if (!clazz.equals(L.class)) {
+                String callingClass = trace[i].getClassName();
+                callingClass = callingClass.substring(callingClass.lastIndexOf('.') + 1);
+                callingClass = callingClass.substring(callingClass.lastIndexOf('$') + 1);
+                caller = callingClass + "." + trace[i].getMethodName()
+                        + "(line:" + trace[i].getLineNumber() +")";
+                break;
+            }
+        }
+
+        //将message附加到日志上
         if (!TextUtils.isEmpty(message))
-            log.append(message).append("\n");
+            log.append(String.format(Locale.US, "[TID:%d] %s: %s",
+                    Thread.currentThread().getId(), caller, message)).append("\n");
+
+        //附加异常信息
         if (throwable != null)
             log.append(Log.getStackTraceString(throwable)).append("\n");
-        for (Object object: objects)
+
+        //附加额外信息
+        for (Object object: args)
             log.append(object.toString()).append("\n");
+
+        //打印日志
         Log.println(priority, LOG_TAG, log.toString());
     }
 }
