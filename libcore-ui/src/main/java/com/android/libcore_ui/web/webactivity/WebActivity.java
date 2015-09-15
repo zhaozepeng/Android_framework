@@ -1,4 +1,4 @@
-package com.android.libcore_ui.webview.webactivity;
+package com.android.libcore_ui.web.webactivity;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -18,7 +18,7 @@ import android.widget.RelativeLayout;
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
 import com.android.libcore_ui.activity.BaseActivity;
-import com.android.libcore_ui.webview.WebFragment;
+import com.android.libcore_ui.web.WebFragment;
 
 import java.util.ArrayList;
 

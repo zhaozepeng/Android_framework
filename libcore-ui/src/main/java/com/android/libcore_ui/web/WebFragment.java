@@ -1,4 +1,4 @@
-package com.android.libcore_ui.webview;
+package com.android.libcore_ui.web;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;

@@ -2,7 +2,7 @@
           package="com.android.libcore_ui">
 
     <application>
-        <activity android:name=".webview.webactivity.WebActivity"
+        <activity android:name=".web.webactivity.WebActivity"
             android:hardwareAccelerated="true">
             <!--<intent-filter>
                 <data  android:scheme="http" />

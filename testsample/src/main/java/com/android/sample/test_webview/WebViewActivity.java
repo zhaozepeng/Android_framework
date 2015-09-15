@@ -1,8 +1,6 @@
 package com.android.sample.test_webview;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,11 +9,9 @@ import android.webkit.WebView;
 
 import com.android.framework.R;
 import com.android.libcore.Toast.T;
-import com.android.libcore.utils.FileUtils;
-import com.android.libcore.utils.ImageUtils;
 import com.android.libcore_ui.activity.BaseActivity;
-import com.android.libcore_ui.webview.WebFragment;
-import com.android.libcore_ui.webview.webactivity.WebActivity;
+import com.android.libcore_ui.web.WebFragment;
+import com.android.libcore_ui.web.webactivity.WebActivity;
 
 /**
  * Description: 测试WebView

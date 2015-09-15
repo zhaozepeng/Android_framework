@@ -2,7 +2,7 @@ package com.android.sample.test_webview;
 
 import android.webkit.WebView;
 
-import com.android.libcore_ui.webview.WebFragment;
+import com.android.libcore_ui.web.WebFragment;
 
 /**
  * Description: #TODO

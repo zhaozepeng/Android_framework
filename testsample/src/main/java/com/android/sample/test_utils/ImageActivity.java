@@ -7,10 +7,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.webkit.WebView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.framework.R;
 import com.android.libcore.Toast.T;
@@ -18,7 +16,7 @@ import com.android.libcore.utils.FileUtils;
 import com.android.libcore.utils.ImageUtils;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.dialog.LoadingDialog;
-import com.android.libcore_ui.webview.WebFragment;
+import com.android.libcore_ui.web.WebFragment;
 import com.android.sample.test_webview.TestWebFragment;
 
 /**

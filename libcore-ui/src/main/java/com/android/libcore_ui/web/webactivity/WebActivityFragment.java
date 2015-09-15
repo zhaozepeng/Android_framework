@@ -1,26 +1,18 @@
-package com.android.libcore_ui.webview.webactivity;
+package com.android.libcore_ui.web.webactivity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Message;
-import android.support.annotation.Nullable;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.ProgressBar;
 
-import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
-import com.android.libcore_ui.webview.WebFragment;
+import com.android.libcore_ui.web.WebFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
