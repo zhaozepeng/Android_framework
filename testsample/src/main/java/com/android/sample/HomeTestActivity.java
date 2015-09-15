@@ -121,11 +121,6 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
             default:
                 return;
         }
-        try {
-            CommonUtils.makeCrash();
-        }catch (Throwable e){
-            L.e("error", e);
-        }
         startActivity(intent);
     }
 }
