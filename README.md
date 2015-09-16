@@ -21,7 +21,7 @@
 <li>Application封装，使用了weakRefrence指向当前Activity的context，方便使用，还增加了应用crash，应用关闭等处理</li>
 <li>最基础的Activity和Fragment类，配合Application类和ActivityManager类进行Activity的集中管理</li>
 <li>ActivityManager类，使用栈来管理所有的activity</li>
-<li>BaseNetApi网络相关类，网络访问的底层使用的是volley框架，<strong> 为了方便以后更换其他网络框架 </strong>所以对volley进行了简单的封装，应用层module所涉及到的网络请求一定要统一使用封装之后的方法，不得直接使用Volley框架的相关类，该类为一个虚基类，请使用libcore-ui层的NetApi类进行网络访问</li>
+<li>BaseNetApi网络相关类，<strong>实现了网络请求和图片加载功能</strong>，网络访问的底层使用的是volley框架。现在提供两种方案：第一种就是可更换的网络框架，为了可更换，就要对volley进行大程度的封装，底层module不可直接使用volley相关类，这样更换网络框架只需要修改这几个相关网络类即可，但是因为volley功能的复杂性，只能封装最基本的网络访问功能，tag和cache等功能由于不通用性，只能不封装；第二种就是纯粹的volley框架，不会更换网络访问框架，只需对其进行最基本的封装即可。</li>
 <li>log类，用来打印log，打印的日志信息非常完整</li>
 <li>Toast类，该类用来弹出toast，支持弹出toast的位置</li>
 <li>GuideManager类，用来显示指引蒙版，支持全屏展示和只在内容区域展示</li>
