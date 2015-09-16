@@ -12,9 +12,9 @@ import com.android.libcore_ui.dialog.LoadingDialog;
 import com.android.libcore_ui.netapi.NetApi;
 
 import org.json.JSONObject;
+import org.xmlpull.v1.XmlPullParser;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Description: 测试网络请求
@@ -84,11 +84,11 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
                 ld.dismiss();
                 break;
             case R.id.btn_xml:
-                NetApi.getInstance().xmlRequest(this, "https://www.google.com", new HashMap<String, String>(), new BaseNetApi.OnNetCallback<String>() {
+                NetApi.getInstance().xmlRequest(this, "https://www.baidu.com/", new HashMap<String, String>(), new BaseNetApi.OnNetCallback<XmlPullParser>() {
                     @Override
-                    public void onSuccess(String result) {
+                    public void onSuccess(XmlPullParser result) {
                         ld.dismiss();
-                        tv_result.setText(result);
+                        tv_result.setText(result.toString());
                     }
 
                     @Override

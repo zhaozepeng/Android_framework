@@ -6,6 +6,7 @@ import android.content.Context;
 import com.android.libcore.application.RootApplication;
 import com.android.libcore.log.L;
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -55,13 +56,6 @@ public abstract class BaseNetApi {
     }
 
     /**
-     * 检测该activity是否结束
-     */
-    protected boolean isActivityFinish(Context context) {
-        return context instanceof Activity && ((Activity) context).isFinishing();
-    }
-
-    /**
      * 网络请求
      */
     protected  <T> void makeRequest(final Context context, Class<?> clazz, String url, final Map<String, String> params, final OnNetCallback<T> callback){
@@ -76,19 +70,23 @@ public abstract class BaseNetApi {
             errorListener = new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    if (!isActivityFinish(context)) {
-                        NetError netError = new NetError();
-                        netError.transferVolleyError(error);
-                        callback.onFail(netError);
+                    if (context instanceof Activity && (((Activity)(context)).isFinishing())) {
+                        L.i("activity finish, not callback");
+                        return ;
                     }
+                    NetError netError = new NetError();
+                    netError.transferVolleyError(error);
+                    callback.onFail(netError);
                 }
             };
             listener = new Response.Listener<T>() {
                 @Override
                 public void onResponse(T response) {
-                    if (!isActivityFinish(context)) {
-                        callback.onSuccess(response);
+                    if (context instanceof Activity && (((Activity)(context)).isFinishing())) {
+                        L.i("activity finish, not callback");
+                        return ;
                     }
+                    callback.onSuccess(response);
                 }
             };
         }
@@ -136,6 +134,9 @@ public abstract class BaseNetApi {
         }else{
             throw new IllegalArgumentException("unsupported type");
         }
+
+        //自定义超时时间，重试次数
+//        request.setRetryPolicy(new DefaultRetryPolicy());
         getRequestQueue().add(request);
     }
 

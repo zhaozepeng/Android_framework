@@ -8,6 +8,8 @@ import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 
+import org.xmlpull.v1.XmlPullParser;
+
 import java.util.Map;
 
 /**
@@ -46,7 +48,7 @@ public class NetApi extends BaseNetApi{
         return null;
     }
 
-    public void xmlRequest(Context context, String url, Map<String, String> params, OnNetCallback<String> callback){
+    public void xmlRequest(Context context, String url, Map<String, String> params, OnNetCallback<XmlPullParser> callback){
         makeRequest(context, XMLRequest.class, url, params, callback);
     }
 }
