@@ -18,10 +18,11 @@
 该层为基础核心代码层，该层的代码特点是封装了应用所应该使用的基础功能，好处是封装的功能仅仅提供简单的接口，这样就能够使得应用只需要更改libcore的封装实现，而不用修改底层的代码，轻松实现功能的变更，功能列表如下所示
 
 <ol>
-<li>Application封装，使用了weakRefrence指向当前Activity的context，方便使用，还有增加了应用crash处理，应用关闭等处理</li>
+<li>Application封装，使用了weakRefrence指向当前Activity的context，方便使用，还增加了应用crash，应用关闭等处理</li>
 <li>最基础的Activity和Fragment类，配合Application类和ActivityManager类进行Activity的集中管理</li>
 <li>ActivityManager类，使用栈来管理所有的activity</li>
-<li>log类，用来打印log</li>
+<li>BaseNetApi网络相关类，网络访问的底层使用的是volley框架，<strong> 为了方便以后更换其他网络框架 </strong>所以对volley进行了简单的封装，应用层module所涉及到的网络请求一定要统一使用封装之后的方法，不得直接使用Volley框架的相关类，该类为一个虚基类，请使用libcore-ui层的NetApi类进行网络访问</li>
+<li>log类，用来打印log，打印的日志信息非常完整</li>
 <li>Toast类，该类用来弹出toast，支持弹出toast的位置</li>
 <li>GuideManager类，用来显示指引蒙版，支持全屏展示和只在内容区域展示</li>
 <li>dialog类，定义了一个应用dialog所应该具备的基础行为</li>
@@ -42,6 +43,7 @@
 
 <ol>
 <li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式（现在提供两种样式，顶部透明样式和底部透明样式），底部的弹出框，顶部bar的样式(顶部bar有自定义bar和系统控件toolbar)等；Fragment类定义了fragment和activity之间的通信方式和topbar的交互，</li>
+<li>NetApi相关类，NetApi继承自BaseNetApi类，在原来的基础上扩展相关的功能，支持自定义继承自volley request的请求，额外的处理就只是在NetApi类中添加相应的函数</li>
 <li>继承自libcore层的dialog类，完善dialog的功能，并且定义一个工厂类用来后去需要显示的dialog样式</li>
 <li>PermanentCacheDB类，用来存储一些和应用生命周期相关的变量，写入数据库，永久保存</li>
 <li>WebFragment类，该fragment用来显示网页，可以单独作为一个fragment嵌入一个页面的任何地方</li>
@@ -54,5 +56,5 @@
 </li>
 </ol>
 
-###第三层sample层###
+###第三层应用层###
 该层为模拟应用层，用来测试下层的代码。一个应用在使用了libcore层和libcore-ui层之后，可能还需要在封装一层或几层module，但是保证最基础的两层是应用所通用的module即可
