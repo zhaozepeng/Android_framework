@@ -17,6 +17,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -63,7 +64,7 @@ public abstract class BaseNetApi {
     /**
      * 网络请求
      */
-    private <T> void makeRequest(final Context context, Class<?> clazz, String url, final Map<String, String> params, final OnNetCallback<T> callback){
+    protected  <T> void makeRequest(final Context context, Class<?> clazz, String url, final Map<String, String> params, final OnNetCallback<T> callback){
         //网络请求
         Request request = null;
         //失败回调
@@ -94,17 +95,18 @@ public abstract class BaseNetApi {
 
         if (params == null){
             try {
-                Constructor constructor = clazz.getConstructor(Integer.class, String.class, Response.Listener.class, Response.ErrorListener.class);
+                Constructor constructor = clazz.getConstructor(int.class, String.class, Response.Listener.class, Response.ErrorListener.class);
                 request = (Request) constructor.newInstance(Request.Method.GET, url, listener, errorListener);
             } catch (Exception e) {
                 L.e("error reflect", e);
+                return;
             }
         }
         //TODO 能否在runtime利用reflect覆盖一个类的方法？如果可实现此函数将大量简化
         //https://www.google.fr/?gfe_rd=cr&ei=pQf4VdKAAcHC8AeUoK_oDg&gws_rd=ssl#q=java+reflection+override+method+at+runtime
 
         //启动网络请求
-        if (handleOtherRequest(clazz, url, params, listener, errorListener, request)){
+        if ((request = handleOtherRequest(clazz, url, params, listener, errorListener)) != null){
         } else if (clazz == StringRequest.class){
             if (params != null)
                 request = new StringRequest(Request.Method.POST, url, listener, errorListener){
@@ -156,11 +158,10 @@ public abstract class BaseNetApi {
      * @param params 网络访问所带参数
      * @param listener　成功回调
      * @param errorListener　错误回调
-     * @param request　需要在子类赋值的请求
-     * @return 是否已处理该request
+     * @return request
      */
-    protected abstract boolean handleOtherRequest(Class<?> clazz, String url, final Map<String, String> params, Response.Listener listener,
-                                                  Response.ErrorListener errorListener, Request request);
+    protected abstract Request handleOtherRequest(Class<?> clazz, String url, final Map<String, String> params, Response.Listener listener,
+                                                  Response.ErrorListener errorListener);
 
     /**
      * string 请求
@@ -180,7 +181,7 @@ public abstract class BaseNetApi {
      * @param params 网络请求参数
      * @param callback　网络请求回调
      */
-    public void jsonObjectRequest(Context context, String url, Map<String, String> params, OnNetCallback<String> callback){
+    public void jsonObjectRequest(Context context, String url, Map<String, String> params, OnNetCallback<JSONObject> callback){
         makeRequest(context, JsonObjectRequest.class, url, params, callback);
     }
 
@@ -191,7 +192,7 @@ public abstract class BaseNetApi {
      * @param params 网络请求参数
      * @param callback　网络请求回调
      */
-    public void jsonArrayRequest(Context context, String url, Map<String, String> params, OnNetCallback<String> callback){
+    public void jsonArrayRequest(Context context, String url, Map<String, String> params, OnNetCallback<JSONArray> callback){
         makeRequest(context, JsonArrayRequest.class, url, params, callback);
     }
 }

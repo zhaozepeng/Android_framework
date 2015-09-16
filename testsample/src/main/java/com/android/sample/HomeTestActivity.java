@@ -13,14 +13,20 @@ import com.android.libcore.utils.CommonUtils;
 import com.android.libcore.utils.FileUtils;
 import com.android.libcore.utils.ImageUtils;
 import com.android.libcore_ui.activity.BaseActivity;
+import com.android.libcore_ui.netapi.NetApi;
 import com.android.sample.test_activity.ActivityTestHomePage;
 import com.android.sample.test_cache.CacheActivity;
 import com.android.sample.test_db.DBActivity;
 import com.android.sample.test_dialog.DialogActivity;
 import com.android.sample.test_download.DownloadActivity;
 import com.android.sample.test_guide.GuideActivity;
+import com.android.sample.test_netapi.NetActivity;
 import com.android.sample.test_utils.UtilsActivity;
 import com.android.sample.test_webview.WebViewActivity;
+import com.android.volley.Response;
+import com.android.volley.toolbox.StringRequest;
+
+import java.lang.reflect.Constructor;
 
 /**
  * Description: homepage
@@ -34,6 +40,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
 
     /** 测试activity */
     private Button btn_test_activity;
+    /** 测试网络请求 */
+    private Button btn_test_net;
     /** 测试蒙版 */
     private Button btn_test_guide;
     /** 测试dialog */
@@ -56,6 +64,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     protected void initView() {
         setContentViewSrc(R.layout.activity_home_test);
         btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
+        btn_test_net = (Button) findViewById(R.id.btn_test_net);
         btn_test_guide = (Button) findViewById(R.id.btn_test_guide);
         btn_test_dialog = (Button) findViewById(R.id.btn_test_dialog);
         btn_test_db = (Button) findViewById(R.id.btn_test_db);
@@ -65,6 +74,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         btn_test_utils = (Button) findViewById(R.id.btn_test_utils);
         fl_navigation = (FrameLayout) findViewById(R.id.fl_navigation);
         btn_test_activity.setOnClickListener(this);
+        btn_test_net.setOnClickListener(this);
         btn_test_guide.setOnClickListener(this);
         btn_test_dialog.setOnClickListener(this);
         btn_test_db.setOnClickListener(this);
@@ -96,6 +106,9 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         switch (v.getId()){
             case R.id.btn_test_activity:
                 intent.setClass(this, ActivityTestHomePage.class);
+                break;
+            case R.id.btn_test_net:
+                intent.setClass(this, NetActivity.class);
                 break;
             case R.id.btn_test_guide:
                 intent.setClass(this, GuideActivity.class);

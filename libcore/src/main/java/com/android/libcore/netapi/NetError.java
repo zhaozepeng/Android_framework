@@ -16,7 +16,8 @@ public class NetError extends Exception{
      * 将volley的错误信息转换成通用的信息
      */
     public void transferVolleyError(VolleyError error){
-        this.errorCode = error.networkResponse.statusCode;
-        this.errorMessage = error.getMessage();
+        if (error.networkResponse != null)
+            this.errorCode = error.networkResponse.statusCode;
+        this.errorMessage = error.toString();
     }
 }
