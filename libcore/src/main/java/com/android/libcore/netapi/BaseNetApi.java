@@ -6,7 +6,6 @@ import android.content.Context;
 import com.android.libcore.application.RootApplication;
 import com.android.libcore.log.L;
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -58,7 +57,7 @@ public abstract class BaseNetApi {
     /**
      * 网络请求
      */
-    protected  <T> void makeRequest(final Context context, Class<?> clazz, String url, final Map<String, String> params, final OnNetCallback<T> callback){
+    protected <T> void makeRequest(final Context context, Class<?> clazz, String url, final Map<String, String> params, final OnNetCallback<T> callback){
         //网络请求
         Request request = null;
         //失败回调

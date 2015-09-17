@@ -38,8 +38,8 @@ import java.util.Map;
  *
  * <ol>
  * <li>{@linkplain #receiver}用来在组件之间进行广播的接收</li>
- * <li>{@linkplain #initView()}用来初始化该activity的view，第一步调用{@link #setContentViewSrc(Object)}
- * 进行设置布局，参数为layout的id或者view，在里面进行{@link #findViewById(int)}等等操作</li>
+ * <li>{@linkplain #initView()}用来初始化该activity的view，第一步调用{@link #setContentViewSrc(int)}或者
+ * {@link #setContentViewSrc(View)}进行设置布局，参数为layout的id或者view，在里面进行{@link #findViewById(int)}等等操作</li>
  * <li>{@linkplain #initData()}用来初始化该activity的data</li>
  * <li>{@linkplain #setTitle(String)}用来设置页面标题</li>
  * <li>{@linkplain #addOptionsMenuView(View)}用来在页面的右侧添加一个按钮</li>
@@ -190,7 +190,7 @@ public abstract class BaseActivity extends RootActivity{
         initData();
     }
 
-    /** <Strong><font color=red>第一步</font></Strong>调用{@link #setContentViewSrc(Object)}进行布局的设置 */
+    /** <Strong><font color=red>第一步</font></Strong>调用setContentViewSrc进行布局的设置 */
     protected abstract void initView();
     protected abstract void initData();
 
@@ -229,18 +229,19 @@ public abstract class BaseActivity extends RootActivity{
 
     /**
      * 请使用该函数来设置该页面需要显示的内容，不包括topbar
-     * @param object resource id 或者 view
+     * @param layoutId resource id
      */
-    protected void setContentViewSrc(Object object){
-        if (object instanceof Integer){
+    protected void setContentViewSrc(int layoutId){
             LayoutInflater inflater = LayoutInflater.from(this);
-            View v = inflater.inflate((Integer)object, null);
+            View v = inflater.inflate(layoutId, null);
             base_content.addView(v);
-        }else if(object instanceof View){
-            base_content.addView((View)object);
-        }else{
-            L.e("参数只能为id或者view");
-        }
+    }
+
+    /**
+     * 请使用该函数来设置该页面需要显示的内容，不包括topbar
+     */
+    protected void setContentViewSrc(View view){
+        base_content.addView(view);
     }
 
     /**
