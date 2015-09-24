@@ -39,7 +39,7 @@ public abstract class BaseDB {
     private DataBaseHelper helper;
     protected SQLiteDatabase db;
 
-    public BaseDB(IBaseDBTableEnum table, boolean writable){
+    public BaseDB(IBaseDBTable table, boolean writable){
         this.table = table.getTableName()+"_"+getDBVersion();
         helper = new DataBaseHelper();
         if (writable)

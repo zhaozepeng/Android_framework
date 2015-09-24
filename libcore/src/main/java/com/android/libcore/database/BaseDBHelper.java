@@ -14,7 +14,7 @@ import java.util.HashMap;
  */
 public abstract class BaseDBHelper {
     protected BaseDB db;
-    protected IBaseDBTableEnum table;
+    protected IBaseDBTable table;
 
     /** 初始化插入数据库 */
     protected abstract void initInsertDB();

@@ -3,7 +3,7 @@ package com.android.libcore_ui.permanentdbcache;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.android.libcore.database.BaseDB;
-import com.android.libcore.database.IBaseDBTableEnum;
+import com.android.libcore.database.IBaseDBTable;
 import com.android.libcore.log.L;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class PermanentCacheDB extends BaseDB{
 
-    public PermanentCacheDB(IBaseDBTableEnum table, boolean writable) {
+    public PermanentCacheDB(IBaseDBTable table, boolean writable) {
         super(table, writable);
     }
 
@@ -65,7 +65,7 @@ public class PermanentCacheDB extends BaseDB{
     /**
      * 将该数据库中所有的表使用枚举封装
      */
-    public enum TABLES implements IBaseDBTableEnum{
+    public enum TABLES implements IBaseDBTable {
         CACHE("cache"){
             @Override
             public ArrayList<String> getTableColumns() {

@@ -3,7 +3,7 @@ package com.android.libcore.download;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.android.libcore.database.BaseDB;
-import com.android.libcore.database.IBaseDBTableEnum;
+import com.android.libcore.database.IBaseDBTable;
 import com.android.libcore.log.L;
 
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class DownloadDB extends BaseDB{
 
-    public DownloadDB(IBaseDBTableEnum table, boolean writable) {
+    public DownloadDB(IBaseDBTable table, boolean writable) {
         super(table, writable);
     }
 
@@ -59,7 +59,7 @@ public class DownloadDB extends BaseDB{
     /**
      * 将该数据库中所有的表使用枚举封装
      */
-    public enum TABLES implements IBaseDBTableEnum{
+    public enum TABLES implements IBaseDBTable {
         DOWNLOAD("download"){
             @Override
             public ArrayList<String> getTableColumns() {

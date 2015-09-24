@@ -3,7 +3,7 @@ package com.android.sample.test_db.db;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.android.libcore.database.BaseDB;
-import com.android.libcore.database.IBaseDBTableEnum;
+import com.android.libcore.database.IBaseDBTable;
 import com.android.libcore.log.L;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * @since 2015-07-23
  */
 public class StudentDB extends BaseDB{
-    public StudentDB(IBaseDBTableEnum table, boolean writable) {
+    public StudentDB(IBaseDBTable table, boolean writable) {
         super(table, writable);
     }
 
@@ -73,7 +73,7 @@ public class StudentDB extends BaseDB{
     /**
      * 将该数据库中所有的表使用枚举封装
      */
-    public enum TABLES implements IBaseDBTableEnum{
+    public enum TABLES implements IBaseDBTable {
         STUDENTINFO("studentInfo"){
             @Override
             public ArrayList<String> getTableColumns() {
