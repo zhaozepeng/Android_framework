@@ -45,25 +45,25 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onStateChanged(int state) {
                 switch (state){
-                    case 1:
+                    case FileDownloadManager.STATE_GETSIZE:
                         tv_state.setText("正在获取文件大小");
                         break;
-                    case 2:
+                    case FileDownloadManager.STATE_STARTING:
                         tv_state.setText("开始下载");
                         break;
-                    case 3:
+                    case FileDownloadManager.STATE_STOPING:
                         tv_state.setText("正在停止");
                         break;
-                    case 4:
+                    case FileDownloadManager.STATE_STOPED:
                         tv_state.setText("停止成功");
                         break;
-                    case 5:
+                    case FileDownloadManager.STATE_FINISH:
                         tv_state.setText("下载完成");
                         break;
-                    case 6:
+                    case FileDownloadManager.STATE_DELETING:
                         tv_state.setText("正在删除");
                         break;
-                    case 7:
+                    case FileDownloadManager.STATE_DELETE:
                         tv_state.setText("删除成功");
                         break;
                 }
