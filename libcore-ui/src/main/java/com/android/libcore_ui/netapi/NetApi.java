@@ -20,7 +20,7 @@ import java.util.Map;
  * @since 2015-09-15
  */
 public class NetApi extends BaseNetApi{
-    public volatile static NetApi instance;
+    private volatile static NetApi instance;
 
     public static NetApi getInstance(){
         if (instance == null){
@@ -31,21 +31,6 @@ public class NetApi extends BaseNetApi{
             }
         }
         return instance;
-    }
-
-    @Override
-    protected Request handleOtherRequest(Class<?> clazz, String url, final Map<String, String> params, Response.Listener listener, Response.ErrorListener
-            errorListener) {
-        if (clazz == XMLRequest.class){
-            Request request = new XMLRequest(Request.Method.POST, url, listener, errorListener){
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    return params;
-                }
-            };
-            return request;
-        }
-        return null;
     }
 
     public void xmlRequest(Context context, String url, Map<String, String> params, OnNetCallback<XmlPullParser> callback){
