@@ -101,6 +101,9 @@
         <activity android:name="com.android.sample.test_netapi.NetActivity"
                   android:label="@string/activity_test_net"
                   android:screenOrientation="portrait"/>
+        <activity android:name="com.android.sample.test_volley.VolleyActivity"
+                  android:label="@string/activity_test_volley"
+                  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

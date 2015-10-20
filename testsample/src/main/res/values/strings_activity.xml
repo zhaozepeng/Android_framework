@@ -16,4 +16,5 @@
     <string name="activity_test_image_utils">测试image utils</string>
     <string name="activity_test_common_utils">测试common utils</string>
     <string name="activity_test_net">测试网络请求</string>
+    <string name="activity_test_volley">测试volley请求</string>
 </resources>
