@@ -106,7 +106,10 @@ public abstract class BaseNetApi {
             try {
                 Constructor constructor = clazz.getConstructor(int.class, String.class, Response.Listener.class,
                         Response.ErrorListener.class, Map.class);
-                request = (Request) constructor.newInstance(Request.Method.GET, url, listener, errorListener, params);
+                int method = Request.Method.GET;
+                if (params != null)
+                    method = Request.Method.POST;
+                request = (Request) constructor.newInstance(method, url, listener, errorListener, params);
             } catch (Exception e) {
                 L.e("error reflect", e);
                 return;
@@ -123,7 +126,7 @@ public abstract class BaseNetApi {
     /**
      * 对{@linkplain StringRequest}的封装类
      */
-    public static class StringRequestImpl extends StringRequest{
+    private static class StringRequestImpl extends StringRequest{
         private Map<String, String> params;
 
         public StringRequestImpl(int method, String url, Response.Listener<String> listener,
@@ -141,7 +144,7 @@ public abstract class BaseNetApi {
     /**
      * 对{@linkplain JsonObjectRequest}的封装类
      */
-    public static class JsonObjectRequestImpl extends JsonObjectRequest{
+    private static class JsonObjectRequestImpl extends JsonObjectRequest{
         private Map<String, String> params;
 
         public JsonObjectRequestImpl(int method, String url, Response.Listener<JSONObject> listener,
@@ -159,7 +162,7 @@ public abstract class BaseNetApi {
     /**
      * 对{@linkplain JsonArrayRequest}的封装类
      */
-    public static class JsonArrayRequestImpl extends JsonArrayRequest{
+    private static class JsonArrayRequestImpl extends JsonArrayRequest{
         private Map<String, String> params;
 
         public JsonArrayRequestImpl(int method, String url, Response.Listener<JSONArray> listener,
