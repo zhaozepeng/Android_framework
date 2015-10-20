@@ -51,7 +51,8 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
         ld.show();
         switch (v.getId()){
             case R.id.btn_string:
-                NetApi.getInstance().stringRequest(this, "https://www.baidu.com", new HashMap<String, String>(), new BaseNetApi.OnNetCallback<String>() {
+                NetApi.getInstance().stringRequest(this, "https://www.baidu.com", new HashMap<String, String>(),
+                        new BaseNetApi.OnNetCallback<String>() {
                     @Override
                     public void onSuccess(String result) {
                         ld.dismiss();
@@ -66,7 +67,8 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
                 });
                 break;
             case R.id.btn_jsonObject:
-                NetApi.getInstance().jsonObjectRequest(this, "http://www.weather.com.cn/data/sk/101280601.html", new HashMap<String, String>(), new BaseNetApi.OnNetCallback<JSONObject>() {
+                NetApi.getInstance().jsonObjectRequest(this, "http://www.weather.com.cn/data/sk/101280601.html", new HashMap<String, String>(),
+                        new BaseNetApi.OnNetCallback<JSONObject>() {
                     @Override
                     public void onSuccess(JSONObject result) {
                         ld.dismiss();
@@ -84,7 +86,8 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
                 ld.dismiss();
                 break;
             case R.id.btn_xml:
-                NetApi.getInstance().xmlRequest(this, "https://www.baidu.com/", new HashMap<String, String>(), new BaseNetApi.OnNetCallback<XmlPullParser>() {
+                NetApi.getInstance().xmlRequest(this, "https://www.baidu.com/", new HashMap<String, String>(),
+                        new BaseNetApi.OnNetCallback<XmlPullParser>() {
                     @Override
                     public void onSuccess(XmlPullParser result) {
                         ld.dismiss();

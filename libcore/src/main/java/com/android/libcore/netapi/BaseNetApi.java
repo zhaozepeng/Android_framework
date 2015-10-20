@@ -54,6 +54,15 @@ public abstract class BaseNetApi {
         void onFail(NetError error);
     }
 
+    private boolean checkIfExtendsRequest(Class clazz){
+        while (clazz.getSuperclass() != null){
+            clazz = clazz.getSuperclass();
+            if (clazz == Request.class)
+                return true;
+        }
+        return false;
+    }
+
     /**
      * 网络请求
      */
@@ -91,8 +100,9 @@ public abstract class BaseNetApi {
         }
 
         //启动网络请求
-        if (clazz == StringRequest.class || clazz == JsonObjectRequest.class || clazz == JsonArrayRequest.class) {
-
+        if (clazz == ImageRequest.class){
+            throw new IllegalArgumentException("please use imageloader");
+        }else if (checkIfExtendsRequest(clazz)) {
             try {
                 Constructor constructor = clazz.getConstructor(int.class, String.class, Response.Listener.class,
                         Response.ErrorListener.class, Map.class);
@@ -101,9 +111,7 @@ public abstract class BaseNetApi {
                 L.e("error reflect", e);
                 return;
             }
-        }else if (clazz == ImageRequest.class) {
-            throw new IllegalArgumentException("please use imageloader");
-        } else {
+        }else {
             throw new IllegalArgumentException("unsupported type");
         }
 
@@ -115,7 +123,7 @@ public abstract class BaseNetApi {
     /**
      * 对{@linkplain StringRequest}的封装类
      */
-    private class StringRequestImpl extends StringRequest{
+    public static class StringRequestImpl extends StringRequest{
         private Map<String, String> params;
 
         public StringRequestImpl(int method, String url, Response.Listener<String> listener,
@@ -133,7 +141,7 @@ public abstract class BaseNetApi {
     /**
      * 对{@linkplain JsonObjectRequest}的封装类
      */
-    private class JsonObjectRequestImpl extends JsonObjectRequest{
+    public static class JsonObjectRequestImpl extends JsonObjectRequest{
         private Map<String, String> params;
 
         public JsonObjectRequestImpl(int method, String url, Response.Listener<JSONObject> listener,
@@ -151,7 +159,7 @@ public abstract class BaseNetApi {
     /**
      * 对{@linkplain JsonArrayRequest}的封装类
      */
-    private class JsonArrayRequestImpl extends JsonArrayRequest{
+    public static class JsonArrayRequestImpl extends JsonArrayRequest{
         private Map<String, String> params;
 
         public JsonArrayRequestImpl(int method, String url, Response.Listener<JSONArray> listener,
