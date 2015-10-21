@@ -58,12 +58,9 @@ public class StudentDB extends BaseDB{
 
     @Override
     protected void onDBUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        switch (oldVersion){
-            case 1:
-                L.e("我要升级到2");
-                break;
+        switch (newVersion){
             case 2:
-                L.e("我要升级到3");
+                L.e("我要升级到2");
                 break;
             default:
                 break;

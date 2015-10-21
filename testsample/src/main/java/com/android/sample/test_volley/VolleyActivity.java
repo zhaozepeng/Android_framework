@@ -120,6 +120,7 @@ public class VolleyActivity extends BaseActivity implements View.OnClickListener
                     }
                 });
                 VolleyApi.getRequestQueue().add(xmlRequest);
+                break;
             case R.id.btn_image:
                 ld.dismiss();
                 ImageLoader.ImageListener listener = ImageLoader.getImageListener(iv_content,
