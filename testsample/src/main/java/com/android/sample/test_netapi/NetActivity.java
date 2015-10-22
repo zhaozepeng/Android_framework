@@ -5,8 +5,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.framework.R;
-import com.android.libcore.netapi.BaseNetApi;
-import com.android.libcore.netapi.NetError;
+import com.android.libcore.net.netapi.BaseNetApi;
+import com.android.libcore.net.NetError;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.dialog.LoadingDialog;
 import com.android.libcore_ui.netapi.NetApi;

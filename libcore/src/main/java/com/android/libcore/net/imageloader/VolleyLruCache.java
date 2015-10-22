@@ -1,4 +1,4 @@
-package com.android.libcore.imageloader;
+package com.android.libcore.net.imageloader;
 
 import android.graphics.Bitmap;
 import android.support.v4.util.LruCache;

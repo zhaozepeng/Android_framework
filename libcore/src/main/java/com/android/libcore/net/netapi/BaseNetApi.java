@@ -1,10 +1,11 @@
-package com.android.libcore.netapi;
+package com.android.libcore.net.netapi;
 
 import android.app.Activity;
 import android.content.Context;
 
 import com.android.libcore.application.RootApplication;
 import com.android.libcore.log.L;
+import com.android.libcore.net.NetError;
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;

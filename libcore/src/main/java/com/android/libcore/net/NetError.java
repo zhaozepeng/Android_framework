@@ -1,4 +1,4 @@
-package com.android.libcore.netapi;
+package com.android.libcore.net;
 
 import com.android.volley.VolleyError;
 

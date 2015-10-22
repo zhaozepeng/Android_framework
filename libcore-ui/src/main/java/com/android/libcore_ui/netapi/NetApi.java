@@ -2,11 +2,8 @@ package com.android.libcore_ui.netapi;
 
 import android.content.Context;
 
-import com.android.libcore.netapi.BaseNetApi;
+import com.android.libcore.net.netapi.BaseNetApi;
 import com.android.libcore_ui.netapi.request.XMLRequest;
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
 
 import org.xmlpull.v1.XmlPullParser;
 
