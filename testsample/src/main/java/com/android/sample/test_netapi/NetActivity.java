@@ -110,17 +110,31 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
             case R.id.btn_image:
                 ld.dismiss();
 //                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png", iv_content);
-                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png", new ImageLoader.OnLoadCallBack() {
-                    @Override
-                    public void onLoadSuccess(Bitmap bitmap, String url) {
-                        iv_content.setImageBitmap(bitmap);
-                    }
-
-                    @Override
-                    public void onLoadFail(NetError error) {
-
-                    }
-                });
+//                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png", new ImageLoader.OnLoadCallBack() {
+//                    @Override
+//                    public void onLoadSuccess(Bitmap bitmap, String url) {
+//                        iv_content.setImageBitmap(bitmap);
+//                    }
+//
+//                    @Override
+//                    public void onLoadFail(NetError error) {
+//
+//                    }
+//                });
+//                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png",
+//                        iv_content.getMeasuredWidth(), iv_content.getMeasuredHeight(), new ImageLoader.OnLoadCallBack() {
+//                            @Override
+//                            public void onLoadSuccess(Bitmap bitmap, String url) {
+//                                iv_content.setImageBitmap(bitmap);
+//                            }
+//
+//                            @Override
+//                            public void onLoadFail(NetError error) {
+//
+//                            }
+//                        });
+                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png", iv_content, R.mipmap.ic_refresh, R.mipmap.ic_refresh_close,
+                                            iv_content.getMeasuredWidth(), iv_content.getMeasuredHeight());
                 break;
         }
     }
