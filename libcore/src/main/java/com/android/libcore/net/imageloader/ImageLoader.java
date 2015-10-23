@@ -70,7 +70,7 @@ public class ImageLoader {
      * @param url 图片url
      * @param listener 图片加载回调
      */
-    public void loadImage(String url, final onLoadCallBack listener){
+    public void loadImage(String url, final OnLoadCallBack listener){
         loadImage(url, 0, 0, listener);
     }
 
@@ -81,7 +81,7 @@ public class ImageLoader {
      * @param height 需要加载的图片高
      * @param listener 加载图片完成回调
      */
-    public void loadImage(String url, int width, int height, final onLoadCallBack listener){
+    public void loadImage(String url, int width, int height, final OnLoadCallBack listener){
         loadImage(url, null, width, height, listener);
     }
 
@@ -91,7 +91,7 @@ public class ImageLoader {
      * @param imageView 需要加载图片的视图
      * @param listener 加载图片的回调
      */
-    public void loadImage(String url, final ImageView imageView, final onLoadCallBack listener){
+    public void loadImage(String url, final ImageView imageView, final OnLoadCallBack listener){
         int width = getImageViewFieldValue(imageView, "mMaxWidth");
         int height = getImageViewFieldValue(imageView, "mMaxHeight");
 
@@ -106,7 +106,7 @@ public class ImageLoader {
      * @param height 需要加载视图的高
      * @param listener 加载图片回调
      */
-    public void loadImage(String url, final ImageView imageView, int width, int height, final onLoadCallBack listener){
+    public void loadImage(String url, final ImageView imageView, int width, int height, final OnLoadCallBack listener){
         imageLoader.get(url, new com.android.volley.toolbox.ImageLoader.ImageListener() {
             @Override
             public void onResponse(com.android.volley.toolbox.ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -161,7 +161,7 @@ public class ImageLoader {
     /**
      * 加载图片回调
      */
-    public interface onLoadCallBack{
+    public interface OnLoadCallBack {
         void onLoadSuccess(Bitmap bitmap, String url);
         void onLoadFail(NetError error);
     }

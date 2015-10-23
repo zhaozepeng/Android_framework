@@ -1,10 +1,13 @@
 package com.android.sample.test_netapi;
 
+import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.framework.R;
+import com.android.libcore.net.imageloader.ImageLoader;
 import com.android.libcore.net.netapi.BaseNetApi;
 import com.android.libcore.net.NetError;
 import com.android.libcore_ui.activity.BaseActivity;
@@ -25,6 +28,7 @@ import java.util.HashMap;
 public class NetActivity extends BaseActivity implements View.OnClickListener{
 
     private TextView tv_result;
+    private ImageView iv_content;
     private LoadingDialog ld;
 
     @Override
@@ -32,11 +36,13 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
         setContentViewSrc(R.layout.activity_test_net);
         addNavigationOnBottom((ViewGroup) findViewById(R.id.ll_content));
         tv_result = (TextView) findViewById(R.id.tv_result);
+        iv_content = (ImageView) findViewById(R.id.iv_content);
 
         findViewById(R.id.btn_string).setOnClickListener(this);
         findViewById(R.id.btn_jsonObject).setOnClickListener(this);
         findViewById(R.id.btn_jsonArray).setOnClickListener(this);
         findViewById(R.id.btn_xml).setOnClickListener(this);
+        findViewById(R.id.btn_image).setOnClickListener(this);
 
         ld = new LoadingDialog(this);
     }
@@ -98,6 +104,21 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
                     public void onFail(NetError error) {
                         ld.dismiss();
                         tv_result.setText(error.errorMessage);
+                    }
+                });
+                break;
+            case R.id.btn_image:
+                ld.dismiss();
+//                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png", iv_content);
+                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png", new ImageLoader.OnLoadCallBack() {
+                    @Override
+                    public void onLoadSuccess(Bitmap bitmap, String url) {
+                        iv_content.setImageBitmap(bitmap);
+                    }
+
+                    @Override
+                    public void onLoadFail(NetError error) {
+
                     }
                 });
                 break;
