@@ -1,9 +1,9 @@
-package com.android.libcore_ui.netapi;
+package com.android.libcore_ui.net;
 
 import android.content.Context;
 
 import com.android.libcore.net.netapi.BaseNetApi;
-import com.android.libcore_ui.netapi.request.XMLRequest;
+import com.android.libcore_ui.net.request.XMLRequest;
 
 import org.xmlpull.v1.XmlPullParser;
 

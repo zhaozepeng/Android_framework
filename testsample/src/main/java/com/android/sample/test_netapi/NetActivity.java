@@ -1,6 +1,5 @@
 package com.android.sample.test_netapi;
 
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -12,7 +11,7 @@ import com.android.libcore.net.netapi.BaseNetApi;
 import com.android.libcore.net.NetError;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.dialog.LoadingDialog;
-import com.android.libcore_ui.netapi.NetApi;
+import com.android.libcore_ui.net.NetApi;
 
 import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;

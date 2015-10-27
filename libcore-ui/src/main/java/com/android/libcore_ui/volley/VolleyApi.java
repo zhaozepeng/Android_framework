@@ -1,6 +1,6 @@
-package com.android.libcore_ui.volleyapi;
+package com.android.libcore_ui.volley;
 
-import com.android.libcore.volleyapi.BaseVolleyApi;
+import com.android.libcore.volley.BaseVolleyApi;
 
 /**
  *

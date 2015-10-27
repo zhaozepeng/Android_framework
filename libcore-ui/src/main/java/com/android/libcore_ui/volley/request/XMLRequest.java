@@ -1,6 +1,5 @@
-package com.android.libcore_ui.netapi.request;
+package com.android.libcore_ui.volley.request;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
@@ -13,7 +12,6 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
-import java.util.Map;
 
 /**
  * Description: xml请求
@@ -23,18 +21,11 @@ import java.util.Map;
  */
 public class XMLRequest extends Request<XmlPullParser>{
     private Response.Listener<XmlPullParser> mListener;
-    private Map<String, String> params;
 
     public XMLRequest(int method, String url, Response.Listener<XmlPullParser> listener,
-                         Response.ErrorListener errorListener, Map<String, String> params) {
+                      Response.ErrorListener errorListener) {
         super(method, url, errorListener);
         mListener = listener;
-        this.params = params;
-    }
-
-    @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
-        return params;
     }
 
     @Override

@@ -21,7 +21,9 @@
 <li>Application封装，使用了weakRefrence指向当前Activity的context，方便使用，还增加了应用crash，应用关闭等处理</li>
 <li>最基础的Activity和Fragment类，配合Application类和ActivityManager类进行Activity的集中管理</li>
 <li>ActivityManager类，使用栈来管理所有的activity</li>
-<li>BaseNetApi网络相关类，<strong>实现了网络请求和图片加载功能</strong>，网络访问的底层使用的是volley框架。现在提供两种方案：第一种就是可更换的网络框架，为了可更换，就要对volley进行大程度的封装，所有子module不可直接使用volley相关类，以后网络框架更改，只需要修改这几个相关网络类即可，因为volley功能的复杂性，只能封装最基本的网络访问功能，tag和cache等功能由于不通用性，暂时不封装；第二种就是纯粹的volley框架，不会更换网络访问框架，只需对其进行最基本的封装，所有功能类都可在子module中使用，所以会增大项目对volley框架的粘滞性，需要慎重考虑</li>
+<li>BaseNetApi类，实现了网络请求，网络访问的底层使用的是volley框架。现在提供两种方案：第一种就是可更换的网络框架，为了可更换，就要对volley进行大程度的封装，所有子module不可直接使用volley相关类，以后网络框架更改，只需要修改这几个相关类即可，由于volley功能的复杂性，只能封装最基本的网络访问功能，tag和cache等功能由于不通用性，暂时不封装；</li>
+<li>BaseVolleyApi类，第二种就是纯粹的volley框架，不会更换网络访问框架，只需对其进行最基本的封装，所有功能类都可在子module中使用，所以会增大项目对volley框架的耦合性</li>
+<li>ImageLoader类，用来进行图片的加载，封装的是volley的imageloader功能，支持lrucache和sd卡二级存储功能</li>
 <li>log类，用来打印log，打印的日志信息非常完整</li>
 <li>Toast类，该类用来弹出toast，支持弹出toast的位置</li>
 <li>GuideManager类，用来显示指引蒙版，支持全屏展示和只在内容区域展示</li>
@@ -43,7 +45,8 @@
 
 <ol>
 <li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式（现在提供两种样式，顶部透明样式和底部透明样式），底部的弹出框，顶部bar的样式(顶部bar有自定义bar和系统控件toolbar)等；Fragment类定义了fragment和activity之间的通信方式和topbar的交互，</li>
-<li>NetApi相关类，NetApi继承自BaseNetApi类，在原来的基础上扩展相关的功能，支持自定义继承自volley request的请求，额外的处理就只是在NetApi类中添加相应的函数</li>
+<li>NetApi类，NetApi继承自BaseNetApi类，在原来的基础上扩展相关的功能，支持自定义继承自volley request的请求，额外的处理就只是在NetApi类中添加相应的函数</li>
+<li>VolleyApi类，用来对BaseVolleyApi类进行功能扩展</li>
 <li>继承自libcore层的dialog类，完善dialog的功能，并且定义一个工厂类用来后去需要显示的dialog样式</li>
 <li>PermanentCacheDB类，用来存储一些和应用生命周期相关的变量，写入数据库，永久保存</li>
 <li>WebFragment类，该fragment用来显示网页，可以单独作为一个fragment嵌入一个页面的任何地方</li>

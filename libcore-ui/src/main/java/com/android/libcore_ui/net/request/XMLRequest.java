@@ -1,4 +1,4 @@
-package com.android.libcore_ui.volleyapi.request;
+package com.android.libcore_ui.net.request;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -23,11 +23,18 @@ import java.util.Map;
  */
 public class XMLRequest extends Request<XmlPullParser>{
     private Response.Listener<XmlPullParser> mListener;
+    private Map<String, String> params;
 
     public XMLRequest(int method, String url, Response.Listener<XmlPullParser> listener,
-                      Response.ErrorListener errorListener) {
+                         Response.ErrorListener errorListener, Map<String, String> params) {
         super(method, url, errorListener);
         mListener = listener;
+        this.params = params;
+    }
+
+    @Override
+    protected Map<String, String> getParams() throws AuthFailureError {
+        return params;
     }
 
     @Override
