@@ -132,8 +132,8 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
 //
 //                            }
 //                        });
-                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png", iv_content, R.mipmap.ic_refresh, R.mipmap.ic_refresh_close,
-                                            iv_content.getMeasuredWidth(), iv_content.getMeasuredHeight());
+                ImageLoader.getInstance().loadImage("http://www.baidu.com/img/bdlogo.png", iv_content.getMeasuredWidth(), iv_content.getMeasuredHeight(), iv_content,
+                        R.mipmap.ic_refresh, R.mipmap.ic_refresh_close);
                 break;
         }
     }

@@ -15,6 +15,7 @@ import com.android.sample.test_db.DBActivity;
 import com.android.sample.test_dialog.DialogActivity;
 import com.android.sample.test_download.DownloadActivity;
 import com.android.sample.test_guide.GuideActivity;
+import com.android.sample.test_imageloader.ImageActivity;
 import com.android.sample.test_netapi.NetActivity;
 import com.android.sample.test_utils.UtilsActivity;
 import com.android.sample.test_volley.VolleyActivity;
@@ -34,6 +35,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     private Button btn_test_activity;
     /** 测试网络请求 */
     private Button btn_test_net;
+    /** 测试图片加载 */
+    private Button btn_test_imageloder;
     /** 测试volley */
     private Button btn_test_volley;
     /** 测试蒙版 */
@@ -59,6 +62,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         setContentViewSrc(R.layout.activity_home_test);
         btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
         btn_test_net = (Button) findViewById(R.id.btn_test_net);
+        btn_test_imageloder = (Button) findViewById(R.id.btn_test_imageloder);
         btn_test_volley = (Button) findViewById(R.id.btn_test_volley);
         btn_test_guide = (Button) findViewById(R.id.btn_test_guide);
         btn_test_dialog = (Button) findViewById(R.id.btn_test_dialog);
@@ -70,6 +74,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         fl_navigation = (FrameLayout) findViewById(R.id.fl_navigation);
         btn_test_activity.setOnClickListener(this);
         btn_test_net.setOnClickListener(this);
+        btn_test_imageloder.setOnClickListener(this);
         btn_test_volley.setOnClickListener(this);
         btn_test_guide.setOnClickListener(this);
         btn_test_dialog.setOnClickListener(this);
@@ -105,6 +110,9 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_test_net:
                 intent.setClass(this, NetActivity.class);
+                break;
+            case R.id.btn_test_imageloder:
+                intent.setClass(this, ImageActivity.class);
                 break;
             case R.id.btn_test_volley:
                 intent.setClass(this, VolleyActivity.class);

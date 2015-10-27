@@ -22,6 +22,13 @@
             android:background="@drawable/button_homepage_selector"
             android:text="测试网络请求"/>
         <Button
+            android:id="@+id/btn_test_imageloder"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_homepage_selector"
+            android:text="测试图片加载"/>
+        <Button
             android:id="@+id/btn_test_volley"
             android:layout_width="match_parent"
             android:layout_height="50dp"

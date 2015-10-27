@@ -82,7 +82,7 @@ public class ImageLoader {
      * @param listener 加载图片完成回调
      */
     public void loadImage(String url, int width, int height, final OnLoadCallBack listener){
-        loadImage(url, null, width, height, listener);
+        loadImage(url, width, height, null, listener);
     }
 
     /**
@@ -95,7 +95,18 @@ public class ImageLoader {
         int width = getImageViewFieldValue(imageView, "mMaxWidth");
         int height = getImageViewFieldValue(imageView, "mMaxHeight");
 
-        loadImage(url, imageView, width, height, listener);
+        loadImage(url, width, height, imageView, listener);
+    }
+
+    /**
+     * 加载图片
+     * @param url 图片url
+     * @param width　图片加载的图片宽
+     * @param height　图片加载的图片高
+     * @param imageView　需要加载图片的视图
+     */
+    public void loadImage(String url, int width, int height, final ImageView imageView){
+        loadImage(url, width, height, imageView, null);
     }
 
     /**
@@ -106,7 +117,7 @@ public class ImageLoader {
      * @param height 需要加载视图的高
      * @param listener 加载图片回调
      */
-    public void loadImage(String url, final ImageView imageView, int width, int height, final OnLoadCallBack listener){
+    public void loadImage(String url, int width, int height, final ImageView imageView, final OnLoadCallBack listener){
         imageLoader.get(url, new com.android.volley.toolbox.ImageLoader.ImageListener() {
             @Override
             public void onResponse(com.android.volley.toolbox.ImageLoader.ImageContainer response, boolean isImmediate) {
@@ -138,7 +149,7 @@ public class ImageLoader {
         int width = getImageViewFieldValue(imageView, "mMaxWidth");
         int height = getImageViewFieldValue(imageView, "mMaxHeight");
 
-        loadImage(url, imageView, defaultImageResId, errorImageResId, width, height);
+        loadImage(url,width, height, imageView, defaultImageResId, errorImageResId);
     }
 
     /**
@@ -150,8 +161,8 @@ public class ImageLoader {
      * @param width 加载图片的宽度
      * @param height 加载图片的高度
      */
-    public void loadImage(String url, final ImageView imageView, int defaultImageResId, int errorImageResId,
-                          int width, int height){
+    public void loadImage(String url, int width, int height, final ImageView imageView,
+                          int defaultImageResId, int errorImageResId){
         com.android.volley.toolbox.ImageLoader.ImageListener listener =
                 com.android.volley.toolbox.ImageLoader.getImageListener(imageView,
                         defaultImageResId, errorImageResId);
