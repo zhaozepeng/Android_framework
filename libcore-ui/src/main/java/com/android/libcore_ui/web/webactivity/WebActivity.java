@@ -39,6 +39,12 @@ public class WebActivity extends BaseActivity{
     private ArrayList<String> titles = new ArrayList<>();
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_web_layout);
         webView = new WebActivityFragment();
@@ -54,7 +60,7 @@ public class WebActivity extends BaseActivity{
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         refresh.setLayoutParams(params);
         if (!isUseToolbar())
-            addOptionsMenuView(refresh);
+            addOptionsMenu(refresh);
         refresh.setBackgroundResource(R.mipmap.ic_refresh);
         refresh.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,7 +73,6 @@ public class WebActivity extends BaseActivity{
         });
     }
 
-    @Override
     protected void initData() {
         Bundle bundle = new Bundle();
         String url = getIntent().getStringExtra(EXTRA_URL);

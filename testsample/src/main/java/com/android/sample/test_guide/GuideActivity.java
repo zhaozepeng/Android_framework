@@ -1,5 +1,6 @@
 package com.android.sample.test_guide;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.framework.R;
@@ -15,13 +16,18 @@ import com.android.libcore_ui.activity.BaseActivity;
 public class GuideActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_guide);
         findViewById(R.id.btn_test_guide_full_screen).setOnClickListener(this);
         findViewById(R.id.btn_test_guide_content).setOnClickListener(this);
     }
 
-    @Override
     protected void initData() {
     }
 

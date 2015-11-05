@@ -1,5 +1,6 @@
 package com.android.sample.test_utils;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.framework.R;
@@ -15,12 +16,17 @@ import com.android.libcore_ui.activity.BaseActivity;
  */
 public class FileActivity extends BaseActivity implements View.OnClickListener{
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_file);
         findViewById(R.id.btn_test_file).setOnClickListener(this);
     }
 
-    @Override
     protected void initData() {
 
     }

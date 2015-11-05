@@ -12,9 +12,7 @@ import android.view.View;
 
 /**
  * Description: 所有基础{@linkplain Fragment}的基类<br/>
- * 关于fragment的使用，请先查看博客
  * <a href=http://blog.csdn.net/u012403246/article/details/46371643>从今天开始抛弃Fragment吧</a><br/>
- * fragment可以使用，但是一定一定要注意fragment的生命周期
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-08

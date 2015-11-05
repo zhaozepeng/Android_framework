@@ -2,6 +2,7 @@ package com.android.sample;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -58,6 +59,12 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     private TextView tv_info;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_home_test);
         btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
@@ -89,7 +96,6 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         addNavigationOnBottom(fl_navigation);
     }
 
-    @Override
     protected void initData() {
         registerReceiver(ACTION);
     }

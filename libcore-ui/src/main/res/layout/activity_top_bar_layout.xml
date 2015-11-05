@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 所有activity的顶部bar样式，如果需要改变高度，颜色或者图标，请在此进行更改
-     暂时使用QQ的高度颜色 -->
+<!-- 所有activity的顶部bar样式，如果需要改变高度，颜色或者图标，请在此进行更改  -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="horizontal"
     android:layout_width="match_parent"

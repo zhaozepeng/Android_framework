@@ -1,5 +1,6 @@
 package com.android.sample.test_utils;
 
+import android.os.Bundle;
 import android.widget.TextView;
 
 import com.android.framework.R;
@@ -18,6 +19,12 @@ public class CommonActivity extends BaseActivity{
     TextView isNetworkWifi;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_common);
         getScreenWidth = (TextView) findViewById(R.id.getScreenWidth);
@@ -28,7 +35,6 @@ public class CommonActivity extends BaseActivity{
         isNetworkWifi.setText(CommonUtils.isNetworkWifi()+"");
     }
 
-    @Override
     protected void initData() {
 
     }

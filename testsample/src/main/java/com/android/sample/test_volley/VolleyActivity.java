@@ -1,5 +1,6 @@
 package com.android.sample.test_volley;
 
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -36,6 +37,12 @@ public class VolleyActivity extends BaseActivity implements View.OnClickListener
     private LoadingDialog ld;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_net);
         addNavigationOnBottom((ViewGroup) findViewById(R.id.ll_content));
@@ -51,7 +58,6 @@ public class VolleyActivity extends BaseActivity implements View.OnClickListener
         ld = new LoadingDialog(this);
     }
 
-    @Override
     protected void initData() {
 
     }

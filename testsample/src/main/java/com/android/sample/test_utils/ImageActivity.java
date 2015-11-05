@@ -37,6 +37,12 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
     private Bitmap bitmap;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_image);
         centerSquareScaleBitmap = (ImageView) findViewById(R.id.centerSquareScaleBitmap);
@@ -66,7 +72,6 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.btn_test_webview).setOnClickListener(this);
     }
 
-    @Override
     protected void initData() {
         bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.test_image);
         centerSquareScaleBitmap.setImageBitmap(ImageUtils.centerSquareScaleBitmap(bitmap,

@@ -1,6 +1,6 @@
 package com.android.libcore_ui.activity;
 
-import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -21,14 +21,14 @@ public abstract class BaseFragment extends RootFragment{
     /** fragment所依附的activity */
     protected BaseActivity activity;
     /** 整个activity的头部bar，如果某些activity需要改变bar样式，修改该view的子view即可 */
-    public ViewGroup top_bar;
+    public View top_bar;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof BaseActivity) {
-            this.activity = (BaseActivity) activity;
-            top_bar = ((BaseActivity) activity).top_bar;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof BaseActivity) {
+            this.activity = (BaseActivity) context;
+            top_bar = activity.top_bar;
         }
     }
 

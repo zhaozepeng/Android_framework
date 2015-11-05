@@ -1,5 +1,6 @@
 package com.android.sample.test_download;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,6 +22,12 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
     FileDownloadManager manager;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_download);
         pb_bar = (ProgressBar) findViewById(R.id.pb_bar);
@@ -31,7 +38,6 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.btn_delete).setOnClickListener(this);
     }
 
-    @Override
     protected void initData() {
         String url = "http://gdown.baidu.com/data/wisegame/ce89b7ee349d6918/QQ_270.apk";
         manager = new FileDownloadManager(url, "QQ_270.apk");

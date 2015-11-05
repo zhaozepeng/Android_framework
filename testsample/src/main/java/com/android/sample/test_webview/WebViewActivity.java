@@ -23,13 +23,18 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
     private WebView webView;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_webview);
         findViewById(R.id.btn_webview).setOnClickListener(this);
         findViewById(R.id.btn_screenshot).setOnClickListener(this);
     }
 
-    @Override
     protected void initData() {
         final TestWebFragment webFragment = new TestWebFragment();
         webFragment.setCallback(new WebFragment.WebCallback() {

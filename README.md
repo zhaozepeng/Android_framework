@@ -44,7 +44,7 @@
 该层为基础核心扩展层，扩展libcore的层的代码，并且定义应用的基本样式，这样一个公司的不同应用就能够统一样式，方便管理
 
 <ol>
-<li>扩展实现的Activity和Fragment类，Activity类中定义了整个应用的基本简单样式（现在提供两种样式，顶部透明样式和底部透明样式），底部的弹出框，顶部bar的样式(顶部bar有自定义bar和系统控件toolbar)等；Fragment类定义了fragment和activity之间的通信方式和topbar的交互，</li>
+<li>扩展实现的Activity和Fragment类，BaseActivity类中定义了整个应用的基本简单样式（现在提供两种样式，顶部透明样式和底部透明样式），顶部bar的样式(顶部bar有自定义bar和系统控件toolbar)等，BaseActivityWithPopWindow类继承BaseActivity类，实现了底部的弹出框；Fragment类定义了fragment和activity之间的通信方式和topbar的交互，</li>
 <li>NetApi类，NetApi继承自BaseNetApi类，在原来的基础上扩展相关的功能，支持自定义继承自volley request的请求，额外的处理就只是在NetApi类中添加相应的函数</li>
 <li>VolleyApi类，用来对BaseVolleyApi类进行功能扩展</li>
 <li>继承自libcore层的dialog类，完善dialog的功能，并且定义一个工厂类用来后去需要显示的dialog样式</li>

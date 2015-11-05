@@ -1,5 +1,7 @@
 package com.android.sample.test_widget;
 
+import android.os.Bundle;
+
 import com.android.libcore_ui.activity.BaseActivity;
 
 /**
@@ -9,11 +11,17 @@ import com.android.libcore_ui.activity.BaseActivity;
  * @since 2015-07-20
  */
 public class WidgetActivity extends BaseActivity{
+
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
     }
 
-    @Override
     protected void initData() {
 
     }

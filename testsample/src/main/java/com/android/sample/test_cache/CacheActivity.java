@@ -1,5 +1,6 @@
 package com.android.sample.test_cache;
 
+import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,6 +27,12 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
     private TextView tv_result;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_cache);
         btn_set = (Button) findViewById(R.id.btn_set);
@@ -35,7 +42,6 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
         tv_result = (TextView) findViewById(R.id.tv_result);
     }
 
-    @Override
     protected void initData() {
     }
 

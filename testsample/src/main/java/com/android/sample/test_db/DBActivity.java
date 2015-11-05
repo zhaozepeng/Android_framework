@@ -1,5 +1,6 @@
 package com.android.sample.test_db;
 
+import android.os.Bundle;
 import android.view.View;
 
 import com.android.framework.R;
@@ -21,6 +22,12 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
 //    public Integer value = 0;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_db);
         findViewById(R.id.btn_test_add).setOnClickListener(this);
@@ -29,7 +36,6 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
         findViewById(R.id.btn_test_clear).setOnClickListener(this);
     }
 
-    @Override
     protected void initData() {
     }
 

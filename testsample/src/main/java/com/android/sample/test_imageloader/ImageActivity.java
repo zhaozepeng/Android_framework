@@ -2,6 +2,7 @@ package com.android.sample.test_imageloader;
 
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -24,12 +25,17 @@ public class ImageActivity extends BaseActivity{
     private GridView gv_content;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_imageloader);
         gv_content = (GridView) findViewById(R.id.gv_content);
     }
 
-    @Override
     protected void initData() {
         gv_content.setAdapter(new GridAdapter());
     }

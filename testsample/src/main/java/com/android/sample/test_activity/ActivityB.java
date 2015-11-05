@@ -1,6 +1,7 @@
 package com.android.sample.test_activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,12 @@ public class ActivityB extends BaseActivity implements View.OnClickListener{
     private TextView tv_all_info;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_activity_b);
         btn_go_to_activity = (Button) findViewById(R.id.btn_go_to_activity);
@@ -50,7 +57,6 @@ public class ActivityB extends BaseActivity implements View.OnClickListener{
         addNavigationOnBottom((ViewGroup) findViewById(R.id.fl_navigation));
     }
 
-    @Override
     protected void initData() {
     }
 

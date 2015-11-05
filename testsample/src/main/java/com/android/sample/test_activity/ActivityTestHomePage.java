@@ -1,6 +1,7 @@
 package com.android.sample.test_activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +13,7 @@ import com.android.libcore.Toast.T;
 import com.android.libcore.activity.ActivityManager;
 import com.android.libcore.application.RootApplication;
 import com.android.libcore_ui.activity.BaseActivity;
+import com.android.libcore_ui.activity.BaseActivityWithPopWindow;
 import com.android.sample.HomeTestActivity;
 
 /**
@@ -20,13 +22,19 @@ import com.android.sample.HomeTestActivity;
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-09
  */
-public class ActivityTestHomePage extends BaseActivity implements View.OnClickListener{
+public class ActivityTestHomePage extends BaseActivityWithPopWindow implements View.OnClickListener{
     private Button btn_test_weakReference;
     private Button btn_test_weakReference2;
     private Button btn_test_broadcast;
     private Button btn_test_bottom_popwindow;
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initView();
+        initData();
+    }
+
     protected void initView() {
         setContentViewSrc(R.layout.activity_test_activity_homepage);
         btn_test_weakReference = (Button) findViewById(R.id.btn_test_weakReference);
@@ -40,7 +48,6 @@ public class ActivityTestHomePage extends BaseActivity implements View.OnClickLi
         btn_test_bottom_popwindow.setOnClickListener(this);
     }
 
-    @Override
     protected void initData() {
         addItemToBottomPopWindow(0, 0, "0测试0");
         addItemToBottomPopWindow(0, 1, "0测试1");
