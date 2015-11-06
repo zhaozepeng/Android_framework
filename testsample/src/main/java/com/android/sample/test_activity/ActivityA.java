@@ -75,6 +75,12 @@ public class ActivityA extends BaseActivity implements View.OnClickListener{
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        //singleinstance
+        super.onNewIntent(intent);
+    }
+
+    @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_go_to_activity:

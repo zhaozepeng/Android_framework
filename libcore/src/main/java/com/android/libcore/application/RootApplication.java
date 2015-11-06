@@ -24,7 +24,7 @@ import java.util.HashMap;
  */
 public class RootApplication extends Application{
 
-    /** 是否是调试模式，请统一使用该全局的debug变量 */
+    /** 是否是调试模式，统一使用该全局的debug变量 */
     public static final boolean DEBUG = true;
 
     /** 用来保存当前该Application的context */

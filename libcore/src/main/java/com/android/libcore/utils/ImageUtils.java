@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Picture;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -14,6 +15,7 @@ import android.media.ExifInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.webkit.WebView;
 
 import com.android.libcore.Toast.T;
 import com.android.libcore.application.RootApplication;
@@ -121,7 +123,7 @@ public class ImageUtils {
 
     /**
      * view截图，webview和scrollview(scrollview需要传入子view)之类的view能够截取整个长度的bitmap，
-     * 如果webview内容很多，view.draw(Canvas)方法会很耗时，在子进程中操作会有额外的问题，所以回暂时阻塞
+     * 如果webview内容很多，view.draw(Canvas)方法会很耗时，在子进程中操作会有额外的问题，所以会暂时阻塞
      * UI主线程，求方法~
      */
     public static Bitmap viewShot(final View view){
@@ -129,10 +131,10 @@ public class ImageUtils {
             return null;
         view.setDrawingCacheEnabled(true);
         view.buildDrawingCache();
-        if (view.getMeasuredWidth()<=0 || view.getMeasuredHeight()<=0) {
+//        if (view.getMeasuredWidth()<=0 || view.getMeasuredHeight()<=0) {
             int measureSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
             view.measure(measureSpec, measureSpec);
-        }
+//        }
 
         if (view.getMeasuredWidth()<=0 || view.getMeasuredHeight()<=0) {
             L.e("ImageUtils.viewShot size error");
@@ -160,9 +162,13 @@ public class ImageUtils {
 
     /**
      * 保存bitmap到指定路径下
-     * @param finish 保存完之后的回调，注意不在主线程执行
+     * @param finish 保存完之后的回调，不在主线程执行
      */
     public static void saveBitmap(final Bitmap bitmap, final String filePath, final Runnable finish) {
+        if (bitmap == null){
+            L.w("bitmap is null");
+            return;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
