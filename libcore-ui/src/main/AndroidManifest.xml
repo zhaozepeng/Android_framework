@@ -3,7 +3,8 @@
 
     <application>
         <activity android:name=".web.webactivity.WebActivity"
-            android:hardwareAccelerated="true">
+            android:hardwareAccelerated="true"
+            android:configChanges="orientation|screenSize">
             <!--<intent-filter>
                 <data  android:scheme="http" />
                 <action android:name="android.intent.action.VIEW" />

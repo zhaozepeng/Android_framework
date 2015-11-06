@@ -70,6 +70,10 @@ public class WebFragment extends BaseFragment{
             webView.loadUrl(url);
     }
 
+    public WebView getWebView(){
+        return webView;
+    }
+
     /**
      * 加载url
      */

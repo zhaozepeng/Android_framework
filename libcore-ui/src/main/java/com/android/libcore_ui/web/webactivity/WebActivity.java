@@ -1,7 +1,9 @@
 package com.android.libcore_ui.web.webactivity;
 
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;
@@ -71,6 +73,16 @@ public class WebActivity extends BaseActivity{
                     webView.refresh();
             }
         });
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE){
+            ((ViewGroup) findViewById(R.id.fl_bottom_blank)).removeAllViews();
+        }else{
+            addNavigationOnBottom((ViewGroup) findViewById(R.id.fl_bottom_blank));
+        }
     }
 
     protected void initData() {
