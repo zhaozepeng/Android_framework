@@ -1,17 +1,16 @@
 package com.android.libcore_ui.dialog;
 
-import android.app.Dialog;
 import android.view.View;
 
 import com.android.libcore_ui.application.BaseApplication;
 
 /**
- * Description: dialog的工厂类，用来获取所需要基本常用的dialog
+ * Description: dialog的生成类，用来获取所需要基本常用的dialog
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-16
  */
-public class DialogFactory {
+public class DialogCreator {
 
     /**
      * 创建dialog函数

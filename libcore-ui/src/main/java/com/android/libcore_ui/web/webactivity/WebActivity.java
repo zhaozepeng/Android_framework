@@ -3,7 +3,6 @@ package com.android.libcore_ui.web.webactivity;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.v4.app.FragmentManager;

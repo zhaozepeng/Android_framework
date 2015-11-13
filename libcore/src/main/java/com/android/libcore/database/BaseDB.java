@@ -309,7 +309,7 @@ public abstract class BaseDB {
                         try {
                             Thread.sleep((long) (3*1000+Math.random()*1000));
                         }catch (InterruptedException e1){
-                            L.e(BaseDB.class.getSimpleName(), e1);
+                            L.e("error in interrupt", e1);
                         }
                     }
                 }while (retry && ((System.currentTimeMillis()-time)<TIME_OUT));

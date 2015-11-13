@@ -21,7 +21,7 @@ import com.android.libcore.Toast.T;
 import com.android.libcore.dialog.BaseDialog;
 import com.android.libcore_ui.R;
 import com.android.libcore_ui.activity.BaseFragment;
-import com.android.libcore_ui.dialog.DialogFactory;
+import com.android.libcore_ui.dialog.DialogCreator;
 
 import java.lang.reflect.Method;
 
@@ -186,7 +186,7 @@ public class WebFragment extends BaseFragment{
         //确认框
         @Override
         public boolean onJsConfirm(WebView view, String url, String message, final JsResult result) {
-            DialogFactory.createDialog(null, message, getString(R.string.confirm), getString(R.string.cancel))
+            DialogCreator.createDialog(null, message, getString(R.string.confirm), getString(R.string.cancel))
                     .setOnButtonClickListener(new BaseDialog.ButtonClickListener() {
                         @Override
                         public void onButtonClick(int button_id) {
@@ -207,7 +207,7 @@ public class WebFragment extends BaseFragment{
             final View v = View.inflate(getActivity(), R.layout.dialog_js_prompt_message_layout, null);
             ((TextView)(v.findViewById(R.id.tv_message))).setText(message);
             ((EditText)(v.findViewById(R.id.et_content))).setText(defaultValue);
-            Dialog dialog = DialogFactory.createDialog(null, v, getString(R.string.confirm), getString(R.string.cancel))
+            Dialog dialog = DialogCreator.createDialog(null, v, getString(R.string.confirm), getString(R.string.cancel))
                     .setOnButtonClickListener(new BaseDialog.ButtonClickListener() {
                         @Override
                         public void onButtonClick(int button_id) {

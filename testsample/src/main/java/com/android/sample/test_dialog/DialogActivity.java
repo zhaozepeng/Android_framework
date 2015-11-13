@@ -15,7 +15,7 @@ import com.android.libcore.dialog.BaseDialog;
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.dialog.AppDialog;
-import com.android.libcore_ui.dialog.DialogFactory;
+import com.android.libcore_ui.dialog.DialogCreator;
 import com.android.libcore_ui.dialog.LoadingDialog;
 
 /**
@@ -54,25 +54,25 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
         AppDialog dialog = null;
         switch (v.getId()){
             case R.id.btn_test_dialog_1:
-                dialog = DialogFactory.createDialog(null, "测试1文字", "确定");
+                dialog = DialogCreator.createDialog(null, "测试1文字", "确定");
 //                ImageView view = new ImageView(this);
 //                view.setBackgroundResource(R.mipmap.app_icon);
 //                EditText editText = new EditText(this);
 //                Button button = new Button(this);
-//                dialog = DialogFactory.createDialog(view, editText, button);
+//                dialog = DialogCreator.createDialog(view, editText, button);
                 break;
             case R.id.btn_test_dialog_2:
                 Button button2 = new Button(this);
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", button2, "取消");
+                dialog = DialogCreator.createDialog("测试1", "测试1文字", button2, "取消");
 //                ImageView view = new ImageView(this);
 //                view.setBackgroundResource(R.mipmap.app_icon);
 //                EditText editText = new EditText(this);
 //                Button button = new Button(this);
 //                Button button1 = new Button(this);
-//                dialog = DialogFactory.createDialog(view, editText, button, button1);
+//                dialog = DialogCreator.createDialog(view, editText, button, button1);
                 break;
             case R.id.btn_test_dialog_3:
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
+                dialog = DialogCreator.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
                 break;
             case R.id.btn_test_dialog_5:
                 ImageView view = new ImageView(this);
@@ -80,28 +80,28 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
                 EditText editText = new EditText(this);
                 TextView button = new TextView(this);
                 button.setText("444444444444444444444444");
-                DialogFactory.OtherButton other4 = new DialogFactory.OtherButton(button, 4);
+                DialogCreator.OtherButton other4 = new DialogCreator.OtherButton(button, 4);
                 Button button1 = new Button(this);
-                DialogFactory.OtherButton other5 = new DialogFactory.OtherButton(button1, 5);
-//                DialogFactory.OtherButton other4 = new DialogFactory.OtherButton("另外的4", 4);
-//                DialogFactory.OtherButton other5 = new DialogFactory.OtherButton("另外的5", 5);
-                dialog = DialogFactory.createDialog(view, editText, "确定", "取消", "中间", other4, other5);
+                DialogCreator.OtherButton other5 = new DialogCreator.OtherButton(button1, 5);
+//                DialogCreator.OtherButton other4 = new DialogCreator.OtherButton("另外的4", 4);
+//                DialogCreator.OtherButton other5 = new DialogCreator.OtherButton("另外的5", 5);
+                dialog = DialogCreator.createDialog(view, editText, "确定", "取消", "中间", other4, other5);
                 break;
             case R.id.btn_test_dialog_gravity:
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
+                dialog = DialogCreator.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
                 dialog.setGravity(Gravity.TOP|Gravity.LEFT);
                 break;
             case R.id.btn_test_dialog_xy:
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
+                dialog = DialogCreator.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
                 dialog.setPosition(-100, -300);
                 break;
             case R.id.btn_test_dialog_width_height:
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
+                dialog = DialogCreator.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
                 dialog.setWidth(CommonUtils.dp2px(100));
                 dialog.setHeight(CommonUtils.dp2px(200));
                 break;
             case R.id.btn_test_dialog_alpha:
-                dialog = DialogFactory.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
+                dialog = DialogCreator.createDialog("测试1", "测试1文字", "确定", "取消", "中间");
                 dialog.setAlpha(0.5f);
                 break;
             case R.id.btn_test_loading_dialog:
