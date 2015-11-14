@@ -107,6 +107,12 @@
         <activity android:name="com.android.sample.test_imageloader.ImageActivity"
                   android:label="@string/activity_test_imageloader"
                   android:screenOrientation="portrait"/>
+        <activity android:name="com.android.sample.test_widget.GridLinearLayoutActivity"
+                  android:label="@string/activity_test_imageloader"
+                  android:screenOrientation="portrait"/>
+        <activity android:name="com.android.sample.test_widget.FlowLayoutActivity"
+                  android:label="@string/activity_test_imageloader"
+                  android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
