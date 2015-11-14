@@ -21,6 +21,7 @@ import com.android.sample.test_netapi.NetActivity;
 import com.android.sample.test_utils.UtilsActivity;
 import com.android.sample.test_volley.VolleyActivity;
 import com.android.sample.test_webview.WebViewActivity;
+import com.android.sample.test_widget.WidgetActivity;
 
 /**
  * Description: homepage
@@ -54,6 +55,8 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     private Button btn_test_download;
     /** 测试utils */
     private Button btn_test_utils;
+    /** 测试widget */
+    private Button btn_test_widget;
     /** 底部的代替navigation bar */
     private FrameLayout fl_navigation;
     private TextView tv_info;
@@ -79,6 +82,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         btn_test_download = (Button) findViewById(R.id.btn_test_download);
         btn_test_utils = (Button) findViewById(R.id.btn_test_utils);
         fl_navigation = (FrameLayout) findViewById(R.id.fl_navigation);
+        btn_test_widget = (Button) findViewById(R.id.btn_test_widget);
         btn_test_activity.setOnClickListener(this);
         btn_test_net.setOnClickListener(this);
         btn_test_imageloder.setOnClickListener(this);
@@ -90,6 +94,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
         btn_test_webview.setOnClickListener(this);
         btn_test_utils.setOnClickListener(this);
         btn_test_download.setOnClickListener(this);
+        btn_test_widget.setOnClickListener(this);
         tv_info = (TextView) findViewById(R.id.tv_info);
         //http://stackoverflow.com/questions/2444040/naming-my-application-in-android
         setTitle("主页");
@@ -143,6 +148,9 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
                 break;
             case R.id.btn_test_utils:
                 intent.setClass(this, UtilsActivity.class);
+                break;
+            case R.id.btn_test_widget:
+                intent.setClass(this, WidgetActivity.class);
                 break;
             default:
                 return;

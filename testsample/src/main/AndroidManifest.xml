@@ -108,11 +108,14 @@
                   android:label="@string/activity_test_imageloader"
                   android:screenOrientation="portrait"/>
         <activity android:name="com.android.sample.test_widget.GridLinearLayoutActivity"
-                  android:label="@string/activity_test_imageloader"
+                  android:label="@string/activity_test_gridLinearLayout"
                   android:screenOrientation="portrait"/>
         <activity android:name="com.android.sample.test_widget.FlowLayoutActivity"
-                  android:label="@string/activity_test_imageloader"
+                  android:label="@string/activity_test_flow_layout"
                   android:screenOrientation="portrait"/>
+        <activity android:name="com.android.sample.test_widget.WidgetActivity"
+            android:label="@string/activity_test_widget"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -18,5 +18,7 @@
     <string name="activity_test_net">测试网络请求</string>
     <string name="activity_test_volley">测试volley请求</string>
     <string name="activity_test_imageloader">测试图片加载</string>
-    <string name="activity_test_gridLinearLayout">测试gr</string>
+    <string name="activity_test_widget">测试widget</string>
+    <string name="activity_test_gridLinearLayout">测试grid layout</string>
+    <string name="activity_test_flow_layout">测试流式布局</string>
 </resources>
