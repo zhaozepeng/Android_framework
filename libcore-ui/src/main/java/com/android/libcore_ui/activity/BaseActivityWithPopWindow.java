@@ -14,7 +14,7 @@ import android.widget.ScrollView;
 
 import com.android.libcore.utils.CommonUtils;
 import com.android.libcore_ui.R;
-import com.android.libcore_ui.widget.BottomBarGroupLinearLayout;
+import com.android.libcore_ui.activity.widget.BottomBarGroupLinearLayout;
 
 import java.util.ArrayList;
 import java.util.Iterator;

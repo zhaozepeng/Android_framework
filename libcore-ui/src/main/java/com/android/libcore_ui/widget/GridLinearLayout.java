@@ -9,25 +9,27 @@ import com.android.libcore_ui.R;
 
 
 /**
- * @author: zzp
- * @since: 2015-07-02
  * Description: 自动换行LinearLayout，请确保height和bottomMargin一致
+ *
+ * @author  zzp
+ * @since  2015-07-02
  */
-public class AutomaticNewlineLinearLayout extends LinearLayout{
+public class GridLinearLayout extends LinearLayout{
 
     private int NUMS_PER_LINE = 3;
 
-    public AutomaticNewlineLinearLayout(Context context) {
+    public GridLinearLayout(Context context) {
         super(context);
     }
 
-    public AutomaticNewlineLinearLayout(Context context, AttributeSet attrs) {
+    public GridLinearLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.LinearLayout_Columns);
+        TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.GridLinearLayout);
         //默认为3行
-        NUMS_PER_LINE = array.getInteger(R.styleable.LinearLayout_Columns_columns, 3);
+        NUMS_PER_LINE = array.getInteger(R.styleable.GridLinearLayout_columns, 3);
         if (NUMS_PER_LINE <= 1)
             throw new IllegalArgumentException("columns must greater than 1");
+        array.recycle();
     }
 
     @Override

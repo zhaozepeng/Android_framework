@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="LinearLayout_Columns">
-        <attr name="columns" format="integer"></attr>
+    <declare-styleable name="GridLinearLayout">
+        <attr name="columns" format="integer"/>
+    </declare-styleable>
+    <declare-styleable name="FlowLayout">
+        <attr name="verticalSpacing" format="integer"/>
+        <attr name="horizontalSpacing" format="integer"/>
     </declare-styleable>
 </resources>

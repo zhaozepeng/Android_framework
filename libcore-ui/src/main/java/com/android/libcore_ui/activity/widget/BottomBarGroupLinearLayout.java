@@ -1,4 +1,4 @@
-package com.android.libcore_ui.widget;
+package com.android.libcore_ui.activity.widget;
 
 import android.content.Context;
 import android.util.AttributeSet;
