@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <declare-styleable name="GridLinearLayout">
+    <declare-styleable name="SimpleGridLayout">
         <attr name="columns" format="integer"/>
+        <attr name="verticalItemSpacing" format="integer"/>
     </declare-styleable>
     <declare-styleable name="FlowLayout">
+        <attr name="orientation" format="enum">
+            <enum name="vertical" value="1"/>
+            <enum name="horizontal" value="2"/>
+        </attr>
         <attr name="verticalSpacing" format="integer"/>
         <attr name="horizontalSpacing" format="integer"/>
     </declare-styleable>

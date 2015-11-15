@@ -4,6 +4,8 @@ import android.view.View;
 
 import com.android.libcore_ui.application.BaseApplication;
 
+import java.util.ArrayList;
+
 /**
  * Description: dialog的生成类，用来获取所需要基本常用的dialog
  *
@@ -55,7 +57,7 @@ public class DialogCreator {
      * @param others 需要另外加上按钮的数据集合
      */
     public static AppDialog createDialog(Object title, Object message, Object positive, Object negative, Object neutral,
-                                      OtherButton... others){
+                                      ArrayList<OtherButton> others){
         AppDialog dialog = new AppDialog(BaseApplication.getInstance());
         if (title != null) {
             if (title instanceof String) {
@@ -107,7 +109,7 @@ public class DialogCreator {
             }
         }
 
-        if (others!=null && others.length > 0){
+        if (others!=null && others.size() > 0){
             for (OtherButton temp : others){
                 if (temp.other instanceof String){
                     dialog.addOtherButton((String)temp.other, temp.id);

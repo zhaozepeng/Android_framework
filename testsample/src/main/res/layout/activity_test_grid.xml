@@ -4,7 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
-    <com.android.libcore_ui.widget.GridLinearLayout
+    <com.android.libcore_ui.widget.SimpleGridLayout
         android:id="@+id/gll_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,6 +15,6 @@
             android:text="1"
             android:textSize="20sp"
             android:gravity="center"/>
-    </com.android.libcore_ui.widget.GridLinearLayout>
+    </com.android.libcore_ui.widget.SimpleGridLayout>
 
 </ScrollView>

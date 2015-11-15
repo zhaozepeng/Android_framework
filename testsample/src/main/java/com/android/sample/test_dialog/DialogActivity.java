@@ -18,6 +18,8 @@ import com.android.libcore_ui.dialog.AppDialog;
 import com.android.libcore_ui.dialog.DialogCreator;
 import com.android.libcore_ui.dialog.LoadingDialog;
 
+import java.util.ArrayList;
+
 /**
  * Description: 测试dialog
  *
@@ -85,7 +87,10 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
                 DialogCreator.OtherButton other5 = new DialogCreator.OtherButton(button1, 5);
 //                DialogCreator.OtherButton other4 = new DialogCreator.OtherButton("另外的4", 4);
 //                DialogCreator.OtherButton other5 = new DialogCreator.OtherButton("另外的5", 5);
-                dialog = DialogCreator.createDialog(view, editText, "确定", "取消", "中间", other4, other5);
+                ArrayList<DialogCreator.OtherButton> lists = new ArrayList<>();
+                lists.add(other4);
+                lists.add(other5);
+                dialog = DialogCreator.createDialog(view, editText, "确定", "取消", "中间", lists);
                 break;
             case R.id.btn_test_dialog_gravity:
                 dialog = DialogCreator.createDialog("测试1", "测试1文字", "确定", "取消", "中间");

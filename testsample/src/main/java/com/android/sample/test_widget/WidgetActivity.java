@@ -6,8 +6,6 @@ import android.view.View;
 
 import com.android.framework.R;
 import com.android.libcore_ui.activity.BaseActivity;
-import com.android.libcore_ui.widget.FlowLayout;
-import com.android.libcore_ui.widget.GridLinearLayout;
 
 /**
  * Description: 测试导入控件的activity
@@ -28,7 +26,7 @@ public class WidgetActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btn_test_gridlayout){
-            startActivity(new Intent(this, GridLinearLayout.class));
+            startActivity(new Intent(this, GridLayoutActivity.class));
         }else if (v.getId() == R.id.btn_test_flowlayout){
             startActivity(new Intent(this, FlowLayoutActivity.class));
         }

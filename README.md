@@ -1,4 +1,4 @@
-# android_framework #
+﻿# android_framework #
 <em>an android framework in order for rapid development</em>
 
 ##1.开发环境##
@@ -55,7 +55,8 @@
 <li>LoadingDialog类，用来定义一个应用最基本的加载框</li>
 <li>基本实用的控件：
 <ul>
-<li>AutomaticNewlineLinearLayout类是自动换行的linearLayout，自定义了attr</li>
+<li>SimpleGridLayout类，自定义网格布局，自动换行，自定义attr</li>
+<li>FlowLayout类，自定义流式布局，支持方向选择，自动换行，自定义attr</li>
 </ul>
 </li>
 </ol>
