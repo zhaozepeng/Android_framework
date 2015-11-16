@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.libcore.log.L;
 import com.android.libcore_ui.R;
 
 /**
@@ -45,6 +44,7 @@ public class FlowLayout extends ViewGroup{
         orientation = typedArray.getInt(R.styleable.FlowLayout_orientation, HORIZONTAL);
 
         typedArray.recycle();
+        //TODO 1.变更orientation 2.修改子view布局gravity 3.编写博客，介绍关于flowlayout和attr的相关知识
     }
 
     @Override
