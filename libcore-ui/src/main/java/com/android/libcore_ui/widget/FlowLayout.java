@@ -77,16 +77,18 @@ public class FlowLayout extends ViewGroup{
         int childSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
         for (int i=0; i<getChildCount(); i++){
             View child = getChildAt(i);
-            child.measure(childSpec, childSpec);
 
             LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            lp.setXY(x, y);
+            childHeight = lp.height;
+            childWidth = lp.width;
 
-            childWidth = child.getMeasuredWidth();
-            childHeight = child.getMeasuredHeight();
-
-            //计算出这一行子view中高度最大的view
-            maxChildHeight = maxChildHeight>childHeight ? maxChildHeight:childHeight;
+            if (childHeight <= 0 || childWidth <= 0){
+                child.measure(childSpec, childSpec);
+                childWidth = child.getMeasuredWidth();
+                childHeight = child.getMeasuredHeight();
+            }
+            child.measure(MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY));
 
             lastWidth = lastWidth - childWidth - horizontalSpacing;
 
@@ -98,17 +100,22 @@ public class FlowLayout extends ViewGroup{
                 }
 
                 indexOfLine = 0;
-                lastWidth = width - paddingLeft - paddingRight;
+                lastWidth = width - paddingLeft - paddingRight - childWidth;
                 height += maxChildHeight + verticalSpacing;
                 x = paddingLeft;
                 y += maxChildHeight + verticalSpacing;
+                maxChildHeight = childHeight;
             }
             //不需要换行
             else{
+                //计算出这一行子view中高度最大的view
+                maxChildHeight = maxChildHeight>childHeight ? maxChildHeight:childHeight;
                 indexOfLine ++;
-                x += childWidth + horizontalSpacing;
             }
+            lp.setXY(x, y);
+            x += childWidth + horizontalSpacing;
         }
+        height += maxChildHeight;
         height -= verticalSpacing;
         height = height + paddingBottom + paddingTop;
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);

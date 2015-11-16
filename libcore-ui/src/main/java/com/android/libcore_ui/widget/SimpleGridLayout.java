@@ -46,7 +46,6 @@ public class SimpleGridLayout extends ViewGroup{
         int paddingBottom = getPaddingBottom();
 
         int childHeight = (getChildAt(0).getLayoutParams()).height;
-
         int childWidth = (getChildAt(0).getLayoutParams()).width;
 
         if (childHeight <= 0 || childWidth <= 0){
