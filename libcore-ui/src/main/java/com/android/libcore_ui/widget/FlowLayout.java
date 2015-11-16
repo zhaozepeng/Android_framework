@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.libcore.log.L;
 import com.android.libcore_ui.R;
 
 /**
@@ -58,72 +59,75 @@ public class FlowLayout extends ViewGroup{
         int paddingRight = getPaddingRight();
         int paddingBottom = getPaddingBottom();
 
-        int width = MeasureSpec.getSize(widthMeasureSpec);
-        int height = 0;
+        if (orientation == HORIZONTAL) {
+            int width = MeasureSpec.getSize(widthMeasureSpec);
+            int height = 0;
 
-        int childWidth;
-        int childHeight;
+            int childWidth;
+            int childHeight;
 
-        //该行的子view序号，递增
-        int indexOfLine = 0;
-        //该行最大子view高度
-        int maxChildHeight = 0;
-        //剩余宽度
-        int lastWidth = width - paddingLeft - paddingRight;
+            //该行最大子view高度
+            int maxChildHeight = 0;
+            //剩余宽度
+            int lastWidth = width - paddingLeft - paddingRight;
 
-        int x = paddingLeft;
-        int y = paddingTop;
+            int x = paddingLeft;
+            int y = paddingTop;
 
-        int childSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
-        for (int i=0; i<getChildCount(); i++){
-            View child = getChildAt(i);
+            int childSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+            for (int i = 0; i < getChildCount(); i++) {
+                View child = getChildAt(i);
 
-            LayoutParams lp = (LayoutParams) child.getLayoutParams();
-            childHeight = lp.height;
-            childWidth = lp.width;
+                LayoutParams lp = (LayoutParams) child.getLayoutParams();
+                childHeight = lp.height;
+                childWidth = lp.width;
 
-            if (childHeight <= 0 || childWidth <= 0){
-                child.measure(childSpec, childSpec);
-                childWidth = child.getMeasuredWidth();
-                childHeight = child.getMeasuredHeight();
-            }
-            child.measure(MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.EXACTLY),
-                    MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY));
+                if (childHeight <= 0 || childWidth <= 0) {
+                    child.measure(childSpec, childSpec);
+                    childWidth = child.getMeasuredWidth();
+                    childHeight = child.getMeasuredHeight();
+                }
+                child.measure(MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.EXACTLY),
+                        MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY));
 
-            lastWidth = lastWidth - childWidth - horizontalSpacing;
-
-            //需要换行
-            if (lastWidth < 0){
+                lastWidth = lastWidth - childWidth - horizontalSpacing;
                 //如果第一个子view的宽度已经超过容器宽度
-                if (indexOfLine == 0){
+                if (i==0 && lastWidth<0) {
                     throw new ChildWidthTooLongException("the " + i + " child's width too long");
                 }
 
-                //重置所有变量
-                indexOfLine = 0;
-                lastWidth = width - paddingLeft - paddingRight;
-                //高度换行
-                height += maxChildHeight + verticalSpacing;
-                //换行之后的第一行坐标
-                x = paddingLeft;
-                y += maxChildHeight + verticalSpacing;
-                //将最大高度值置为第一个view的高度
-                maxChildHeight = childHeight;
+                //需要换行
+                if (lastWidth < 0) {
+                    //将宽度重置
+                    lastWidth = width - paddingLeft - paddingRight - childWidth;
+                    //换行之后该行的第一个view宽度超过整体父view宽度
+                    if (lastWidth < 0){
+                        throw new ChildWidthTooLongException("the " + i + " child's width too long");
+                    }
+                    //高度换行
+                    height += maxChildHeight + verticalSpacing;
+                    //换行之后的第一行坐标
+                    x = paddingLeft;
+                    y += maxChildHeight + verticalSpacing;
+                    //将最大高度值置为这第一个view的高度
+                    maxChildHeight = childHeight;
+                }
+                //不需要换行
+                else {
+                    //计算出这一行子view中高度最大的view
+                    maxChildHeight = maxChildHeight > childHeight ? maxChildHeight : childHeight;
+                }
+                lp.setXY(x, y);
+                x += childWidth + horizontalSpacing;
             }
-            //不需要换行
-            else{
-                //计算出这一行子view中高度最大的view
-                maxChildHeight = maxChildHeight>childHeight ? maxChildHeight:childHeight;
-                indexOfLine ++;
-            }
-            lp.setXY(x, y);
-            x += childWidth + horizontalSpacing;
+            height += maxChildHeight;
+            height -= verticalSpacing;
+            height = height + paddingBottom + paddingTop;
+            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+        }else{
+
         }
-        height += maxChildHeight;
-        height -= verticalSpacing;
-        height = height + paddingBottom + paddingTop;
-        heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
-        setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
@@ -134,6 +138,17 @@ public class FlowLayout extends ViewGroup{
             LayoutParams lp = (LayoutParams) child.getLayoutParams();
             child.layout(lp.x, lp.y, lp.x + child.getMeasuredWidth(), lp.y + child.getMeasuredHeight());
         }
+    }
+
+    /**
+     * 设置布局方向
+     * @param orientation {@link #HORIZONTAL}or{@link #VERTICAL}
+     */
+    public void setOrientation(int orientation){
+        if (orientation!=HORIZONTAL && orientation!=VERTICAL)
+            throw new IllegalArgumentException("orientation error");
+        this.orientation = orientation;
+        invalidate();
     }
 
     @Override

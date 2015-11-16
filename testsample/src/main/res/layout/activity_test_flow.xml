@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.android.libcore_ui.widget.FlowLayout
+        android:id="@+id/fl_content"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -13,29 +14,29 @@
         app:verticalSpacing="10dp"
         app:orientation="horizontal">
         <TextView
-            android:layout_width="120dp"
+            android:layout_width="105dp"
             android:layout_height="140dp"
-            android:text="120dp"
+            android:text="105dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:background="@color/darkorchid"/>
 
         <TextView
-            android:layout_width="130dp"
+            android:layout_width="99dp"
             android:layout_height="50dp"
-            android:text="130dp"
+            android:text="99dp"
             android:textSize="20sp"
             android:background="@color/palegreen"/>
         <TextView
-            android:layout_width="140dp"
+            android:layout_width="77dp"
             android:layout_height="130dp"
-            android:text="140dp"
+            android:text="77dp"
             android:textSize="20sp"
             android:background="@color/darkorchid"/>
         <TextView
-            android:layout_width="80dp"
+            android:layout_width="68dp"
             android:layout_height="70dp"
-            android:text="80dp"
+            android:text="68dp"
             android:textSize="20sp"
             android:background="@color/palegreen"/>
         <TextView
@@ -72,66 +73,6 @@
             android:layout_width="80dp"
             android:layout_height="70dp"
             android:text="80dp"
-            android:textSize="20sp"
-            android:background="@color/palegreen"/>
-        <TextView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:text="40dp"
-            android:textSize="20sp"
-            android:background="@color/darkorchid"/>
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="70dp"
-            android:text="80dp"
-            android:textSize="20sp"
-            android:background="@color/palegreen"/>
-        <TextView
-            android:layout_width="120dp"
-            android:layout_height="150dp"
-            android:text="120dp"
-            android:textSize="20sp"
-            android:background="@color/darkorchid"/>
-        <TextView
-            android:layout_width="130dp"
-            android:layout_height="170dp"
-            android:text="130dp"
-            android:textSize="20sp"
-            android:background="@color/palegreen"/>
-        <TextView
-            android:layout_width="100dp"
-            android:layout_height="30dp"
-            android:text="100dp"
-            android:textSize="20sp"
-            android:background="@color/darkorchid"/>
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="170dp"
-            android:text="80dp"
-            android:textSize="20sp"
-            android:background="@color/palegreen"/>
-        <TextView
-            android:layout_width="140dp"
-            android:layout_height="150dp"
-            android:text="140dp"
-            android:textSize="20sp"
-            android:background="@color/darkorchid"/>
-        <TextView
-            android:layout_width="210dp"
-            android:layout_height="270dp"
-            android:text="210dp"
-            android:textSize="20sp"
-            android:background="@color/palegreen"/>
-        <TextView
-            android:layout_width="190dp"
-            android:layout_height="150dp"
-            android:text="190dp"
-            android:textSize="20sp"
-            android:background="@color/darkorchid"/>
-        <TextView
-            android:layout_width="180dp"
-            android:layout_height="170dp"
-            android:text="180dp"
             android:textSize="20sp"
             android:background="@color/palegreen"/>
 
