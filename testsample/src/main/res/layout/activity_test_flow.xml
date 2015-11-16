@@ -13,65 +13,125 @@
         app:verticalSpacing="10dp"
         app:orientation="horizontal">
         <TextView
-            android:layout_width="20dp"
-            android:layout_height="40dp"
-            android:text="1"
+            android:layout_width="120dp"
+            android:layout_height="140dp"
+            android:text="120dp"
             android:textColor="@color/black"
             android:textSize="20sp"
             android:background="@color/darkorchid"/>
 
         <TextView
-            android:layout_width="30dp"
+            android:layout_width="130dp"
             android:layout_height="50dp"
-            android:text="2"
+            android:text="130dp"
             android:textSize="20sp"
             android:background="@color/palegreen"/>
         <TextView
-            android:layout_width="40dp"
-            android:layout_height="30dp"
-            android:text="3"
+            android:layout_width="140dp"
+            android:layout_height="130dp"
+            android:text="140dp"
             android:textSize="20sp"
             android:background="@color/darkorchid"/>
         <TextView
             android:layout_width="80dp"
             android:layout_height="70dp"
-            android:text="4"
+            android:text="80dp"
             android:textSize="20sp"
             android:background="@color/palegreen"/>
         <TextView
-            android:layout_width="20dp"
+            android:layout_width="120dp"
             android:layout_height="50dp"
-            android:text="5"
+            android:text="120dp"
             android:textSize="20sp"
             android:background="@color/darkorchid"/>
         <TextView
-            android:layout_width="30dp"
+            android:layout_width="130dp"
             android:layout_height="70dp"
-            android:text="6"
+            android:text="130dp"
             android:textSize="20sp"
             android:background="@color/palegreen"/>
         <TextView
             android:layout_width="100dp"
             android:layout_height="30dp"
-            android:text="7"
+            android:text="100dp"
             android:textSize="20sp"
             android:background="@color/darkorchid"/>
         <TextView
             android:layout_width="80dp"
             android:layout_height="170dp"
-            android:text="8"
+            android:text="80dp"
             android:textSize="20sp"
             android:background="@color/palegreen"/>
         <TextView
             android:layout_width="40dp"
             android:layout_height="50dp"
-            android:text="9"
+            android:text="40dp"
             android:textSize="20sp"
             android:background="@color/darkorchid"/>
         <TextView
             android:layout_width="80dp"
             android:layout_height="70dp"
-            android:text="10"
+            android:text="80dp"
+            android:textSize="20sp"
+            android:background="@color/palegreen"/>
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            android:text="40dp"
+            android:textSize="20sp"
+            android:background="@color/darkorchid"/>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="70dp"
+            android:text="80dp"
+            android:textSize="20sp"
+            android:background="@color/palegreen"/>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="150dp"
+            android:text="120dp"
+            android:textSize="20sp"
+            android:background="@color/darkorchid"/>
+        <TextView
+            android:layout_width="130dp"
+            android:layout_height="170dp"
+            android:text="130dp"
+            android:textSize="20sp"
+            android:background="@color/palegreen"/>
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="30dp"
+            android:text="100dp"
+            android:textSize="20sp"
+            android:background="@color/darkorchid"/>
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="170dp"
+            android:text="80dp"
+            android:textSize="20sp"
+            android:background="@color/palegreen"/>
+        <TextView
+            android:layout_width="140dp"
+            android:layout_height="150dp"
+            android:text="140dp"
+            android:textSize="20sp"
+            android:background="@color/darkorchid"/>
+        <TextView
+            android:layout_width="210dp"
+            android:layout_height="270dp"
+            android:text="210dp"
+            android:textSize="20sp"
+            android:background="@color/palegreen"/>
+        <TextView
+            android:layout_width="190dp"
+            android:layout_height="150dp"
+            android:text="190dp"
+            android:textSize="20sp"
+            android:background="@color/darkorchid"/>
+        <TextView
+            android:layout_width="180dp"
+            android:layout_height="170dp"
+            android:text="180dp"
             android:textSize="20sp"
             android:background="@color/palegreen"/>
 

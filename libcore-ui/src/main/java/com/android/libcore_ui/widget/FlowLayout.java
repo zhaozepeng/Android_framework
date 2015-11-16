@@ -96,14 +96,18 @@ public class FlowLayout extends ViewGroup{
             if (lastWidth < 0){
                 //如果第一个子view的宽度已经超过容器宽度
                 if (indexOfLine == 0){
-                    throw new ChildWidthTooLongException("first child's width too long");
+                    throw new ChildWidthTooLongException("the " + i + " child's width too long");
                 }
 
+                //重置所有变量
                 indexOfLine = 0;
-                lastWidth = width - paddingLeft - paddingRight - childWidth;
+                lastWidth = width - paddingLeft - paddingRight;
+                //高度换行
                 height += maxChildHeight + verticalSpacing;
+                //换行之后的第一行坐标
                 x = paddingLeft;
                 y += maxChildHeight + verticalSpacing;
+                //将最大高度值置为第一个view的高度
                 maxChildHeight = childHeight;
             }
             //不需要换行
