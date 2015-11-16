@@ -2,6 +2,7 @@ package com.android.sample.test_widget;
 
 import android.os.Bundle;
 
+import com.android.framework.R;
 import com.android.libcore_ui.activity.BaseActivity;
 
 /**
@@ -14,14 +15,6 @@ public class FlowLayoutActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initView();
-        initData();
-    }
-
-    protected void initView() {
-    }
-
-    protected void initData() {
-
+        setContentViewSrc(R.layout.activity_test_flow);
     }
 }

@@ -2,14 +2,14 @@
 <resources>
     <declare-styleable name="SimpleGridLayout">
         <attr name="columns" format="integer"/>
-        <attr name="verticalItemSpacing" format="integer"/>
+        <attr name="verticalItemSpacing" format="dimension"/>
     </declare-styleable>
     <declare-styleable name="FlowLayout">
         <attr name="orientation" format="enum">
-            <enum name="vertical" value="1"/>
-            <enum name="horizontal" value="2"/>
+            <enum name="vertical" value="0"/>
+            <enum name="horizontal" value="1"/>
         </attr>
-        <attr name="verticalSpacing" format="integer"/>
-        <attr name="horizontalSpacing" format="integer"/>
+        <attr name="verticalSpacing" format="dimension"/>
+        <attr name="horizontalSpacing" format="dimension"/>
     </declare-styleable>
 </resources>

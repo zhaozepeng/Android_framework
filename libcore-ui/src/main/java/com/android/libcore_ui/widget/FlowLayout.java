@@ -9,35 +9,39 @@ import android.view.ViewGroup;
 import com.android.libcore_ui.R;
 
 /**
- * Description: 水平流式布局
+ * Description: 流式布局
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-11-14
  */
 public class FlowLayout extends ViewGroup{
+    public static final int VERTICAL = 0;
+    public static final int HORIZONTAL = 1;
     //默认间隙
     int verticalSpacing = 10;
     int horizontalSpacing = 10;
+    //布局方向
+    int orientation = HORIZONTAL;
 
     public FlowLayout(Context context) {
-        super(context);
+        this(context, null);
     }
 
     public FlowLayout(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        getAttrAndSetSpacing(attrs);
+        this(context, attrs, 0);
     }
 
     public FlowLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        getAttrAndSetSpacing(attrs);
+        getAttrValue(attrs);
     }
 
-    private void getAttrAndSetSpacing(AttributeSet attrs){
+    private void getAttrValue(AttributeSet attrs){
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.FlowLayout);
 
-        verticalSpacing = typedArray.getInt(R.styleable.FlowLayout_verticalSpacing, 10);
-        horizontalSpacing = typedArray.getInt(R.styleable.FlowLayout_horizontalSpacing, 10);
+        verticalSpacing = typedArray.getDimensionPixelSize(R.styleable.FlowLayout_verticalSpacing, 10);
+        horizontalSpacing = typedArray.getDimensionPixelSize(R.styleable.FlowLayout_horizontalSpacing, 10);
+        orientation = typedArray.getInt(R.styleable.FlowLayout_orientation, HORIZONTAL);
 
         typedArray.recycle();
     }
@@ -119,6 +123,26 @@ public class FlowLayout extends ViewGroup{
             LayoutParams lp = (LayoutParams) child.getLayoutParams();
             child.layout(lp.x, lp.y, lp.x + child.getMeasuredWidth(), lp.y + child.getMeasuredHeight());
         }
+    }
+
+    @Override
+    protected boolean checkLayoutParams(ViewGroup.LayoutParams p) {
+        return p instanceof LayoutParams;
+    }
+
+    @Override
+    protected LayoutParams generateDefaultLayoutParams() {
+        return new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+    }
+
+    @Override
+    public LayoutParams generateLayoutParams(AttributeSet attributeSet) {
+        return new LayoutParams(getContext(), attributeSet);
+    }
+
+    @Override
+    protected LayoutParams generateLayoutParams(ViewGroup.LayoutParams p) {
+        return new LayoutParams(p);
     }
 
     public static class LayoutParams extends ViewGroup.LayoutParams{

@@ -6,8 +6,9 @@
               android:layout_height="match_parent">
     <com.android.libcore_ui.widget.SimpleGridLayout
         android:id="@+id/gll_content"
-        android:layout_width="match_parent"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
+        app:verticalItemSpacing="100dp"
         app:columns="3">
         <TextView
             android:layout_width="100dp"

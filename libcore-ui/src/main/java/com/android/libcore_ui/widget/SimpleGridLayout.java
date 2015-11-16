@@ -31,7 +31,7 @@ public class SimpleGridLayout extends ViewGroup{
         NUM_PER_LINE = array.getInteger(R.styleable.SimpleGridLayout_columns, 3);
         if (NUM_PER_LINE <= 1)
             throw new IllegalArgumentException("columns must greater than 1");
-        verticalSpacing = array.getInteger(R.styleable.SimpleGridLayout_verticalItemSpacing, 10);
+        verticalSpacing = array.getDimensionPixelSize(R.styleable.SimpleGridLayout_verticalItemSpacing, 10);
         array.recycle();
     }
 
@@ -47,15 +47,11 @@ public class SimpleGridLayout extends ViewGroup{
 
         int childHeight = (getChildAt(0).getLayoutParams()).height;
 
-        if (childHeight <= 0){
-            getChildAt(0).measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
-            childHeight = getChildAt(0).getMeasuredHeight();
-        }
-
         int childWidth = (getChildAt(0).getLayoutParams()).width;
 
-        if (childWidth <= 0){
+        if (childHeight <= 0 || childWidth <= 0){
             getChildAt(0).measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
+            childHeight = getChildAt(0).getMeasuredHeight();
             childWidth = getChildAt(0).getMeasuredHeight();
         }
 
@@ -66,7 +62,7 @@ public class SimpleGridLayout extends ViewGroup{
 
         for (int i=0; i<getChildCount(); i++){
             int childWidthMeasureSpec = MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.EXACTLY);
-            int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(childWidth, MeasureSpec.EXACTLY);
+            int childHeightMeasureSpec = MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY);
             getChildAt(i).measure(childWidthMeasureSpec, childHeightMeasureSpec);
         }
     }
@@ -95,8 +91,8 @@ public class SimpleGridLayout extends ViewGroup{
 
         for (int i=0; i<getChildCount(); i++){
             int position = i% NUM_PER_LINE;
-            int xPos = (position)*((((r-l)-childWidth* NUM_PER_LINE)/(NUM_PER_LINE -1))+childWidth);
-            int yPos= (i/ NUM_PER_LINE)* (childHeight + verticalSpacing) + paddingTop;
+            int xPos = (position)*((((r-l)-childWidth*NUM_PER_LINE)/(NUM_PER_LINE -1))+childWidth);
+            int yPos= (i/NUM_PER_LINE)*(childHeight+verticalSpacing)+paddingTop;
             getChildAt(i).layout(xPos, yPos, xPos+childWidth, yPos+childHeight);
         }
     }

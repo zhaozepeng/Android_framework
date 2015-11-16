@@ -25,7 +25,7 @@ public class GridLayoutActivity extends BaseActivity{
         SimpleGridLayout gll_content = (SimpleGridLayout) findViewById(R.id.gll_content);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(CommonUtils.dp2px(100), CommonUtils.dp2px(100));
 
-        for (int i=2; i<10; i++){
+        for (int i=2; i<20; i++){
             TextView textView = new TextView(this);
             textView.setLayoutParams(lp);
             textView.setText(i + "");
