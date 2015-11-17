@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.libcore.log.L;
 import com.android.libcore_ui.R;
 
 /**

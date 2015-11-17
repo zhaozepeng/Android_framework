@@ -22,8 +22,7 @@ public class FlowLayoutActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-<<<<<<< HEAD
-        setContentViewSrc(R.layout.activity_test_flow);
+        setContentView(R.layout.activity_test_flow);
         findViewById(R.id.btn_change_orientation).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -37,7 +36,7 @@ public class FlowLayoutActivity extends BaseActivity{
                 }
             }
         });
-        for (int i=0; i<20; i++){
+        for (int i=0; i<50; i++){
             TextView view = new TextView(this);
             view.setTextColor(getResources().getColor(android.R.color.black));
             view.setTextSize(20);
@@ -46,19 +45,14 @@ public class FlowLayoutActivity extends BaseActivity{
             }else{
                 view.setBackgroundColor(getResources().getColor(R.color.palegreen));
             }
-            int width = (int) (CommonUtils.dp2px(30) + Math.random()*300);
-            int height = (int) (CommonUtils.dp2px(30) + Math.random()*300);
+            int width = (int) (CommonUtils.dp2px(30) + Math.random()*500);
+            int height = (int) (CommonUtils.dp2px(30) + Math.random()*500);
             view.setText(CommonUtils.px2dp(width) + "dp+"+CommonUtils.px2dp(height)+"dp");
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, height);
             view.setLayoutParams(lp);
             ((FlowLayout) findViewById(R.id.fl_horizontal)).addView(view);
         }
-        for (int i=0; i<20; i++){
-=======
-        setContentView(R.layout.activity_test_flow);
-        FlowLayout fl_content = (FlowLayout) findViewById(R.id.fl_content);
         for (int i=0; i<50; i++){
->>>>>>> 8dd4d90083268a70f6e0c026ec731468fea7d4d1
             TextView view = new TextView(this);
             view.setTextColor(getResources().getColor(android.R.color.black));
             view.setTextSize(20);
@@ -67,8 +61,8 @@ public class FlowLayoutActivity extends BaseActivity{
             }else{
                 view.setBackgroundColor(getResources().getColor(R.color.palegreen));
             }
-            int width = (int) (CommonUtils.dp2px(30) + Math.random()*300);
-            int height = (int) (CommonUtils.dp2px(30) + Math.random()*300);
+            int width = (int) (CommonUtils.dp2px(30) + Math.random()*500);
+            int height = (int) (CommonUtils.dp2px(30) + Math.random()*500);
             view.setText(CommonUtils.px2dp(width) + "dp+"+CommonUtils.px2dp(height)+"dp");
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, height);
             view.setLayoutParams(lp);

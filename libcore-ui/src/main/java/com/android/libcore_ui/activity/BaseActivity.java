@@ -20,8 +20,11 @@ import com.android.libcore_ui.R;
 /**
  * Description: 继承自{@link RootActivity}的基础activity，在这里进行页面界面的统一<br/><br/>
  *
- * 使用{@link #setContentView(int)}，{@link #setContentViewSrc(View)}和
+ * 使用{@link #setContentView(int)}，{@link #setContentView(View)}和
  * {@link #setContentView(View, ViewGroup.LayoutParams)}来设置内容区域布局<br/><br/>
+ *
+ * 使用{@link #setOriginalContentView(int)}，{@link #setOriginalContentView(View)}和
+ * {@link #setOriginalContentView(View, ViewGroup.LayoutParams)}来设置整体布局<br/><br/>
  *
  * 应用整体样式现在有status bar透明和底部navigation bar透明两种样式<br/>
  * 应用的top bar样式有自定义ViewGroup和toolbar两种样式<br/><br/>
@@ -74,7 +77,7 @@ public abstract class BaseActivity extends RootActivity{
      * 初始化布局
      */
     protected void initLayout(){
-        setContentView(R.layout.activity_base_layout);
+        setOriginalContentView(R.layout.activity_base_layout);
         base_content = (FrameLayout) findViewById(R.id.base_content);
 
         defineStyle();
