@@ -44,7 +44,7 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_image);
+        setContentView(R.layout.activity_test_image);
         centerSquareScaleBitmap = (ImageView) findViewById(R.id.centerSquareScaleBitmap);
         toRoundCorner = (ImageView) findViewById(R.id.toRoundCorner);
         compressBitmap = (ImageView) findViewById(R.id.compressBitmap);

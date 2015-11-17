@@ -29,7 +29,7 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_download);
+        setContentView(R.layout.activity_test_download);
         pb_bar = (ProgressBar) findViewById(R.id.pb_bar);
         tv_progress = (TextView) findViewById(R.id.tv_progress);
         tv_state = (TextView) findViewById(R.id.tv_state);

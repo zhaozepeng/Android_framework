@@ -20,7 +20,7 @@ import com.android.libcore_ui.R;
 /**
  * Description: 继承自{@link RootActivity}的基础activity，在这里进行页面界面的统一<br/><br/>
  *
- * 使用{@link #setContentViewSrc(int)}，{@link #setContentViewSrc(View)}和
+ * 使用{@link #setContentView(int)}，{@link #setContentViewSrc(View)}和
  * {@link #setContentView(View, ViewGroup.LayoutParams)}来设置内容区域布局<br/><br/>
  *
  * 应用整体样式现在有status bar透明和底部navigation bar透明两种样式<br/>
@@ -145,7 +145,8 @@ public abstract class BaseActivity extends RootActivity{
     /**
      * 设置内容区域布局
      */
-    public void setContentViewSrc(int layoutResID) {
+    @Override
+    public void setContentView(int layoutResID) {
         LayoutInflater inflater = LayoutInflater.from(this);
         View v = inflater.inflate(layoutResID, null);
         base_content.addView(v);
@@ -154,15 +155,38 @@ public abstract class BaseActivity extends RootActivity{
     /**
      * 设置内容区域布局
      */
-    public void setContentViewSrc(View view) {
+    @Override
+    public void setContentView(View view) {
         base_content.addView(view);
     }
 
     /**
      * 设置内容区域布局
      */
-    public void setContentViewSrc(View view, ViewGroup.LayoutParams params) {
+    @Override
+    public void setContentView(View view, ViewGroup.LayoutParams params) {
         base_content.addView(view, params);
+    }
+
+    /**
+     * 设置整体布局
+     */
+    protected void setOriginalContentView(int layoutResID){
+        super.setContentView(layoutResID);
+    }
+
+    /**
+     * 设置整体布局
+     */
+    protected void setOriginalContentView(View view){
+        super.setContentView(view);
+    }
+
+    /**
+     * 设置整体布局
+     */
+    protected void setOriginalContentView(View view, ViewGroup.LayoutParams params){
+        super.setContentView(view, params);
     }
 
     /**

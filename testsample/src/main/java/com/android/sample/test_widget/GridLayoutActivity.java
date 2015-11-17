@@ -21,7 +21,7 @@ public class GridLayoutActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentViewSrc(R.layout.activity_test_grid);
+        setContentView(R.layout.activity_test_grid);
         SimpleGridLayout gll_content = (SimpleGridLayout) findViewById(R.id.gll_content);
         ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(CommonUtils.dp2px(100), CommonUtils.dp2px(100));
 

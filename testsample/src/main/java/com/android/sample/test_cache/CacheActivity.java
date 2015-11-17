@@ -34,7 +34,7 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_cache);
+        setContentView(R.layout.activity_test_cache);
         btn_set = (Button) findViewById(R.id.btn_set);
         btn_set.setOnClickListener(this);
         btn_get = (Button) findViewById(R.id.btn_get);

@@ -26,7 +26,7 @@ public class CommonActivity extends BaseActivity{
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_common);
+        setContentView(R.layout.activity_test_common);
         getScreenWidth = (TextView) findViewById(R.id.getScreenWidth);
         getScreenHeight = (TextView) findViewById(R.id.getScreenHeight);
         isNetworkWifi = (TextView) findViewById(R.id.isNetworkWifi);

@@ -18,7 +18,7 @@ public class WidgetActivity extends BaseActivity implements View.OnClickListener
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentViewSrc(R.layout.activity_test_widget);
+        setContentView(R.layout.activity_test_widget);
         findViewById(R.id.btn_test_gridlayout).setOnClickListener(this);
         findViewById(R.id.btn_test_flowlayout).setOnClickListener(this);
     }

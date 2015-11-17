@@ -44,7 +44,7 @@ public class VolleyActivity extends BaseActivity implements View.OnClickListener
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_net);
+        setContentView(R.layout.activity_test_net);
         addNavigationOnBottom((ViewGroup) findViewById(R.id.ll_content));
         tv_result = (TextView) findViewById(R.id.tv_result);
         iv_content = (ImageView) findViewById(R.id.iv_content);

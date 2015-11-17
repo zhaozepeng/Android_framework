@@ -22,6 +22,7 @@ public class FlowLayoutActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< HEAD
         setContentViewSrc(R.layout.activity_test_flow);
         findViewById(R.id.btn_change_orientation).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,6 +54,11 @@ public class FlowLayoutActivity extends BaseActivity{
             ((FlowLayout) findViewById(R.id.fl_horizontal)).addView(view);
         }
         for (int i=0; i<20; i++){
+=======
+        setContentView(R.layout.activity_test_flow);
+        FlowLayout fl_content = (FlowLayout) findViewById(R.id.fl_content);
+        for (int i=0; i<50; i++){
+>>>>>>> 8dd4d90083268a70f6e0c026ec731468fea7d4d1
             TextView view = new TextView(this);
             view.setTextColor(getResources().getColor(android.R.color.black));
             view.setTextSize(20);
