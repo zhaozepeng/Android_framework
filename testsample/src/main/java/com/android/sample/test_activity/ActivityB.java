@@ -38,7 +38,7 @@ public class ActivityB extends BaseActivity implements View.OnClickListener{
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_activity_b);
+        setContentView(R.layout.activity_test_activity_b);
         btn_go_to_activity = (Button) findViewById(R.id.btn_go_to_activity);
         btn_finish_top_activity = (Button) findViewById(R.id.btn_finish_top_activity);
         btn_finish_first_A_activity = (Button) findViewById(R.id.btn_finish_first_A_activity);

@@ -36,7 +36,7 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         //http://stackoverflow.com/questions/30078157/webview-draw-not-properly-working-on-latest-android-system-webview-update
         if (Build.VERSION.SDK_INT >= 21)
             WebView.enableSlowWholeDocumentDraw();
-        setContentViewSrc(R.layout.activity_test_webview);
+        setContentView(R.layout.activity_test_webview);
         findViewById(R.id.btn_webview).setOnClickListener(this);
         findViewById(R.id.btn_screenshot).setOnClickListener(this);
     }

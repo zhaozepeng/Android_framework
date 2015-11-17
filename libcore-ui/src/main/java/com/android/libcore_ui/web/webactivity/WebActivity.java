@@ -47,7 +47,7 @@ public class WebActivity extends BaseActivity{
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_web_layout);
+        setContentView(R.layout.activity_web_layout);
         webView = new WebActivityFragment();
         pb_bar = (ProgressBar) findViewById(R.id.pb_bar);
         FragmentManager fm = getSupportFragmentManager();

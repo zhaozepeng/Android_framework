@@ -19,7 +19,7 @@ public class FlowLayoutActivity extends BaseActivity{
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentViewSrc(R.layout.activity_test_flow);
+        setContentView(R.layout.activity_test_flow);
         FlowLayout fl_content = (FlowLayout) findViewById(R.id.fl_content);
         for (int i=0; i<50; i++){
             TextView view = new TextView(this);

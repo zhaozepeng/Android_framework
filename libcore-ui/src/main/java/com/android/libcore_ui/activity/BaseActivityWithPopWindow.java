@@ -65,7 +65,7 @@ public class BaseActivityWithPopWindow extends BaseActivity{
 
     @Override
     protected void initLayout() {
-        setContentView(R.layout.activity_base_layout_with_popwindow);
+        setOriginalContentView(R.layout.activity_base_layout_with_popwindow);
         base_content = (FrameLayout) findViewById(R.id.base_content);
 
         bottomItems = new LinkedHashMap<>();

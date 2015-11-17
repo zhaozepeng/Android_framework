@@ -12,7 +12,6 @@ import com.android.framework.R;
 import com.android.libcore.Toast.T;
 import com.android.libcore.activity.ActivityManager;
 import com.android.libcore.application.RootApplication;
-import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.activity.BaseActivityWithPopWindow;
 import com.android.sample.HomeTestActivity;
 
@@ -36,7 +35,7 @@ public class ActivityTestHomePage extends BaseActivityWithPopWindow implements V
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_activity_homepage);
+        setContentView(R.layout.activity_test_activity_homepage);
         btn_test_weakReference = (Button) findViewById(R.id.btn_test_weakReference);
         btn_test_weakReference2 = (Button) findViewById(R.id.btn_test_weakReference2);
         btn_test_broadcast = (Button) findViewById(R.id.btn_test_broadcast);

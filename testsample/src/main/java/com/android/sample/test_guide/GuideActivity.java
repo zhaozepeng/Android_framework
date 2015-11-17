@@ -23,7 +23,7 @@ public class GuideActivity extends BaseActivity implements View.OnClickListener{
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_guide);
+        setContentView(R.layout.activity_test_guide);
         findViewById(R.id.btn_test_guide_full_screen).setOnClickListener(this);
         findViewById(R.id.btn_test_guide_content).setOnClickListener(this);
     }

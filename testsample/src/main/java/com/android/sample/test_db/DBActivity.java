@@ -6,7 +6,6 @@ import android.view.View;
 import com.android.framework.R;
 import com.android.libcore.Toast.T;
 import com.android.libcore_ui.activity.BaseActivity;
-import com.android.libcore_ui.permanentdbcache.PermanentCacheDBHelper;
 import com.android.sample.test_db.db.StudentHelper;
 
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_db);
+        setContentView(R.layout.activity_test_db);
         findViewById(R.id.btn_test_add).setOnClickListener(this);
         findViewById(R.id.btn_test_delete).setOnClickListener(this);
         findViewById(R.id.btn_test_query).setOnClickListener(this);

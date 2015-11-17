@@ -69,7 +69,7 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_home_test);
+        setContentView(R.layout.activity_home_test);
         btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
         btn_test_net = (Button) findViewById(R.id.btn_test_net);
         btn_test_imageloder = (Button) findViewById(R.id.btn_test_imageloder);

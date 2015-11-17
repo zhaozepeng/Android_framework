@@ -35,7 +35,7 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
     }
 
     protected void initView() {
-        setContentViewSrc(R.layout.activity_test_dialog);
+        setContentView(R.layout.activity_test_dialog);
         findViewById(R.id.btn_test_dialog_1).setOnClickListener(this);
         findViewById(R.id.btn_test_dialog_2).setOnClickListener(this);
         findViewById(R.id.btn_test_dialog_3).setOnClickListener(this);
