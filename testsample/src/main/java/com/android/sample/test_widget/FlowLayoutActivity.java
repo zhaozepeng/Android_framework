@@ -36,7 +36,7 @@ public class FlowLayoutActivity extends BaseActivity{
                 }
             }
         });
-        for (int i=0; i<50; i++){
+        for (int i=0; i<500; i++){
             TextView view = new TextView(this);
             view.setTextColor(getResources().getColor(android.R.color.black));
             view.setTextSize(20);
@@ -52,7 +52,7 @@ public class FlowLayoutActivity extends BaseActivity{
             view.setLayoutParams(lp);
             ((FlowLayout) findViewById(R.id.fl_horizontal)).addView(view);
         }
-        for (int i=0; i<50; i++){
+        for (int i=0; i<500; i++){
             TextView view = new TextView(this);
             view.setTextColor(getResources().getColor(android.R.color.black));
             view.setTextSize(20);

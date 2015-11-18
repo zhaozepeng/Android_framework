@@ -22,68 +22,7 @@
                 app:horizontalSpacing="10dp"
                 app:verticalSpacing="10dp"
                 app:orientation="horizontal"
-                app:childGravity="bottom">
-                <TextView
-                    android:layout_width="105dp"
-                    android:layout_height="140dp"
-                    android:text="105dp"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:background="@color/darkorchid"/>
-                <TextView
-                    android:layout_width="99dp"
-                    android:layout_height="50dp"
-                    android:text="99dp"
-                    android:textSize="20sp"
-                    android:background="@color/palegreen"/>
-                <TextView
-                    android:layout_width="77dp"
-                    android:layout_height="130dp"
-                    android:text="77dp"
-                    android:textSize="20sp"
-                    android:background="@color/darkorchid"/>
-                <TextView
-                    android:layout_width="68dp"
-                    android:layout_height="70dp"
-                    android:text="68dp"
-                    android:textSize="20sp"
-                    android:background="@color/palegreen"/>
-                <TextView
-                    android:layout_width="120dp"
-                    android:layout_height="50dp"
-                    android:text="120dp"
-                    android:textSize="20sp"
-                    android:background="@color/darkorchid"/>
-                <TextView
-                    android:layout_width="130dp"
-                    android:layout_height="70dp"
-                    android:text="130dp"
-                    android:textSize="20sp"
-                    android:background="@color/palegreen"/>
-                <TextView
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:text="100dp"
-                    android:textSize="20sp"
-                    android:background="@color/darkorchid"/>
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="170dp"
-                    android:text="80dp"
-                    android:textSize="20sp"
-                    android:background="@color/palegreen"/>
-                <TextView
-                    android:layout_width="40dp"
-                    android:layout_height="50dp"
-                    android:text="40dp"
-                    android:textSize="20sp"
-                    android:background="@color/darkorchid"/>
-                <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="70dp"
-                    android:text="80dp"
-                    android:textSize="20sp"
-                    android:background="@color/palegreen"/>
+                app:childGravity="center">
             </com.android.libcore_ui.widget.FlowLayout>
     </ScrollView>
     <HorizontalScrollView
@@ -99,68 +38,7 @@
             app:horizontalSpacing="10dp"
             app:verticalSpacing="10dp"
             app:orientation="vertical"
-            app:childGravity="right">
-            <TextView
-                android:layout_width="105dp"
-                android:layout_height="140dp"
-                android:text="105dp"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:background="@color/darkorchid"/>
-            <TextView
-                android:layout_width="99dp"
-                android:layout_height="50dp"
-                android:text="99dp"
-                android:textSize="20sp"
-                android:background="@color/palegreen"/>
-            <TextView
-                android:layout_width="77dp"
-                android:layout_height="130dp"
-                android:text="77dp"
-                android:textSize="20sp"
-                android:background="@color/darkorchid"/>
-            <TextView
-                android:layout_width="68dp"
-                android:layout_height="70dp"
-                android:text="68dp"
-                android:textSize="20sp"
-                android:background="@color/palegreen"/>
-            <TextView
-                android:layout_width="120dp"
-                android:layout_height="50dp"
-                android:text="120dp"
-                android:textSize="20sp"
-                android:background="@color/darkorchid"/>
-            <TextView
-                android:layout_width="130dp"
-                android:layout_height="70dp"
-                android:text="130dp"
-                android:textSize="20sp"
-                android:background="@color/palegreen"/>
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:text="100dp"
-                android:textSize="20sp"
-                android:background="@color/darkorchid"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="170dp"
-                android:text="80dp"
-                android:textSize="20sp"
-                android:background="@color/palegreen"/>
-            <TextView
-                android:layout_width="40dp"
-                android:layout_height="50dp"
-                android:text="40dp"
-                android:textSize="20sp"
-                android:background="@color/darkorchid"/>
-            <TextView
-                android:layout_width="80dp"
-                android:layout_height="70dp"
-                android:text="80dp"
-                android:textSize="20sp"
-                android:background="@color/palegreen"/>
+            app:childGravity="center">
         </com.android.libcore_ui.widget.FlowLayout>
     </HorizontalScrollView>
 </LinearLayout>

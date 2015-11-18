@@ -77,7 +77,6 @@ public class FlowLayout extends ViewGroup{
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        long startTime = System.currentTimeMillis();
         if (getChildCount() <= 0){
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
@@ -90,16 +89,6 @@ public class FlowLayout extends ViewGroup{
 
         int width;
         int height;
-        //水平布局，宽度固定，高度变化
-        if (orientation == HORIZONTAL) {
-            width = MeasureSpec.getSize(widthMeasureSpec);
-            height = 0;
-        }
-        //垂直布局，高度固定，宽度变化
-        else{
-            width = 0;
-            height = MeasureSpec.getSize(heightMeasureSpec);
-        }
 
         int childWidth;
         int childHeight;
@@ -108,15 +97,32 @@ public class FlowLayout extends ViewGroup{
         int maxChildSize = 0;
         //剩余大小
         int lastSize;
+
+        //水平布局，宽度固定，高度变化
         if (orientation == HORIZONTAL) {
+            width = MeasureSpec.getSize(widthMeasureSpec);
+            height = 0;
             lastSize = width - paddingLeft - paddingRight;
-        }else{
+
+            //如果第一个子view的大小已经超过容器大小
+            if (lastSize < getChildAt(0).getLayoutParams().width)
+                throw new ChildSizeTooLongException("the 0 child's width too long");
+        }
+        //垂直布局，高度固定，宽度变化
+        else{
+            width = 0;
+            height = MeasureSpec.getSize(heightMeasureSpec);
             lastSize = height - paddingTop - paddingBottom;
+
+            //如果第一个子view的大小已经超过容器大小
+            if (lastSize < getChildAt(0).getLayoutParams().height)
+                throw new ChildSizeTooLongException("the 0 child's height too long");
         }
 
         //每行的第一个item的序号
         int firstItemOfLine = 0;
 
+        //x,y坐标
         int x = paddingLeft;
         int y = paddingTop;
 
@@ -142,18 +148,13 @@ public class FlowLayout extends ViewGroup{
                 lastSize = lastSize - childHeight - verticalSpacing;
             }
 
-            //如果第一个子view的大小已经超过容器大小
-            if (i==0 && lastSize <0) {
-                throw new ChildSizeTooLongException("the " + i + " child's width/height too long");
-            }
-
             //需要换行
             if (lastSize < 0) {
-                //根据gravity将上一行的子view放置在正确的位置上
-                for (int j=firstItemOfLine; j<i; j++){
-                    View lineChild = getChildAt(j);
-                    LayoutParams childLayoutParams = (LayoutParams) lineChild.getLayoutParams();
-                    if (orientation == HORIZONTAL){
+                if (orientation == HORIZONTAL) {
+                    //根据gravity将上一行的子view放置在正确的位置上
+                    for (int j=firstItemOfLine; j<i; j++){
+                        View lineChild = getChildAt(j);
+                        LayoutParams childLayoutParams = (LayoutParams) lineChild.getLayoutParams();
                         if (childGravity == TOP){
                             //默认，无需处理
                         }else if (childGravity == BOTTOM){
@@ -161,29 +162,15 @@ public class FlowLayout extends ViewGroup{
                         }else if (childGravity == CENTER){
                             childLayoutParams.y += (maxChildSize - lineChild.getMeasuredHeight())/2;
                         }
-                    }else{
-                        if (childGravity == LEFT){
-                            //默认，无需处理
-                        }else if (childGravity == RIGHT){
-                            childLayoutParams.x += maxChildSize - lineChild.getMeasuredWidth();
-                        }else if (childGravity == CENTER){
-                            childLayoutParams.x += (maxChildSize - lineChild.getMeasuredWidth())/2;
-                        }
                     }
-                }
 
-                //将大小重置
-                if (orientation == HORIZONTAL) {
+                    //将大小重置
                     lastSize = width - paddingLeft - paddingRight - childWidth;
-                }else{
-                    lastSize = height - paddingTop - paddingBottom - childHeight;
-                }
-                //换行之后该行的第一个view大小超过整体父view大小
-                if (lastSize < 0){
-                    throw new ChildSizeTooLongException("the " + i + " child's width/height too long");
-                }
 
-                if (orientation == HORIZONTAL) {
+                    //换行之后该行的第一个view大小超过整体父view大小
+                    if (lastSize < 0)
+                        throw new ChildSizeTooLongException("the " + i + " child's width too long");
+
                     //高换行
                     height += maxChildSize + verticalSpacing;
                     //换行之后的第一行坐标
@@ -192,6 +179,26 @@ public class FlowLayout extends ViewGroup{
                     //将最大高度值置为这第一个view的高度
                     maxChildSize = childHeight;
                 }else{
+                    //根据gravity将上一行的子view放置在正确的位置上
+                    for (int j=firstItemOfLine; j<i; j++){
+                        View lineChild = getChildAt(j);
+                        LayoutParams childLayoutParams = (LayoutParams) lineChild.getLayoutParams();
+                        if (childGravity == LEFT){
+                            //默认，无需处理
+                        }else if (childGravity == RIGHT){
+                            childLayoutParams.x += maxChildSize - lineChild.getMeasuredWidth();
+                        }else if (childGravity == CENTER){
+                            childLayoutParams.x += (maxChildSize - lineChild.getMeasuredWidth())/2;
+                        }
+                    }
+
+                    //将大小重置
+                    lastSize = height - paddingTop - paddingBottom - childHeight;
+
+                    //换行之后该行的第一个view大小超过整体父view大小
+                    if (lastSize < 0)
+                        throw new ChildSizeTooLongException("the " + i + " child's height too long");
+
                     //宽换列
                     width += maxChildSize + horizontalSpacing;
                     //换列之后的第一列坐标
@@ -254,8 +261,6 @@ public class FlowLayout extends ViewGroup{
             }
         }
         setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(height, heightMeasureSpec));
-
-        L.e("time = " + (System.currentTimeMillis() - startTime));
     }
 
     @Override
