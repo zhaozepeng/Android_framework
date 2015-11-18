@@ -45,8 +45,8 @@ public class FlowLayoutActivity extends BaseActivity{
             }else{
                 view.setBackgroundColor(getResources().getColor(R.color.palegreen));
             }
-            int width = (int) (CommonUtils.dp2px(30) + Math.random()*500);
-            int height = (int) (CommonUtils.dp2px(30) + Math.random()*500);
+            int width = (int) (CommonUtils.dp2px(30) + Math.random()*300);
+            int height = (int) (CommonUtils.dp2px(30) + Math.random()*300);
             view.setText(CommonUtils.px2dp(width) + "dp+"+CommonUtils.px2dp(height)+"dp");
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, height);
             view.setLayoutParams(lp);
@@ -61,8 +61,8 @@ public class FlowLayoutActivity extends BaseActivity{
             }else{
                 view.setBackgroundColor(getResources().getColor(R.color.palegreen));
             }
-            int width = (int) (CommonUtils.dp2px(30) + Math.random()*500);
-            int height = (int) (CommonUtils.dp2px(30) + Math.random()*500);
+            int width = (int) (CommonUtils.dp2px(30) + Math.random()*300);
+            int height = (int) (CommonUtils.dp2px(30) + Math.random()*300);
             view.setText(CommonUtils.px2dp(width) + "dp+"+CommonUtils.px2dp(height)+"dp");
             ViewGroup.LayoutParams lp = new ViewGroup.LayoutParams(width, height);
             view.setLayoutParams(lp);

@@ -11,7 +11,7 @@ import com.android.libcore_ui.activity.BaseActivity;
 import com.android.libcore_ui.widget.SimpleGridLayout;
 
 /**
- * Description: #TODO
+ * Description:
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-11-14

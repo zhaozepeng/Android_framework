@@ -3,9 +3,11 @@ package com.android.libcore_ui.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.android.libcore.log.L;
 import com.android.libcore_ui.R;
 
 /**
@@ -17,11 +19,19 @@ import com.android.libcore_ui.R;
 public class FlowLayout extends ViewGroup{
     public static final int VERTICAL = 0;
     public static final int HORIZONTAL = 1;
+    private final int CENTER = 1;
+    private final int TOP = 2;
+    private final int BOTTOM =3;
+    private final int LEFT = 4;
+    private final int RIGHT = 5;
+
     //默认间隙
     private int verticalSpacing = 10;
     private int horizontalSpacing = 10;
     //布局方向
     private int orientation = HORIZONTAL;
+    //子view放置gravity
+    private int childGravity = 1;
 
     public FlowLayout(Context context) {
         this(context, null);
@@ -43,12 +53,31 @@ public class FlowLayout extends ViewGroup{
         horizontalSpacing = typedArray.getDimensionPixelSize(R.styleable.FlowLayout_horizontalSpacing, 10);
         orientation = typedArray.getInt(R.styleable.FlowLayout_orientation, HORIZONTAL);
 
+        int gravity = typedArray.getInt(R.styleable.FlowLayout_childGravity, Gravity.TOP);
+        if (orientation == HORIZONTAL) {
+            gravity = gravity & Gravity.VERTICAL_GRAVITY_MASK;
+            if (gravity == Gravity.TOP)
+                childGravity = TOP;
+            else if (gravity == Gravity.BOTTOM)
+                childGravity = BOTTOM;
+            else
+                childGravity = CENTER;
+        }else{
+            gravity = gravity & Gravity.HORIZONTAL_GRAVITY_MASK;
+            if (gravity == Gravity.LEFT)
+                childGravity = LEFT;
+            else if (gravity == Gravity.RIGHT)
+                childGravity = RIGHT;
+            else
+                childGravity = CENTER;
+        }
+
         typedArray.recycle();
-        //TODO  2.修改子view布局gravity 3.编写博客，介绍关于flowlayout和attr的相关知识
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        long startTime = System.currentTimeMillis();
         if (getChildCount() <= 0){
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             return;
@@ -85,6 +114,9 @@ public class FlowLayout extends ViewGroup{
             lastSize = height - paddingTop - paddingBottom;
         }
 
+        //每行的第一个item的序号
+        int firstItemOfLine = 0;
+
         int x = paddingLeft;
         int y = paddingTop;
 
@@ -117,13 +149,36 @@ public class FlowLayout extends ViewGroup{
 
             //需要换行
             if (lastSize < 0) {
+                //根据gravity将上一行的子view放置在正确的位置上
+                for (int j=firstItemOfLine; j<i; j++){
+                    View lineChild = getChildAt(j);
+                    LayoutParams childLayoutParams = (LayoutParams) lineChild.getLayoutParams();
+                    if (orientation == HORIZONTAL){
+                        if (childGravity == TOP){
+                            //默认，无需处理
+                        }else if (childGravity == BOTTOM){
+                            childLayoutParams.y += maxChildSize - lineChild.getMeasuredHeight();
+                        }else if (childGravity == CENTER){
+                            childLayoutParams.y += (maxChildSize - lineChild.getMeasuredHeight())/2;
+                        }
+                    }else{
+                        if (childGravity == LEFT){
+                            //默认，无需处理
+                        }else if (childGravity == RIGHT){
+                            childLayoutParams.x += maxChildSize - lineChild.getMeasuredWidth();
+                        }else if (childGravity == CENTER){
+                            childLayoutParams.x += (maxChildSize - lineChild.getMeasuredWidth())/2;
+                        }
+                    }
+                }
+
                 //将大小重置
                 if (orientation == HORIZONTAL) {
                     lastSize = width - paddingLeft - paddingRight - childWidth;
                 }else{
                     lastSize = height - paddingTop - paddingBottom - childHeight;
                 }
-                //换行之后该行的第一个view宽度超过整体父view宽度
+                //换行之后该行的第一个view大小超过整体父view大小
                 if (lastSize < 0){
                     throw new ChildSizeTooLongException("the " + i + " child's width/height too long");
                 }
@@ -145,6 +200,9 @@ public class FlowLayout extends ViewGroup{
                     //将最大宽度值置为这第一个view的宽度
                     maxChildSize = childWidth;
                 }
+
+                //换行之后的第一个item序号
+                firstItemOfLine= i;
             }
             //不需要换行
             else {
@@ -167,11 +225,37 @@ public class FlowLayout extends ViewGroup{
             height += maxChildSize;
             height += + paddingBottom + paddingTop;
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
+            //不要忘记最后一行
+            for (int i=firstItemOfLine; i<getChildCount(); i++){
+                View lineChild = getChildAt(i);
+                LayoutParams childLayoutParams = (LayoutParams) lineChild.getLayoutParams();
+                if (childGravity == TOP){
+                    //默认，无需处理
+                }else if (childGravity == BOTTOM){
+                    childLayoutParams.y += maxChildSize - lineChild.getMeasuredHeight();
+                }else if (childGravity == CENTER){
+                    childLayoutParams.y += (maxChildSize - lineChild.getMeasuredHeight())/2;
+                }
+            }
         }else{
             width += maxChildSize;
             width += paddingLeft + paddingRight;
+            //不要忘记最后一列
+            for (int i=firstItemOfLine; i<getChildCount(); i++){
+                View lineChild = getChildAt(i);
+                LayoutParams childLayoutParams = (LayoutParams) lineChild.getLayoutParams();
+                if (childGravity == LEFT){
+                    //默认，无需处理
+                }else if (childGravity == RIGHT){
+                    childLayoutParams.x += maxChildSize - lineChild.getMeasuredWidth();
+                }else if (childGravity == CENTER){
+                    childLayoutParams.x += (maxChildSize - lineChild.getMeasuredWidth())/2;
+                }
+            }
         }
         setMeasuredDimension(resolveSize(width, widthMeasureSpec), resolveSize(height, heightMeasureSpec));
+
+        L.e("time = " + (System.currentTimeMillis() - startTime));
     }
 
     @Override

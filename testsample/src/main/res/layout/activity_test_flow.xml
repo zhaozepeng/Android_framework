@@ -21,7 +21,8 @@
                 android:padding="10dp"
                 app:horizontalSpacing="10dp"
                 app:verticalSpacing="10dp"
-                app:orientation="horizontal">
+                app:orientation="horizontal"
+                app:childGravity="bottom">
                 <TextView
                     android:layout_width="105dp"
                     android:layout_height="140dp"
@@ -97,7 +98,8 @@
             android:padding="10dp"
             app:horizontalSpacing="10dp"
             app:verticalSpacing="10dp"
-            app:orientation="vertical">
+            app:orientation="vertical"
+            app:childGravity="right">
             <TextView
                 android:layout_width="105dp"
                 android:layout_height="140dp"

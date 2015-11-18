@@ -2,7 +2,7 @@ package com.android.sample.test_imageloader;
 
 
 /**
- * Description: #TODO
+ * Description:
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-10-27
