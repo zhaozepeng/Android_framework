@@ -1,6 +1,7 @@
 package com.android.sample.test_widget;
 
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,7 +19,6 @@ import com.android.libcore_ui.widget.FlowLayout;
  */
 public class FlowLayoutActivity extends BaseActivity{
     int orientation = FlowLayout.HORIZONTAL;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,12 +38,12 @@ public class FlowLayoutActivity extends BaseActivity{
         });
         for (int i=0; i<500; i++){
             TextView view = new TextView(this);
-            view.setTextColor(getResources().getColor(android.R.color.black));
+            view.setTextColor(ContextCompat.getColor(this, R.color.black));
             view.setTextSize(20);
             if (i%2==0){
-                view.setBackgroundColor(getResources().getColor(R.color.darkorchid));
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.darkorchid));
             }else{
-                view.setBackgroundColor(getResources().getColor(R.color.palegreen));
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.palegreen));
             }
             int width = (int) (CommonUtils.dp2px(30) + Math.random()*300);
             int height = (int) (CommonUtils.dp2px(30) + Math.random()*300);
@@ -54,12 +54,12 @@ public class FlowLayoutActivity extends BaseActivity{
         }
         for (int i=0; i<500; i++){
             TextView view = new TextView(this);
-            view.setTextColor(getResources().getColor(android.R.color.black));
+            view.setTextColor(ContextCompat.getColor(this, R.color.black));
             view.setTextSize(20);
             if (i%2==0){
-                view.setBackgroundColor(getResources().getColor(R.color.darkorchid));
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.darkorchid));
             }else{
-                view.setBackgroundColor(getResources().getColor(R.color.palegreen));
+                view.setBackgroundColor(ContextCompat.getColor(this, R.color.palegreen));
             }
             int width = (int) (CommonUtils.dp2px(30) + Math.random()*300);
             int height = (int) (CommonUtils.dp2px(30) + Math.random()*300);
