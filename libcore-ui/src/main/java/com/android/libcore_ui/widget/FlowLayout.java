@@ -7,7 +7,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.libcore.log.L;
 import com.android.libcore_ui.R;
 
 /**
@@ -231,7 +230,6 @@ public class FlowLayout extends ViewGroup{
         if (orientation == HORIZONTAL) {
             height += maxChildSize;
             height += + paddingBottom + paddingTop;
-            heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY);
             //不要忘记最后一行
             for (int i=firstItemOfLine; i<getChildCount(); i++){
                 View lineChild = getChildAt(i);

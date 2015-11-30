@@ -14,16 +14,16 @@
         android:id="@+id/sv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-            <com.android.libcore_ui.widget.FlowLayout
-                android:id="@+id/fl_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                app:horizontalSpacing="10dp"
-                app:verticalSpacing="10dp"
-                app:orientation="horizontal"
-                app:childGravity="center">
-            </com.android.libcore_ui.widget.FlowLayout>
+        <com.android.libcore_ui.widget.FlowLayout
+            android:id="@+id/fl_horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:padding="10dp"
+            app:horizontalSpacing="10dp"
+            app:verticalSpacing="10dp"
+            app:orientation="horizontal"
+            app:childGravity="center">
+        </com.android.libcore_ui.widget.FlowLayout>
     </ScrollView>
     <HorizontalScrollView
         android:id="@+id/hsv_content"
@@ -32,7 +32,7 @@
         android:visibility="gone">
         <com.android.libcore_ui.widget.FlowLayout
             android:id="@+id/fl_vertical"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="match_parent"
             android:padding="10dp"
             app:horizontalSpacing="10dp"
