@@ -20,6 +20,7 @@
         android:label="@string/app_name"
         android:icon="@mipmap/app_icon"
         android:theme="@style/Activity_translucent_navigation_bar">
+        <!-- AppTheme 系统默认主题 -->
         <!--Theme.AppCompat.Light.NoActionBar 最原始主题-->
         <!--Activity_translucent_status_bar 顶部透明风格-->
         <!--Activity_translucent_navigation_bar 顶部和底部透明风格-->

@@ -82,7 +82,14 @@ public class BaseActivityWithPopWindow extends BaseActivity{
         });
 
         defineStyle();
-        chooseTopBar();
+
+        //如果系统没有指定action bar，则选用自定义action bar
+        if (getSupportActionBar()==null)
+            chooseTopBar();
+        else{
+            useToolbar = false;
+            actionBar = getSupportActionBar();
+        }
     }
 
     @Override

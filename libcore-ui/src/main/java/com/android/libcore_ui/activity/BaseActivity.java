@@ -3,6 +3,7 @@ package com.android.libcore_ui.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -27,7 +28,7 @@ import com.android.libcore_ui.R;
  * {@link #setOriginalContentView(View, ViewGroup.LayoutParams)}来设置整体布局<br/><br/>
  *
  * 应用整体样式现在有status bar透明和底部navigation bar透明两种样式<br/>
- * 应用的top bar样式有自定义ViewGroup和toolbar两种样式<br/><br/>
+ * 应用可以使用默认action bar样式，自定义top bar样式有ViewGroup和toolbar两种样式<br/><br/>
  *
  *
  * <ol>
@@ -49,7 +50,9 @@ public abstract class BaseActivity extends RootActivity{
     /** 头部top bar容器 */
     protected FrameLayout fl_top_bar;
     /** 头部top bar */
-    public View top_bar;
+    protected View top_bar;
+    /** 默认action bar */
+    protected ActionBar actionBar;
     /** 内容区域 */
     protected FrameLayout base_content;
 
@@ -58,7 +61,7 @@ public abstract class BaseActivity extends RootActivity{
      * 底部用以填充透明的navigation bar，防止覆盖内容区域 */
     protected boolean isNavigationTransparent;
 
-    /** 设置整个应用主题样式：使用toolbar还是使用自定义view */
+    /**应用如果使用NoActionBar主题，则默认为使用toolbar，反之则使用系统actionbar */
     protected boolean useToolbar = true;
 
     @Override
@@ -81,7 +84,14 @@ public abstract class BaseActivity extends RootActivity{
         base_content = (FrameLayout) findViewById(R.id.base_content);
 
         defineStyle();
-        chooseTopBar();
+
+        //如果系统没有指定action bar，则选用自定义action bar
+        if (getSupportActionBar()==null)
+            chooseTopBar();
+        else{
+            useToolbar = false;
+            actionBar = getSupportActionBar();
+        }
     }
 
     /**
@@ -197,7 +207,10 @@ public abstract class BaseActivity extends RootActivity{
      */
     protected void setTitle(String title){
         if (!useToolbar) {
-            ((TextView) top_bar.findViewById(R.id.tv_title)).setText(title);
+            if (actionBar == null)
+                ((TextView) top_bar.findViewById(R.id.tv_title)).setText(title);
+            else
+                actionBar.setTitle(title);
         }else{
             ((Toolbar) top_bar).setTitle(title);
         }
@@ -207,21 +220,20 @@ public abstract class BaseActivity extends RootActivity{
      * 将view添加进top bar右侧的相关区域中，适用于不使用toolbar样式
      */
     protected void addOptionsMenu(View view){
-        if (!useToolbar){
-            ((ViewGroup) top_bar.findViewById(R.id.rl_top_extra_content)).addView(view);
-        }else{
+        if (useToolbar || actionBar!=null){
             L.e("该样式无法使用addOptionsMenuView，请使用onCreateOptionsMenu");
+        }else{
+            ((ViewGroup) top_bar.findViewById(R.id.rl_top_extra_content)).addView(view);
         }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!useToolbar) {
-            L.e("该样式无法使用optionsMenu，请使用addOptionsMenu");
-            return false;
-        }
-        else{
+        if (useToolbar || actionBar!=null) {
             return super.onCreateOptionsMenu(menu);
+        }else{
+            L.e("该样式无法使用onCreateOptionsMenu，请使用addOptionsMenu");
+            return false;
         }
     }
 
