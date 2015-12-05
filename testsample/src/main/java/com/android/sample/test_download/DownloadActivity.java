@@ -72,6 +72,9 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
                     case FileDownloadManager.STATE_DELETE:
                         tv_state.setText("删除成功");
                         break;
+                    case FileDownloadManager.STATE_NET_ERROR:
+                        tv_state.setText("网络错误");
+                        break;
                 }
             }
         });

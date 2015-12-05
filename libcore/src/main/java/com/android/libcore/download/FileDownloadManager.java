@@ -42,6 +42,8 @@ public class FileDownloadManager {
     public static final int STATE_DELETING = 6;
     /** 下载状态，删除成功 */
     public static final int STATE_DELETE = 7;
+    /** 下载状态，网络错误 */
+    public static final int STATE_NET_ERROR = 8;
 
     /** 当前文件的下载状态，默认为停止成功，即为下载完成，且随时可以开始下载 */
     private int currentState = STATE_STOPED;
@@ -132,6 +134,12 @@ public class FileDownloadManager {
      * 开启下载
      */
     public void start(){
+        if (!CommonUtils.isNetworkAvailable()){
+            progressChangeHandler.sendEmptyMessage(STATE_NET_ERROR);
+            T.getInstance().showShort("网络错误");
+            return;
+        }
+
         if (checkFileFinish()){
             T.getInstance().showShort("文件已下载完成");
             return;
@@ -391,7 +399,7 @@ public class FileDownloadManager {
             conn.disconnect();
         } catch (Exception e) {
             e.printStackTrace();
-            T.getInstance().showShort("获取文件长度发生错误");
+            L.e("获取文件长度发生错误", e);
             return;
         }
 

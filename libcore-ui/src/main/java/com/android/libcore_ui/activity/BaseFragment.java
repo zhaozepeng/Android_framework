@@ -1,5 +1,6 @@
 package com.android.libcore_ui.activity;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
@@ -24,11 +25,11 @@ public abstract class BaseFragment extends RootFragment{
     public View top_bar;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof BaseActivity) {
-            this.activity = (BaseActivity) context;
-            top_bar = activity.top_bar;
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        if (activity instanceof BaseActivity) {
+            this.activity = (BaseActivity) activity;
+            top_bar = ((BaseActivity)activity).top_bar;
         }
     }
 
