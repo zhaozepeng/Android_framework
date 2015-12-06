@@ -565,6 +565,9 @@ public class FileDownloadManager {
      */
     private class DownloadThread extends Thread{
         private DownloadInfo info;
+        HttpURLConnection connection = null;
+        RandomAccessFile randomAccessFile = null;
+        InputStream is = null;
 
         public DownloadThread(DownloadInfo info){
             this.info = info;
@@ -576,9 +579,6 @@ public class FileDownloadManager {
 
         @Override
         public void run() {
-            HttpURLConnection connection = null;
-            RandomAccessFile randomAccessFile = null;
-            InputStream is = null;
             try {
                 URL url = new URL(FileDownloadManager.this.url);
                 connection = (HttpURLConnection) url.openConnection();
@@ -594,19 +594,15 @@ public class FileDownloadManager {
                 is = connection.getInputStream();
                 byte[] buffer = new byte[1024 * 8];
                 int length;
-                while ((length = is.read(buffer)) != -1) {
+                while (((length = is.read(buffer)) != -1) && downloadState) {
                     randomAccessFile.write(buffer, 0, length);
                     info.completeSize += length;
-                    if (!downloadState) {
-                        L.i("结束下载线程");
-                        break;
-                    }
                 }
+                L.i("结束下载线程");
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
-                    long time = System.currentTimeMillis();
                     //android 4.x disconnect或者close会耗费很长的时间，解决了很长时间，暂未找到方法，有的联系我
                     is.close();
                     randomAccessFile.close();

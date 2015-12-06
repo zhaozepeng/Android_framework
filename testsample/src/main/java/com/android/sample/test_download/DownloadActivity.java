@@ -1,6 +1,12 @@
 package com.android.sample.test_download;
 
+import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -39,6 +45,50 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
     }
 
     protected void initData() {
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(getApplication(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
+            initManager();
+        }
+        //需要弹出dialog让用户手动赋予权限
+        else{
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        }
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 1){
+            if (permissions[0].equals(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    &&grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                //用户同意使用write
+                initManager();
+            }else{
+                //用户不同意，向用户展示该权限作用
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    AlertDialog dialog = new AlertDialog.Builder(this)
+                            .setMessage("该功能需要赋予访问存储的权限，不开启将无法正常工作！")
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            }).create();
+                    dialog.show();
+                    return;
+                }
+                finish();
+            }
+        }
+    }
+
+    private void initManager(){
         String url = "http://gdown.baidu.com/data/wisegame/ce89b7ee349d6918/QQ_270.apk";
         manager = new FileDownloadManager(url, "QQ_270.apk");
         manager.setListener(new FileDownloadManager.IDownloadProgressChangedListener() {
@@ -97,7 +147,8 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void onDestroy() {
-        manager.stop();
+        if (manager != null)
+            manager.stop();
         super.onDestroy();
     }
 }
