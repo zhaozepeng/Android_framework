@@ -28,6 +28,9 @@ import java.util.HashMap;
  */
 public class FileDownloadManager {
 
+    /** 开启线程 */
+    private static final int STATE_START_THREADS = -1;
+    private static final int STATE_UPDATE_PROGRESS = 0;
     /** 下载状态，正在获取文件大小 */
     public static final int STATE_GETSIZE = 1;
     /** 下载状态，开始下载 */
@@ -273,7 +276,7 @@ public class FileDownloadManager {
                 }
                 L.i("准备开启下载线程");
 
-                progressChangeHandler.sendEmptyMessage(-1);
+                progressChangeHandler.sendEmptyMessage(STATE_START_THREADS);
             }
         });
         startDownloadThread.start();
@@ -521,12 +524,12 @@ public class FileDownloadManager {
 
         @Override
         public void handleMessage(Message msg) {
-            if (msg.what == -1){
+            if (msg.what == STATE_START_THREADS){
                 L.i("开启线程");
                 activityWeakReference.get().startThreads();
             }
             //下载进度更新
-            else if (msg.what == 0) {
+            else if (msg.what == STATE_UPDATE_PROGRESS) {
                 if (activityWeakReference.get().getCompleteSize() >= activityWeakReference.get().fileSize) {
                     activityWeakReference.get().finishDownload();
                     T.getInstance().showShort("下载完成");
@@ -629,7 +632,7 @@ public class FileDownloadManager {
                     helper.updateInfos(url, infos);
                     L.i("更新界面  " + getCompleteSize() + "   fileSize" + fileSize);
                     //更新界面
-                    progressChangeHandler.sendEmptyMessage(0);
+                    progressChangeHandler.sendEmptyMessage(STATE_UPDATE_PROGRESS);
                     //每隔１秒操作数据库和更新界面，防止频繁的更新
                     try {
                         Thread.sleep(1000);
