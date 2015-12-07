@@ -34,7 +34,9 @@ public class StudentHelper extends BaseDBHelper{
     public static class StudentInfo{
         public String name;
         public String gender;
-        public int weight;
+        public double weight;
+        //插入时该值无效
+        public int id;
     }
 
     /**
@@ -84,6 +86,26 @@ public class StudentHelper extends BaseDBHelper{
         if (insert(map, false) > 0)
             return true;
         return false;
+    }
+
+    public ArrayList<StudentInfo> getStudentInfo(String name){
+        table = StudentDB.TABLES.STUDENTINFO;
+        String selection = table.getTableColumns().get(1)+"=?";
+        String[] selectionArgs = new String[]{name};
+        ArrayList<HashMap<String, String>> result = query(selection, selectionArgs, null, null, null, null);
+        ArrayList<StudentInfo> studentInfos = null;
+        if (result != null){
+            studentInfos = new ArrayList<>();
+            for (HashMap<String, String> temp : result){
+                StudentInfo info = new StudentInfo();
+                info.id = Integer.parseInt(temp.get(table.getTableColumns().get(0)));
+                info.name = temp.get(table.getTableColumns().get(1));
+                info.gender = temp.get(table.getTableColumns().get(2));
+                info.weight = Double.parseDouble(temp.get(table.getTableColumns().get(3)));
+                studentInfos.add(info);
+            }
+        }
+        return studentInfos;
     }
 
     @Override

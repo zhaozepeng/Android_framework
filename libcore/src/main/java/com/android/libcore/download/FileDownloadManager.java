@@ -30,6 +30,7 @@ public class FileDownloadManager {
 
     /** 开启线程 */
     private static final int STATE_START_THREADS = -1;
+    /** 更新状态 */
     private static final int STATE_UPDATE_PROGRESS = 0;
     /** 下载状态，正在获取文件大小 */
     public static final int STATE_GETSIZE = 1;

@@ -5,7 +5,9 @@ import android.view.View;
 
 import com.android.framework.R;
 import com.android.libcore.Toast.T;
+import com.android.libcore.log.L;
 import com.android.libcore_ui.activity.BaseActivity;
+import com.android.libcore_ui.permanentdbcache.PermanentCacheDBHelper;
 import com.android.sample.test_db.db.StudentHelper;
 
 import java.util.ArrayList;
@@ -78,7 +80,9 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
                     T.getInstance().showShort("删除成功");
                 break;
             case R.id.btn_test_query:
-//                T.getInstance().showShort(PermanentCacheDBHelper.getInstance().get(key + "key"));
+                for (StudentHelper.StudentInfo info1 : StudentHelper.getInstance().getStudentInfo("赵")){
+                    L.e(info1.id + " " + info1.name + " " + info1.gender + " " + info1.weight);
+                }
                 break;
             case R.id.btn_test_clear:
 //                if(PermanentCacheDBHelper.getInstance().clear()){
