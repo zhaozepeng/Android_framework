@@ -74,7 +74,7 @@ public final class ActivityManager {
     public Activity getActivity(){
         if (!stack.isEmpty())
             return stack.peek();
-        L.i("Activity 栈为空！！！+getActivity()", ActivityManager.class);
+        L.i("Activity 栈为空！！！");
         return null;
     }
 
@@ -88,7 +88,7 @@ public final class ActivityManager {
                 temp.finish();
             return;
         }
-        L.e("Activity 栈为空！！！+finishActivity()", ActivityManager.class);
+        L.e("Activity 栈为空！！！");
     }
 
     /***
@@ -96,7 +96,7 @@ public final class ActivityManager {
      */
     public void finishActivity(Activity activity){
         if (stack.isEmpty()) {
-            L.e("Activity 栈为空！！！+finishActivity(activity)", ActivityManager.class);
+            L.e("Activity 栈为空！！！");
             return ;
         }
         try {
