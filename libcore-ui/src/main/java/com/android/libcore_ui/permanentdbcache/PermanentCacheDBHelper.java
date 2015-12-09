@@ -39,9 +39,7 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
         HashMap<String, String> map = new HashMap<>();
         map.put(columns.get(0), key);
         map.put(columns.get(1), value);
-        if (insert(map, true) > 0)
-            return true;
-        return false;
+        return insert(map, true) > 0;
     }
 
     /**
@@ -51,18 +49,14 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
     public boolean del(String key){
         String selection = table.getTableColumns().get(0)+"=?";
         String[] selectionArgs = new String[]{key};
-        if (delete(selection, selectionArgs) > 0)
-            return true;
-        return false;
+        return delete(selection, selectionArgs) > 0;
     }
 
     /**
      * 清空该表的所有数据
      */
     public boolean clear(){
-        if (delete("1=1", null) > 0)
-            return true;
-        return false;
+        return delete("1=1", null) > 0;
     }
 
     /**

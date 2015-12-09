@@ -6,6 +6,7 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.android.libcore.cachemanager.CacheManager;
 import com.android.libcore.log.L;
@@ -16,8 +17,8 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 /**
- * Description: {@linkplain Application}基类，
- * 应用的application应该继承自该基类
+ * Description: {@linkplain Application}基类，不要忘记在manifest文件中设置application的
+ * android:name，应用的application应该继承自该基类
  *
  * @author zzp(zhao_zepeng@hotmail.com)
  * @since 2015-07-07
@@ -35,10 +36,6 @@ public class RootApplication extends Application{
      * 需要存放的变量和数据，但存放的数据量不宜过大，如果需要存放
      * 过大的数据，请在使用完之后，立马清除*/
     public static HashMap<String, Object> maps;
-
-    public RootApplication(){
-        super();
-    }
 
     @Override
     public void onCreate() {
@@ -58,7 +55,7 @@ public class RootApplication extends Application{
      * 不推荐使用该方法，特别是耗时任务，因为会导致页面销毁时，任务无法回收，导致内存泄露和
      * 其他异常
      *
-     * @return context上下文
+     * @return context上下文，如果返回Null检测manifest文件是否设置了application的name
      */
     public static Context getInstance(){
         if (instanceRef == null || instanceRef.get() == null){
@@ -69,7 +66,6 @@ public class RootApplication extends Application{
                         instanceRef = new WeakReference<>(context);
                     else {
                         instanceRef = new WeakReference<>(instance);
-                        L.w("请确保RootActivity调用setInstanceRef方法");
                     }
                 }
             }
@@ -78,7 +74,7 @@ public class RootApplication extends Application{
     }
 
     /**
-     * 将{@link #instanceRef}设置为最新页面的context设置
+     * 将{@link #instanceRef}设置为最新页面的context
      * @param context 最新页面的context
      */
     public static void setInstanceRef(Context context){
