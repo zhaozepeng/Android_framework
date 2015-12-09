@@ -21,11 +21,7 @@ public final class L {
 
     static {
         LOG_ENABLE = RootApplication.DEBUG;
-        if (RootApplication.getInstance() == null) {
-            LOG_TAG = "unknown";
-        } else {
-            LOG_TAG = RootApplication.getInstance().getPackageName();
-        }
+        LOG_TAG = "[PID:"+ android.os.Process.myPid() +"]";
     }
 
     /**

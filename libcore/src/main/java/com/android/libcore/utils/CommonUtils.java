@@ -1,6 +1,7 @@
 package com.android.libcore.utils;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -169,6 +170,24 @@ public class CommonUtils {
             }
         }
         return uri;
+    }
+
+    /**
+     * 获取进程名
+     */
+    public static String getCurrentProcessName(Context context){
+        String currentProcessName = "";
+        int pid = android.os.Process.myPid();
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningAppProcessInfo processInfo : manager.getRunningAppProcesses())
+        {
+            if (processInfo.pid == pid)
+            {
+                currentProcessName = processInfo.processName;
+                break;
+            }
+        }
+        return currentProcessName;
     }
 
     /**

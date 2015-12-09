@@ -30,13 +30,6 @@ public abstract class RootActivity extends AppCompatActivity{
         RootApplication.setInstanceRef(this);
         ActivityManager.getInstance().addActivity(this);
 
-        //修改L日志类的tag
-        try {
-            L.LOG_TAG = ActivityManager.getInstance().getActivity().getLocalClassName();
-        }catch (Throwable e){
-            L.LOG_TAG = RootApplication.getInstance().getPackageName();
-        }
-
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {

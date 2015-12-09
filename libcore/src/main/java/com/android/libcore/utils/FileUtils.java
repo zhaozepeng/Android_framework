@@ -235,7 +235,7 @@ public class FileUtils {
         if (file.isDirectory()){
             File[] files = file.listFiles();
             for (File temp : files){
-                size += getFileSize(temp);
+                size += getFileOrDirectorySize(temp.getAbsolutePath());
             }
         }else{
             size = getFileSize(file);
