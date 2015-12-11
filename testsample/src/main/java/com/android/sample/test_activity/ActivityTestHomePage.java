@@ -28,7 +28,7 @@ public class ActivityTestHomePage extends BaseActivityWithPopWindow implements V
     private Button btn_test_bottom_popwindow;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

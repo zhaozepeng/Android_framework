@@ -25,7 +25,7 @@ public abstract class RootActivity extends AppCompatActivity{
     private Boolean isNeedUnRegister = false;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RootApplication.setInstanceRef(this);
         ActivityManager.getInstance().addActivity(this);

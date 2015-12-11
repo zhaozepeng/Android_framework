@@ -32,7 +32,7 @@ public class NetActivity extends BaseActivity implements View.OnClickListener{
     private LoadingDialog ld;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

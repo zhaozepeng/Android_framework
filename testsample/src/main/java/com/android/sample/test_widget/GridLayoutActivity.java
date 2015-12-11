@@ -19,7 +19,7 @@ import com.android.libcore_ui.widget.SimpleGridLayout;
 public class GridLayoutActivity extends BaseActivity{
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_grid);
         SimpleGridLayout gll_content = (SimpleGridLayout) findViewById(R.id.gll_content);

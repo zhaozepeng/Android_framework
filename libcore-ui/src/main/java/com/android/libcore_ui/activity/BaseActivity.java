@@ -65,7 +65,7 @@ public abstract class BaseActivity extends RootActivity{
     protected boolean useToolbar = true;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         //如果系统的主题为Activity_translucent_navigation_bar，但是手机没有navigation bar，
         // 则将其设置回status bar主题，setTheme()调用一定要在onCreate()之前
         if (!CommonUtils.hasNavigationBar()

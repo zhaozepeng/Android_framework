@@ -17,7 +17,7 @@ import com.android.libcore_ui.activity.BaseActivity;
  */
 public class FileActivity extends BaseActivity implements View.OnClickListener{
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

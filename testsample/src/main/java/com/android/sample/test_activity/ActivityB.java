@@ -31,7 +31,7 @@ public class ActivityB extends BaseActivity implements View.OnClickListener{
     private TextView tv_all_info;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

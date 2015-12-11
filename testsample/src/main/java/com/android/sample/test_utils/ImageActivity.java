@@ -37,7 +37,7 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
     private Bitmap bitmap;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

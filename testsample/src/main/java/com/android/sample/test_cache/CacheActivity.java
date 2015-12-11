@@ -27,7 +27,7 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
     private TextView tv_result;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

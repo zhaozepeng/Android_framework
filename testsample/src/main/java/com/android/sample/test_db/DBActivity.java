@@ -23,7 +23,7 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
 //    public Integer value = 0;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

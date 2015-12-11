@@ -16,7 +16,7 @@ import com.android.libcore_ui.activity.BaseActivity;
 public class WidgetActivity extends BaseActivity implements View.OnClickListener{
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_widget);
         findViewById(R.id.btn_test_gridlayout).setOnClickListener(this);

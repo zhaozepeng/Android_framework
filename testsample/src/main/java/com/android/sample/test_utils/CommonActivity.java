@@ -19,7 +19,7 @@ public class CommonActivity extends BaseActivity{
     TextView isNetworkWifi;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

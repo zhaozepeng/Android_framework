@@ -20,7 +20,7 @@ import com.android.libcore_ui.widget.FlowLayout;
 public class FlowLayoutActivity extends BaseActivity{
     int orientation = FlowLayout.HORIZONTAL;
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_flow);
         findViewById(R.id.btn_change_orientation).setOnClickListener(new View.OnClickListener() {

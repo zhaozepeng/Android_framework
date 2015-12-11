@@ -25,7 +25,7 @@ public class ImageActivity extends BaseActivity{
     private GridView gv_content;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initView();
         initData();

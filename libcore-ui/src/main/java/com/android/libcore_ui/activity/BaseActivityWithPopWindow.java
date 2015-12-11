@@ -59,7 +59,7 @@ public class BaseActivityWithPopWindow extends BaseActivity{
     protected int scrollViewMeasureHeight;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
