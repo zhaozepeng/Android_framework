@@ -34,14 +34,14 @@ public class StudentDB extends BaseDB{
         try {
             db.beginTransaction();
             String sql;
-            sql = "create table "+ TABLES.STUDENTINFO.getTableName()+"_" + getDBVersion() + " (";
+            sql = "create table if not exists "+ TABLES.STUDENTINFO.getTableName()+"_" + getDBVersion() + " (";
             sql += TABLES.STUDENTINFO.getTableColumns().get(0)+" integer not null primary key autoincrement, ";
             sql += TABLES.STUDENTINFO.getTableColumns().get(1)+" varchar(40) not null default 'unknown', ";
             sql += TABLES.STUDENTINFO.getTableColumns().get(2)+" varchar(10) not null default 'male',";
             sql += TABLES.STUDENTINFO.getTableColumns().get(3)+" integer not null default '60'";
             sql += ")";
             db.execSQL(sql);
-            sql = "create table "+TABLES.STUDENTGRADE.getTableName()+"_" + getDBVersion() + " (";
+            sql = "create table if not exists "+TABLES.STUDENTGRADE.getTableName()+"_" + getDBVersion() + " (";
             sql += TABLES.STUDENTGRADE.getTableColumns().get(0)+" integer not null primary key autoincrement, ";
             sql += TABLES.STUDENTGRADE.getTableColumns().get(1)+" integer not null default '1', ";
             sql += TABLES.STUDENTGRADE.getTableColumns().get(2)+" integer not null default '60'";
@@ -52,7 +52,6 @@ public class StudentDB extends BaseDB{
             L.e(getClass().getSimpleName() + " sql语句错误", e);
         } finally {
             db.endTransaction();
-
         }
     }
 

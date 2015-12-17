@@ -32,9 +32,9 @@ public class RootApplication extends Application{
     private static Context instance;
     /** 用来保存最新打开页面的context */
     private volatile static WeakReference<Context> instanceRef = null;
-    /** 该变量长久的存放于内存，用来存放一些在软件启动生命周期之内
-     * 需要存放的变量和数据，但存放的数据量不宜过大，如果需要存放
-     * 过大的数据，请在使用完之后，立马清除*/
+    /** 用来存放一些在软件启动生命周期之内需要存放的变量和数据，但存放的数据量不宜过大，
+     * 如果需要存放过大的数据，请在使用完之后，立马清除，还有一点需要注意的是该maps可
+     * 能会因为应用在后台，手机内存不足而被回收，回收之后该maps会被清空!!*/
     public static HashMap<String, Object> maps;
 
     @Override

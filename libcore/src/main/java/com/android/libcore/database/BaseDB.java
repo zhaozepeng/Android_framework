@@ -10,7 +10,6 @@ import com.android.libcore.log.L;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 
 /**
@@ -30,7 +29,7 @@ import java.util.Map;
 public abstract class BaseDB {
 
     /** 数据库锁 */
-    private Byte[] lock = new Byte[0];
+    private final Byte[] lock = new Byte[0];
     /** 打开数据库超时时间 */
     private final int TIME_OUT = 30*1000;
     /** 当前操作的表 */
@@ -250,9 +249,7 @@ public abstract class BaseDB {
 
     private ContentValues parseHashMapToContentValues(HashMap<String, String> map){
         ContentValues values = new ContentValues();
-        Iterator<Map.Entry<String, String>> iterator = map.entrySet().iterator();
-        while (iterator.hasNext()){
-            Map.Entry<String, String> entry = iterator.next();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             values.put(entry.getKey(), entry.getValue());
         }
         return values;
@@ -278,13 +275,13 @@ public abstract class BaseDB {
                     try {
                         db = super.getReadableDatabase();
                     }catch (Exception e){
-                        L.e(BaseDB.class.getSimpleName(), e);
+                        L.e(e);
                         retry = true;
                         //休眠一个随机时间防止线程并发
                         try {
                             Thread.sleep((long) (3*1000+Math.random()*1000));
                         }catch (InterruptedException e1){
-                            L.e(BaseDB.class.getSimpleName(), e1);
+                            L.e(e1);
                         }
                     }
                 }while (retry && ((System.currentTimeMillis()-time)<TIME_OUT));
@@ -303,7 +300,7 @@ public abstract class BaseDB {
                     try {
                         db = super.getWritableDatabase();
                     }catch (Exception e){
-                        L.e(BaseDB.class.getSimpleName(), e);
+                        L.e(e);
                         retry = true;
                         //休眠一个随机时间防止线程并发
                         try {

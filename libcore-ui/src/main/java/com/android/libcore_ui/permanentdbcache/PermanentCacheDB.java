@@ -35,7 +35,7 @@ public class PermanentCacheDB extends BaseDB{
         try {
             db.beginTransaction();
             String sql;
-            sql = "create table "+ TABLES.CACHE.getTableName() +"_" + getDBVersion() + " (";
+            sql = "create table if not exists "+ TABLES.CACHE.getTableName() +"_" + getDBVersion() + " (";
             sql += TABLES.CACHE.getTableColumns().get(0)+" varchar(40) not null primary key default '', ";
             sql += TABLES.CACHE.getTableColumns().get(1)+" varchar(4000) not null default ''";
             sql += ")";
