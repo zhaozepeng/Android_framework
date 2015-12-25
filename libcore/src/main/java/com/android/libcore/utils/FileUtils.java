@@ -7,7 +7,11 @@ import com.android.libcore.log.L;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Description: 文件相关的操作，如果需要在SD卡主目录下建立子目录，请在{@link ExternalStorageType}
@@ -241,6 +245,32 @@ public class FileUtils {
             size = getFileSize(file);
         }
         return size/8/1024;
+    }
+
+    /**
+     * 文件拷贝
+     * @param src 源文件
+     * @param des 目标文件
+     */
+    public static void copyFile(File src, File des){
+        try {
+            int byteRead = 0;
+            InputStream inputStream = new FileInputStream(src);
+            if (!des.exists())
+                des.createNewFile();
+            OutputStream outputStream = new FileOutputStream(des);
+            byte[] buffer = new byte[1024];
+            while ( (byteRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, byteRead);
+            }
+            inputStream.close();
+            outputStream.flush();
+            outputStream.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

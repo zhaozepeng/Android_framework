@@ -296,4 +296,15 @@ public class ImageUtils {
         }
         return bmp;
     }
+
+    /**
+     * 检测一个文件是否为图片
+     * @param filePath　该文件路径
+     */
+    public static boolean isFileImage(String filePath){
+        return filePath.endsWith(".png") || filePath.endsWith(".PNG")
+                || filePath.endsWith(".jpg") || filePath.endsWith(".JPG")
+                || filePath.endsWith(".jpeg") || filePath.endsWith(".JPEG")
+                || filePath.endsWith(".bmp") || filePath.endsWith(".BMP");
+    }
 }
