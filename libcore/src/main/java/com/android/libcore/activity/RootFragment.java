@@ -18,14 +18,14 @@ import android.view.View;
  * @since 2015-07-08
  */
 public abstract class RootFragment extends Fragment{
-    protected BroadcastReceiver receiver;
-    protected View viewContainer;
-    private Boolean isNeedUnRegister = false;
+    protected BroadcastReceiver mReceiver;
+    protected View mViewContainer;
+    private Boolean mIsNeedUnRegister = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        receiver = new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 this.onReceive(context, intent);
@@ -37,14 +37,14 @@ public abstract class RootFragment extends Fragment{
 
     protected void registerReceiver(String action){
         IntentFilter filter = new IntentFilter(action);
-        getActivity().registerReceiver(receiver, filter);
-        isNeedUnRegister = true;
+        getActivity().registerReceiver(mReceiver, filter);
+        mIsNeedUnRegister = true;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (isNeedUnRegister)
-            getActivity().unregisterReceiver(receiver);
+        if (mIsNeedUnRegister)
+            getActivity().unregisterReceiver(mReceiver);
     }
 }

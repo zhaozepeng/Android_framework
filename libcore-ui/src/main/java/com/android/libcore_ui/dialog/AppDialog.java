@@ -49,14 +49,14 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
 
     @Override
     public BaseDialog setTitle(String title) {
-        hasTitle = true;
+        mHasTitle = true;
         tv_title.setText(title);
         return this;
     }
 
     @Override
     public BaseDialog setTitle(View title) {
-        hasTitle = true;
+        mHasTitle = true;
         rl_title.removeView(tv_title);
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams
                 (ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -210,7 +210,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
         }
         LinearLayout layout = generateLayout(other);
         layout.setTag(other_listener);
-        ids.add(other_listener);
+        mIds.add(other_listener);
         ll_bottom_button.addView(layout);
         return this;
     }
@@ -286,7 +286,7 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
 
     @Override
     public void show() {
-        if (!hasTitle)
+        if (!mHasTitle)
             rl_title.setVisibility(View.GONE);
         super.show();
     }
@@ -294,6 +294,6 @@ public class AppDialog extends BaseDialog implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         this.dismiss();
-        listener.onButtonClick((Integer) v.getTag());
+        mListener.onButtonClick((Integer) v.getTag());
     }
 }

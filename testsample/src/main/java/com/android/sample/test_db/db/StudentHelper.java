@@ -43,32 +43,32 @@ public class StudentHelper extends BaseDBHelper{
      * 插入学生信息
      */
     public boolean insertStudentInfo(String name, String gender, int weight){
-        table = StudentDB.TABLES.STUDENTINFO;
+        mTable = StudentDB.TABLES.STUDENTINFO;
         HashMap<String, String> map = new HashMap<>();
-        map.put(table.getTableColumns().get(1), name);
-        map.put(table.getTableColumns().get(2), gender);
-        map.put(table.getTableColumns().get(3), weight + "");
+        map.put(mTable.getTableColumns().get(1), name);
+        map.put(mTable.getTableColumns().get(2), gender);
+        map.put(mTable.getTableColumns().get(3), weight + "");
         if (insert(map, false) > 0)
             return true;
         return false;
     }
 
     public long insertStudentInfos(ArrayList<StudentInfo> infos){
-        table = StudentDB.TABLES.STUDENTINFO;
+        mTable = StudentDB.TABLES.STUDENTINFO;
         ArrayList<HashMap<String, String>> maps = new ArrayList<>();
         for (StudentInfo info : infos) {
             HashMap<String, String> map = new HashMap<>();
-            map.put(table.getTableColumns().get(1), info.name);
-            map.put(table.getTableColumns().get(2), info.gender);
-            map.put(table.getTableColumns().get(3), info.weight + "");
+            map.put(mTable.getTableColumns().get(1), info.name);
+            map.put(mTable.getTableColumns().get(2), info.gender);
+            map.put(mTable.getTableColumns().get(3), info.weight + "");
             maps.add(map);
         }
         return insertAll(maps, false);
     }
 
     public boolean deleteStudentInfo(String name){
-        table = StudentDB.TABLES.STUDENTINFO;
-        String selection = table.getTableColumns().get(1) + "=?";
+        mTable = StudentDB.TABLES.STUDENTINFO;
+        String selection = mTable.getTableColumns().get(1) + "=?";
         String[] selectionArgs = new String[]{name};
 
         ArrayList<HashMap<String, String>> temp = query(selection, selectionArgs, null, null ,null, null);
@@ -79,18 +79,18 @@ public class StudentHelper extends BaseDBHelper{
     }
 
     public boolean insertGrade(int Class, int grade){
-        table = StudentDB.TABLES.STUDENTGRADE;
+        mTable = StudentDB.TABLES.STUDENTGRADE;
         HashMap<String, String> map = new HashMap<>();
-        map.put(table.getTableColumns().get(1), Class+"");
-        map.put(table.getTableColumns().get(2), grade+"");
+        map.put(mTable.getTableColumns().get(1), Class+"");
+        map.put(mTable.getTableColumns().get(2), grade+"");
         if (insert(map, false) > 0)
             return true;
         return false;
     }
 
     public ArrayList<StudentInfo> getStudentInfo(String name){
-        table = StudentDB.TABLES.STUDENTINFO;
-        String selection = table.getTableColumns().get(1)+"=?";
+        mTable = StudentDB.TABLES.STUDENTINFO;
+        String selection = mTable.getTableColumns().get(1)+"=?";
         String[] selectionArgs = new String[]{name};
         ArrayList<HashMap<String, String>> result = query(selection, selectionArgs, null, null, null, null);
         ArrayList<StudentInfo> studentInfos = null;
@@ -98,10 +98,10 @@ public class StudentHelper extends BaseDBHelper{
             studentInfos = new ArrayList<>();
             for (HashMap<String, String> temp : result){
                 StudentInfo info = new StudentInfo();
-                info.id = Integer.parseInt(temp.get(table.getTableColumns().get(0)));
-                info.name = temp.get(table.getTableColumns().get(1));
-                info.gender = temp.get(table.getTableColumns().get(2));
-                info.weight = Double.parseDouble(temp.get(table.getTableColumns().get(3)));
+                info.id = Integer.parseInt(temp.get(mTable.getTableColumns().get(0)));
+                info.name = temp.get(mTable.getTableColumns().get(1));
+                info.gender = temp.get(mTable.getTableColumns().get(2));
+                info.weight = Double.parseDouble(temp.get(mTable.getTableColumns().get(3)));
                 studentInfos.add(info);
             }
         }
@@ -110,21 +110,21 @@ public class StudentHelper extends BaseDBHelper{
 
     @Override
     protected void initInsertDB() {
-        db = new StudentDB(table, true);
+        mDb = new StudentDB(mTable, true);
     }
 
     @Override
     protected void initDeleteDB() {
-        db = new StudentDB(table, true);
+        mDb = new StudentDB(mTable, true);
     }
 
     @Override
     protected void initUpdateDB() {
-        db = new StudentDB(table, true);
+        mDb = new StudentDB(mTable, true);
     }
 
     @Override
     protected void initQueryDB() {
-        db = new StudentDB(table, false);
+        mDb = new StudentDB(mTable, false);
     }
 }

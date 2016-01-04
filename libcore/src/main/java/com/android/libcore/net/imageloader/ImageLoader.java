@@ -22,12 +22,12 @@ public class ImageLoader {
     /** 最大的图片缓存大小 */
     private final int MAXDISKCACHEBYTES = 10 * 1024 *1024;
     private static volatile ImageLoader instance;
-    private com.android.volley.toolbox.ImageLoader imageLoader;
+    private com.android.volley.toolbox.ImageLoader mImageLoader;
 
     private ImageLoader(){
         RequestQueue requestQueue = Volley.newRequestQueue(RootApplication.getInstance(), MAXDISKCACHEBYTES);
         VolleyLruCache lruCache = new VolleyLruCache();
-        imageLoader = new com.android.volley.toolbox.ImageLoader(requestQueue, lruCache);
+        mImageLoader = new com.android.volley.toolbox.ImageLoader(requestQueue, lruCache);
     }
 
     public static ImageLoader getInstance(){
@@ -118,7 +118,7 @@ public class ImageLoader {
      * @param listener 加载图片回调
      */
     public void loadImage(String url, int width, int height, final ImageView imageView, final OnLoadCallBack listener){
-        imageLoader.get(url, new com.android.volley.toolbox.ImageLoader.ImageListener() {
+        mImageLoader.get(url, new com.android.volley.toolbox.ImageLoader.ImageListener() {
             @Override
             public void onResponse(com.android.volley.toolbox.ImageLoader.ImageContainer response, boolean isImmediate) {
                 if (imageView != null)
@@ -166,7 +166,7 @@ public class ImageLoader {
         com.android.volley.toolbox.ImageLoader.ImageListener listener =
                 com.android.volley.toolbox.ImageLoader.getImageListener(imageView,
                         defaultImageResId, errorImageResId);
-        imageLoader.get(url, listener, width, height);
+        mImageLoader.get(url, listener, width, height);
     }
 
     /**

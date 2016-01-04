@@ -38,23 +38,23 @@ public class DownloadDBHelper extends BaseDBHelper{
         HashMap<String, String> maps = new HashMap<>();
 
         initUpdateDB();
-        if (db == null)
+        if (mDb == null)
             return;
         try {
-            db.beginTransaction();
+            mDb.beginTransaction();
             for (FileDownloadManager.DownloadInfo info : infos){
                 maps.clear();
                 maps.put(columns.get(4), info.completeSize+"");
                 String whereClause = columns.get(0)+"=? and "+columns.get(1)+"=?";
                 String[] whereArgs = new String[]{info.id+"", url};
-                db.update(maps, whereClause, whereArgs);
+                mDb.update(maps, whereClause, whereArgs);
             }
-            db.setTransactionSuccessful();
+            mDb.setTransactionSuccessful();
         }catch (Exception e){
             e.printStackTrace();
         }finally {
-            db.endTransaction();
-            db.close();
+            mDb.endTransaction();
+            mDb.close();
         }
     }
 
@@ -80,21 +80,21 @@ public class DownloadDBHelper extends BaseDBHelper{
 
     @Override
     protected void initInsertDB() {
-        db = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, true);
+        mDb = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, true);
     }
 
     @Override
     protected void initDeleteDB() {
-        db = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, true);
+        mDb = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, true);
     }
 
     @Override
     protected void initUpdateDB() {
-        db = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, true);
+        mDb = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, true);
     }
 
     @Override
     protected void initQueryDB() {
-        db = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, false);
+        mDb = new DownloadDB(DownloadDB.TABLES.DOWNLOAD, false);
     }
 }

@@ -6,10 +6,8 @@ import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import com.android.libcore.cachemanager.CacheManager;
-import com.android.libcore.log.L;
 import com.android.libcore.activity.ActivityManager;
 import com.android.libcore.utils.FileUtils;
 
@@ -35,13 +33,13 @@ public class RootApplication extends Application{
     /** 用来存放一些在软件启动生命周期之内需要存放的变量和数据，但存放的数据量不宜过大，
      * 如果需要存放过大的数据，请在使用完之后，立马清除，还有一点需要注意的是该maps可
      * 能会因为应用在后台，手机内存不足而被回收，回收之后该maps会被清空!!*/
-    public static HashMap<String, Object> maps;
+    public static HashMap<String, Object> appMaps;
 
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
-        maps = new HashMap<>();
+        appMaps = new HashMap<>();
         //设置默认崩溃处理，如需使用，不注释即可
 //        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler());
     }

@@ -1,7 +1,6 @@
 package com.android.libcore_ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Message;
 import android.support.annotation.Nullable;
@@ -41,10 +40,10 @@ public abstract class BaseFragment extends RootFragment{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        viewContainer = setContentView(inflater, container);
+        mViewContainer = setContentView(inflater, container);
         initView();
         initData();
-        return viewContainer;
+        return mViewContainer;
     }
 
     protected abstract View setContentView(LayoutInflater inflater, @Nullable ViewGroup container);
@@ -56,7 +55,7 @@ public abstract class BaseFragment extends RootFragment{
      * 根据id值获取view
      */
     protected View findViewById(int id){
-        return viewContainer.findViewById(id);
+        return mViewContainer.findViewById(id);
     }
 
     /**

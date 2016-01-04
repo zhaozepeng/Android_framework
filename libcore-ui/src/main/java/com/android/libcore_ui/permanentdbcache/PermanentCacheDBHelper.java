@@ -27,7 +27,7 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
     }
 
     private PermanentCacheDBHelper(){
-        table = PermanentCacheDB.TABLES.CACHE;
+        mTable = PermanentCacheDB.TABLES.CACHE;
     }
 
     /**
@@ -35,7 +35,7 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
      * @return 删除成功返回true
      */
     public boolean set(String key, String value){
-        ArrayList<String> columns = table.getTableColumns();
+        ArrayList<String> columns = mTable.getTableColumns();
         HashMap<String, String> map = new HashMap<>();
         map.put(columns.get(0), key);
         map.put(columns.get(1), value);
@@ -47,7 +47,7 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
      * @return 删除成功返回true
      */
     public boolean del(String key){
-        String selection = table.getTableColumns().get(0)+"=?";
+        String selection = mTable.getTableColumns().get(0)+"=?";
         String[] selectionArgs = new String[]{key};
         return delete(selection, selectionArgs) > 0;
     }
@@ -64,32 +64,32 @@ public class PermanentCacheDBHelper extends BaseDBHelper{
      * @return value
      */
     public String get(String key){
-        String selection = table.getTableColumns().get(0)+"=?";
+        String selection = mTable.getTableColumns().get(0)+"=?";
         String[] selectionArgs = new String[]{key};
         ArrayList<HashMap<String, String>> result = query(selection, selectionArgs, null, null, null, null);
         if (result != null){
-            return result.get(0).get(table.getTableColumns().get(1));
+            return result.get(0).get(mTable.getTableColumns().get(1));
         }
         return null;
     }
 
     @Override
     protected void initInsertDB() {
-        db = new PermanentCacheDB(table, true);
+        mDb = new PermanentCacheDB(mTable, true);
     }
 
     @Override
     protected void initDeleteDB() {
-        db = new PermanentCacheDB(table, true);
+        mDb = new PermanentCacheDB(mTable, true);
     }
 
     @Override
     protected void initUpdateDB() {
-        db = null;
+        mDb = null;
     }
 
     @Override
     protected void initQueryDB() {
-        db = new PermanentCacheDB(table, false);
+        mDb = new PermanentCacheDB(mTable, false);
     }
 }

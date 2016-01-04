@@ -21,16 +21,16 @@ public abstract class BaseDialog extends Dialog{
     /** 用来标识中间按钮的回调id */
     public static final int NEUTRAL_LISTENER = 2;
     /** 用来标示是否有title */
-    protected boolean hasTitle = false;
+    protected boolean mHasTitle = false;
     /** 其他按钮的id */
-    protected ArrayList<Integer> ids = new ArrayList<>();
-    protected ButtonClickListener listener;
+    protected ArrayList<Integer> mIds = new ArrayList<>();
+    protected ButtonClickListener mListener;
 
     public BaseDialog(Context context, int theme) {
         super(context, theme);
-        ids.add(POSITIVE_LISTENER);
-        ids.add(NEGATIVE_LISTENER);
-        ids.add(NEUTRAL_LISTENER);
+        mIds.add(POSITIVE_LISTENER);
+        mIds.add(NEGATIVE_LISTENER);
+        mIds.add(NEUTRAL_LISTENER);
     }
 
     /**
@@ -38,7 +38,7 @@ public abstract class BaseDialog extends Dialog{
      * @return 合法返回true
      */
     protected boolean checkIllegalId(int id){
-        return !ids.contains(id);
+        return !mIds.contains(id);
     }
 
     /**
@@ -120,7 +120,7 @@ public abstract class BaseDialog extends Dialog{
      * 设置dialog的按钮点击回调
      */
     public BaseDialog setOnButtonClickListener(ButtonClickListener listener){
-        this.listener = listener;
+        this.mListener = listener;
         return this;
     }
 

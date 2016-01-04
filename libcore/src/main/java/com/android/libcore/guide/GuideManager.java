@@ -22,10 +22,10 @@ import java.util.ArrayList;
  */
 public class GuideManager {
     private static volatile GuideManager instance = null;
-    private ArrayList<View> views;
-    private int currentShowId;
-    private View.OnClickListener listener;
-    private boolean isShowFullScreen = true;
+    private ArrayList<View> mViews;
+    private int mCurrentShowId;
+    private View.OnClickListener mListener;
+    private boolean mIsShowFullScreen = true;
 
     private GuideManager() {
     }
@@ -45,7 +45,7 @@ public class GuideManager {
      * 初始化监听器
      */
     private void initListener() {
-        listener = new View.OnClickListener() {
+        mListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showNextMask();
@@ -70,8 +70,8 @@ public class GuideManager {
                 L.e("请先定义id为click_to_disappear的view");
                 return;
             }
-            views = new ArrayList<>();
-            currentShowId = 0;
+            mViews = new ArrayList<>();
+            mCurrentShowId = 0;
             initListener();
             for (int layoutId : layoutIds) {
                 //虽然layoutId不在该子module里面定义，但是依然能够inflate
@@ -81,18 +81,18 @@ public class GuideManager {
                     L.e("layout id为" + layoutId + "的布局中没有定义click_to_disappear的view");
                     return;
                 }
-                btn.setOnClickListener(listener);
+                btn.setOnClickListener(mListener);
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         //用来屏蔽其他view的点击事件
                     }
                 });
-                views.add(view);
+                mViews.add(view);
             }
         } catch (InflateException e) {
             L.e("传入layout id 有误", e);
-            views = null;
+            mViews = null;
         }
     }
 
@@ -100,8 +100,8 @@ public class GuideManager {
      * 使用完蒙版之后记得清空蒙版
      */
     public void clearMask() {
-        views = null;
-        listener = null;
+        mViews = null;
+        mListener = null;
         instance = null;
     }
 
@@ -109,27 +109,27 @@ public class GuideManager {
      * 全屏展示蒙版，此蒙版将会覆盖top bar
      */
     public void showMaskFullScreen() {
-        if (views == null) {
+        if (mViews == null) {
             L.e("请先初始化该蒙版");
             return;
         }
-        isShowFullScreen = true;
-        currentShowId = 0;
+        mIsShowFullScreen = true;
+        mCurrentShowId = 0;
         //将其添加在主体界面的上部,覆盖主体窗口
-        ((ViewGroup) (((Activity) (RootApplication.getInstance())).getWindow().getDecorView())).addView(views.get
-                (currentShowId), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        ((ViewGroup) (((Activity) (RootApplication.getInstance())).getWindow().getDecorView())).addView(mViews.get
+                (mCurrentShowId), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
     }
 
     /**
      * 在内容区域内显示蒙版，不会覆盖top bar
      */
     public void showMaskInContent() {
-        if (views == null) {
+        if (mViews == null) {
             L.e("请先初始化该蒙版");
             return;
         }
-        isShowFullScreen = false;
-        currentShowId = 0;
+        mIsShowFullScreen = false;
+        mCurrentShowId = 0;
 
         //获取activity_base_layout.xml里面的base_content的id
         int base_content = RootApplication.getInstance().getResources().getIdentifier("base_content", "id",
@@ -137,7 +137,7 @@ public class GuideManager {
 
         //将其添加在主体界面的上部,覆盖主体窗口
         ((ViewGroup) (((((Activity) (RootApplication.getInstance())).getWindow().getDecorView())).findViewById(base_content)))
-                .addView(views.get(currentShowId), new ViewGroup.LayoutParams(-1, -1));
+                .addView(mViews.get(mCurrentShowId), new ViewGroup.LayoutParams(-1, -1));
     }
 
     /**
@@ -145,17 +145,17 @@ public class GuideManager {
      */
     public boolean showNextMask(){
         //如果当前没有显示任何模板，返回false标识不处理
-        if (views==null || views.size()==0 || currentShowId >= views.size()){
+        if (mViews ==null || mViews.size()==0 || mCurrentShowId >= mViews.size()){
             return false;
         }
-        if (isShowFullScreen){
+        if (mIsShowFullScreen){
             //将上一次的蒙版去除
-            ((ViewGroup) (((Activity) (RootApplication.getInstance())).getWindow().getDecorView())).removeView(views.get(currentShowId));
+            ((ViewGroup) (((Activity) (RootApplication.getInstance())).getWindow().getDecorView())).removeView(mViews.get(mCurrentShowId));
 
-            currentShowId++;
-            if (currentShowId < views.size()) {
+            mCurrentShowId++;
+            if (mCurrentShowId < mViews.size()) {
                 ((ViewGroup) (((Activity) (RootApplication.getInstance())).getWindow().getDecorView()))
-                        .addView(views.get(currentShowId), new ViewGroup.LayoutParams(ViewGroup
+                        .addView(mViews.get(mCurrentShowId), new ViewGroup.LayoutParams(ViewGroup
                                 .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
         }else{
@@ -164,12 +164,12 @@ public class GuideManager {
                     RootApplication.getInstance().getPackageName());
             //将上一次的蒙版去除
             ((ViewGroup) (((((Activity) (RootApplication.getInstance())).getWindow().getDecorView())).findViewById
-                    (base_content))).removeView(views.get(currentShowId));
+                    (base_content))).removeView(mViews.get(mCurrentShowId));
 
-            currentShowId++;
-            if (currentShowId < views.size()) {
+            mCurrentShowId++;
+            if (mCurrentShowId < mViews.size()) {
                 ((ViewGroup) (((((Activity) (RootApplication.getInstance())).getWindow().getDecorView())).findViewById
-                        (base_content))).addView(views.get(currentShowId), new ViewGroup.LayoutParams(ViewGroup.LayoutParams
+                        (base_content))).addView(mViews.get(mCurrentShowId), new ViewGroup.LayoutParams(ViewGroup.LayoutParams
                         .MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             }
         }

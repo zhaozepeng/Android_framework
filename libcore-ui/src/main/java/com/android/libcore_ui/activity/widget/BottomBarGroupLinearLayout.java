@@ -16,10 +16,10 @@ import com.android.libcore_ui.R;
  * @since 2015-07-14
  */
 public class BottomBarGroupLinearLayout extends LinearLayout{
-    private int groupId;
-    private boolean hasSetGroupId = false;
-    private LayoutInflater inflater;
-    private GroupItemClickCallback callback;
+    private int mGroupId;
+    private boolean mHasSetGroupId = false;
+    private LayoutInflater mInflater;
+    private GroupItemClickCallback mCallback;
 
     public BottomBarGroupLinearLayout(Context context) {
         super(context);
@@ -30,17 +30,17 @@ public class BottomBarGroupLinearLayout extends LinearLayout{
     }
 
     /** 设置该项的groupId */
-    public void setGroupId(int groupId){
-        this.groupId = groupId;
-        hasSetGroupId = true;
-        inflater = LayoutInflater.from(getContext());
+    public void setmGroupId(int mGroupId){
+        this.mGroupId = mGroupId;
+        mHasSetGroupId = true;
+        mInflater = LayoutInflater.from(getContext());
     }
 
     public void addItemToGroup(int itemId, String name){
-        if (!hasSetGroupId){
-            throw new IllegalArgumentException("set groupId first");
+        if (!mHasSetGroupId){
+            throw new IllegalArgumentException("set mGroupId first");
         }
-        View view = inflater.inflate(R.layout.bottom_item_layout, null);
+        View view = mInflater.inflate(R.layout.bottom_item_layout, null);
         TextView tv_item_name = (TextView) view.findViewById(R.id.tv_item_name);
         tv_item_name.setText(name);
 
@@ -62,7 +62,7 @@ public class BottomBarGroupLinearLayout extends LinearLayout{
         view.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                callback.callback(groupId, (Integer) v.getTag());
+                mCallback.callback(mGroupId, (Integer) v.getTag());
             }
         });
 
@@ -74,7 +74,7 @@ public class BottomBarGroupLinearLayout extends LinearLayout{
     }
 
     public void setCallback(GroupItemClickCallback callback){
-        this.callback = callback;
+        this.mCallback = callback;
     }
 
     /**

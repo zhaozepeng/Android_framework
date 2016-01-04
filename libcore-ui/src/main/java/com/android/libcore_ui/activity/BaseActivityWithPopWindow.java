@@ -175,7 +175,7 @@ public class BaseActivityWithPopWindow extends BaseActivity{
             //如果该groupId的items不为0，代表需要将该group显示出来
             if (holder.size() >= 0){
                 BottomBarGroupLinearLayout group = (BottomBarGroupLinearLayout) inflater.inflate(R.layout.bottom_group_layout, null);
-                group.setGroupId(groupId);
+                group.setmGroupId(groupId);
                 group.setCallback(new BottomBarGroupLinearLayout.GroupItemClickCallback() {
                     @Override
                     public void callback(int groupId, int itemId) {

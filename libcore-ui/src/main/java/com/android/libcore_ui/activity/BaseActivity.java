@@ -32,7 +32,7 @@ import com.android.libcore_ui.R;
  *
  *
  * <ol>
- * <li>{@linkplain #receiver}用来在组件之间进行广播的接收</li>
+ * <li>{@linkplain #mReceiver}用来在组件之间进行广播的接收</li>
  * <li>{@linkplain #setTitle(String)}用来设置页面标题</li>
  * <li>{@linkplain #addOptionsMenu(View)}用来在自定义top bar的情况下在右侧添加一个按钮</li>
  * <li>{@linkplain #onCreateOptionsMenu(Menu)}用来在使用toolbar的情况下操作toolbar</li>

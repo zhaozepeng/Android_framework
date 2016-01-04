@@ -18,7 +18,7 @@ import com.android.libcore_ui.R;
 public class SimpleGridLayout extends ViewGroup{
 
     private int NUM_PER_LINE = 3;
-    private int verticalSpacing = 10;
+    private int mVerticalSpacing = 10;
 
     public SimpleGridLayout(Context context) {
         super(context);
@@ -31,7 +31,7 @@ public class SimpleGridLayout extends ViewGroup{
         NUM_PER_LINE = array.getInteger(R.styleable.SimpleGridLayout_columns, 3);
         if (NUM_PER_LINE <= 1)
             throw new IllegalArgumentException("columns must greater than 1");
-        verticalSpacing = array.getDimensionPixelSize(R.styleable.SimpleGridLayout_verticalItemSpacing, 10);
+        mVerticalSpacing = array.getDimensionPixelSize(R.styleable.SimpleGridLayout_verticalItemSpacing, 10);
         array.recycle();
     }
 
@@ -55,7 +55,7 @@ public class SimpleGridLayout extends ViewGroup{
         }
 
         int lines = (int)Math.ceil(((getChildCount()*1.0) / (NUM_PER_LINE *1.0)));
-        int height = lines * (verticalSpacing + childHeight) + paddingBottom + paddingTop - verticalSpacing;
+        int height = lines * (mVerticalSpacing + childHeight) + paddingBottom + paddingTop - mVerticalSpacing;
         heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.getMode(heightMeasureSpec));
         setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
 
@@ -91,7 +91,7 @@ public class SimpleGridLayout extends ViewGroup{
         for (int i=0; i<getChildCount(); i++){
             int position = i% NUM_PER_LINE;
             int xPos = (position)*((((r-l)-childWidth*NUM_PER_LINE)/(NUM_PER_LINE -1))+childWidth);
-            int yPos= (i/NUM_PER_LINE)*(childHeight+verticalSpacing)+paddingTop;
+            int yPos= (i/NUM_PER_LINE)*(childHeight+ mVerticalSpacing)+paddingTop;
             getChildAt(i).layout(xPos, yPos, xPos+childWidth, yPos+childHeight);
         }
     }

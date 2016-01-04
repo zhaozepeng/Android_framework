@@ -18,10 +18,10 @@ import com.android.libcore.application.RootApplication;
 public class T {
 
     private volatile static T instance;
-    private int gravity = -1;
+    private int mGravity = -1;
     private int xOffset = 0;
     private int yOffset = 0;
-    private Toast temp;
+    private Toast mTemp;
 
     public static T getInstance() {
         if (instance == null){
@@ -40,8 +40,8 @@ public class T {
     /**
      * 设置该toast的显示位置，只对该toast有效
      */
-    public T setGravity(int gravity){
-        this.gravity = gravity;
+    public T setGravity(int mGravity) {
+        this.mGravity = mGravity;
         return getInstance();
     }
 
@@ -70,15 +70,15 @@ public class T {
      */
     public void showShort(String message, View v){
         //防止一堆toast的显示堆积
-        if (temp != null)
-            temp.cancel();
-        temp = Toast.makeText(RootApplication.getInstance(), message, Toast.LENGTH_SHORT);
-        if (gravity != -1)
-            temp.setGravity(gravity, xOffset, yOffset);
+        if (mTemp != null)
+            mTemp.cancel();
+        mTemp = Toast.makeText(RootApplication.getInstance(), message, Toast.LENGTH_SHORT);
+        if (mGravity != -1)
+            mTemp.setGravity(mGravity, xOffset, yOffset);
         if (v != null){
-            temp.setView(v);
+            mTemp.setView(v);
         }
-        temp.show();
+        mTemp.show();
         reset();
     }
 
@@ -91,20 +91,20 @@ public class T {
      */
     public void showLong(String message, View v){
         //防止一堆toast的显示堆积
-        if (temp != null)
-            temp.cancel();
-        temp = Toast.makeText(RootApplication.getInstance(), message, Toast.LENGTH_LONG);
-        if (gravity != -1)
-            temp.setGravity(gravity, xOffset, yOffset);
+        if (mTemp != null)
+            mTemp.cancel();
+        mTemp = Toast.makeText(RootApplication.getInstance(), message, Toast.LENGTH_LONG);
+        if (mGravity != -1)
+            mTemp.setGravity(mGravity, xOffset, yOffset);
         if (v != null){
-            temp.setView(v);
+            mTemp.setView(v);
         }
-        temp.show();
+        mTemp.show();
         reset();
     }
 
     private void reset(){
-        gravity = -1;
+        mGravity = -1;
         xOffset = 0;
         yOffset = 0;
     }

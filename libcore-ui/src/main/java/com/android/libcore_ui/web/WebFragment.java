@@ -49,7 +49,7 @@ public class WebFragment extends BaseFragment{
     @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void initView() {
-        webView = (WebView) viewContainer;
+        webView = (WebView) mViewContainer;
         webView.setWebViewClient(webViewClient);
         webView.setWebChromeClient(chromeClient);
 

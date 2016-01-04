@@ -25,10 +25,10 @@ import java.util.Stack;
  */
 public final class ActivityManager {
     private static volatile  ActivityManager instance = null;
-    private Stack<Activity> stack = null;
+    private Stack<Activity> mStack = null;
 
     private ActivityManager(){
-        stack = new Stack<>();
+        mStack = new Stack<>();
     }
 
     public static ActivityManager getInstance(){
@@ -46,7 +46,7 @@ public final class ActivityManager {
      */
     public String getStackInfo() {
         StringBuilder sb = new StringBuilder();
-        for (Activity temp : stack){
+        for (Activity temp : mStack){
             if (temp != null)
                 sb.append(temp.toString()).append("\n");
         }
@@ -58,22 +58,22 @@ public final class ActivityManager {
      * @param activity 需要加入到栈中的activity
      */
     public void addActivity(Activity activity){
-        stack.push(activity);
+        mStack.push(activity);
     }
 
     /**
      * 删除栈中activity
      */
     public void removeActivity(Activity activity){
-        stack.remove(activity);
+        mStack.remove(activity);
     }
 
     /**
      * @return 栈顶的activity
      */
     public Activity getActivity(){
-        if (!stack.isEmpty())
-            return stack.peek();
+        if (!mStack.isEmpty())
+            return mStack.peek();
         L.i("Activity 栈为空！！！");
         return null;
     }
@@ -82,8 +82,8 @@ public final class ActivityManager {
      * 关闭并删除掉最上面一个的activity
      */
     public void finishActivity(){
-        if (!stack.isEmpty()) {
-            Activity temp = stack.pop();
+        if (!mStack.isEmpty()) {
+            Activity temp = mStack.pop();
             if (temp != null)
                 temp.finish();
             return;
@@ -95,12 +95,12 @@ public final class ActivityManager {
      * 关闭并删除指定 activity
      */
     public void finishActivity(Activity activity){
-        if (stack.isEmpty()) {
+        if (mStack.isEmpty()) {
             L.e("Activity 栈为空！！！");
             return ;
         }
         try {
-            stack.remove(activity);
+            mStack.remove(activity);
         }catch (Exception e){
             L.e("删除错误", e, ActivityManager.class);
         }finally {
@@ -113,7 +113,7 @@ public final class ActivityManager {
      * 删除并关闭栈中该class对应的所有的该activity
      */
     public void finishAllActivity(Class<?> clazz){
-        Iterator<Activity> iterator = stack.iterator();
+        Iterator<Activity> iterator = mStack.iterator();
         while (iterator.hasNext()){
             Activity activity = iterator.next();
             if (activity!=null && activity.getClass().equals(clazz)) {
@@ -129,7 +129,7 @@ public final class ActivityManager {
      */
     public void finishLastActivity(Class<?> clazz){
         Activity activity = null;
-        Iterator<Activity> iterator = stack.iterator();
+        Iterator<Activity> iterator = mStack.iterator();
         while (iterator.hasNext()){
             Activity temp = iterator.next();
             if (temp!=null && temp.getClass().equals(clazz))
@@ -143,14 +143,14 @@ public final class ActivityManager {
      * 删除栈上该activity之上的所有activity
      */
     public void finishAfterActivity(Activity activity){
-        if (activity!=null && stack.search(activity) == -1){
+        if (activity!=null && mStack.search(activity) == -1){
             L.e("在栈中找不到该activity", ActivityManager.class);
             return;
         }
-        while (stack.peek() != null){
-            Activity temp = stack.pop();
+        while (mStack.peek() != null){
+            Activity temp = mStack.pop();
             if (temp!=null && temp.equals(activity)){
-                stack.push(temp);
+                mStack.push(temp);
                 break;
             }
             if (temp!=null)
@@ -164,7 +164,7 @@ public final class ActivityManager {
     public void finishAfterActivity(Class<?> clazz){
         boolean flag = true;
         Activity activity = null;
-        Iterator<Activity> iterator = stack.iterator();
+        Iterator<Activity> iterator = mStack.iterator();
         while (iterator.hasNext()){
             activity = iterator.next();
             if (activity!=null && activity.getClass().equals(clazz)) {
@@ -183,8 +183,8 @@ public final class ActivityManager {
      * 弹出关闭所有activity并关闭应用所有进程
      */
     public void finishAllActivityAndClose(){
-        while (stack.size() > 0){
-            Activity temp = stack.pop();
+        while (mStack.size() > 0){
+            Activity temp = mStack.pop();
             if (temp != null)
                 temp.finish();
         }
@@ -204,8 +204,8 @@ public final class ActivityManager {
      * 弹出关闭所有activity并保留应用后台进程
      */
     public void finishAllActivityWithoutClose(){
-        while (stack.size() > 0){
-            Activity temp = stack.pop();
+        while (mStack.size() > 0){
+            Activity temp = mStack.pop();
             if (temp != null)
                 temp.finish();
         }

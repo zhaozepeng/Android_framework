@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.libcore.application.RootApplication;
-import com.android.libcore.log.L;
 
 /**
  * Description: 所有基础{@linkplain Activity}的基类，所有的Activity应该
@@ -21,8 +20,8 @@ import com.android.libcore.log.L;
 public abstract class RootActivity extends AppCompatActivity{
 
     /** 用来在页面之间进行广播的传递 */
-    private BroadcastReceiver receiver;
-    private Boolean isNeedUnRegister = false;
+    private BroadcastReceiver mReceiver;
+    private Boolean mIsNeedUnRegister = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +29,7 @@ public abstract class RootActivity extends AppCompatActivity{
         RootApplication.setInstanceRef(this);
         ActivityManager.getInstance().addActivity(this);
 
-        receiver = new BroadcastReceiver() {
+        mReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 RootActivity.this.onReceive(context, intent);
@@ -58,15 +57,15 @@ public abstract class RootActivity extends AppCompatActivity{
      */
     public void registerReceiver(String action){
         IntentFilter filter = new IntentFilter(action);
-        registerReceiver(receiver, filter);
-        isNeedUnRegister = true;
+        registerReceiver(mReceiver, filter);
+        mIsNeedUnRegister = true;
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isNeedUnRegister)
-            unregisterReceiver(receiver);
+        if (mIsNeedUnRegister)
+            unregisterReceiver(mReceiver);
         ActivityManager.getInstance().removeActivity(this);
         //每次在activity销毁的时候调用该函数来检测应用是否被销毁
         RootApplication.checkApplicationDestroy();

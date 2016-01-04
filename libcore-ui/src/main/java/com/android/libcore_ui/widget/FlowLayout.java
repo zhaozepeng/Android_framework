@@ -25,8 +25,8 @@ public class FlowLayout extends ViewGroup{
     private final int RIGHT = 5;
 
     //默认间隙
-    private int verticalSpacing = 10;
-    private int horizontalSpacing = 10;
+    private int mVerticalSpacing = 10;
+    private int mHorizontalSpacing = 10;
     //布局方向
     private int orientation = HORIZONTAL;
     //子view放置gravity
@@ -48,8 +48,8 @@ public class FlowLayout extends ViewGroup{
     private void getAttrValue(AttributeSet attrs){
         TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.FlowLayout);
 
-        verticalSpacing = typedArray.getDimensionPixelSize(R.styleable.FlowLayout_verticalSpacing, 10);
-        horizontalSpacing = typedArray.getDimensionPixelSize(R.styleable.FlowLayout_horizontalSpacing, 10);
+        mVerticalSpacing = typedArray.getDimensionPixelSize(R.styleable.FlowLayout_verticalSpacing, 10);
+        mHorizontalSpacing = typedArray.getDimensionPixelSize(R.styleable.FlowLayout_horizontalSpacing, 10);
         orientation = typedArray.getInt(R.styleable.FlowLayout_orientation, HORIZONTAL);
 
         int gravity = typedArray.getInt(R.styleable.FlowLayout_childGravity, Gravity.TOP);
@@ -142,9 +142,9 @@ public class FlowLayout extends ViewGroup{
                     MeasureSpec.makeMeasureSpec(childHeight, MeasureSpec.EXACTLY));
 
             if (orientation == HORIZONTAL) {
-                lastSize = lastSize - childWidth - horizontalSpacing;
+                lastSize = lastSize - childWidth - mHorizontalSpacing;
             }else{
-                lastSize = lastSize - childHeight - verticalSpacing;
+                lastSize = lastSize - childHeight - mVerticalSpacing;
             }
 
             //需要换行
@@ -171,10 +171,10 @@ public class FlowLayout extends ViewGroup{
                         throw new ChildSizeTooLongException("the " + i + " child's width too long");
 
                     //高换行
-                    height += maxChildSize + verticalSpacing;
+                    height += maxChildSize + mVerticalSpacing;
                     //换行之后的第一行坐标
                     x = paddingLeft;
-                    y += maxChildSize + verticalSpacing;
+                    y += maxChildSize + mVerticalSpacing;
                     //将最大高度值置为这第一个view的高度
                     maxChildSize = childHeight;
                 }else{
@@ -199,9 +199,9 @@ public class FlowLayout extends ViewGroup{
                         throw new ChildSizeTooLongException("the " + i + " child's height too long");
 
                     //宽换列
-                    width += maxChildSize + horizontalSpacing;
+                    width += maxChildSize + mHorizontalSpacing;
                     //换列之后的第一列坐标
-                    x += maxChildSize + horizontalSpacing;
+                    x += maxChildSize + mHorizontalSpacing;
                     y = paddingTop;
                     //将最大宽度值置为这第一个view的宽度
                     maxChildSize = childWidth;
@@ -222,9 +222,9 @@ public class FlowLayout extends ViewGroup{
             }
             lp.setXY(x, y);
             if (orientation == HORIZONTAL) {
-                x += childWidth + horizontalSpacing;
+                x += childWidth + mHorizontalSpacing;
             }else{
-                y += childHeight + verticalSpacing;
+                y += childHeight + mVerticalSpacing;
             }
         }
         if (orientation == HORIZONTAL) {

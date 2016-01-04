@@ -33,18 +33,18 @@ public abstract class BaseDB {
     /** 打开数据库超时时间 */
     private final int TIME_OUT = 30*1000;
     /** 当前操作的表 */
-    private String table;
+    private String mTable;
 
-    private DataBaseHelper helper;
-    protected SQLiteDatabase db;
+    private DataBaseHelper mHelper;
+    protected SQLiteDatabase mDb;
 
     public BaseDB(IBaseDBTable table, boolean writable){
-        this.table = table.getTableName()+"_"+getDBVersion();
-        helper = new DataBaseHelper();
+        this.mTable = table.getTableName()+"_"+getDBVersion();
+        mHelper = new DataBaseHelper();
         if (writable)
-            db = helper.getWritableDatabase();
+            mDb = mHelper.getWritableDatabase();
         else
-            db = helper.getReadableDatabase();
+            mDb = mHelper.getReadableDatabase();
     }
 
     /**
@@ -74,9 +74,9 @@ public abstract class BaseDB {
      * 开始事务
      */
     public void beginTransaction(){
-        if (db != null && !db.inTransaction()){
+        if (mDb != null && !mDb.inTransaction()){
             try {
-                db.beginTransaction();
+                mDb.beginTransaction();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -87,9 +87,9 @@ public abstract class BaseDB {
      * 事务成功
      */
     public void setTransactionSuccessful(){
-        if (db != null && db.inTransaction()){
+        if (mDb != null && mDb.inTransaction()){
             try {
-                db.setTransactionSuccessful();
+                mDb.setTransactionSuccessful();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -100,9 +100,9 @@ public abstract class BaseDB {
      * 结束事务
      */
     public void endTransaction(){
-        if (db != null && db.inTransaction()){
+        if (mDb != null && mDb.inTransaction()){
             try {
-                db.endTransaction();
+                mDb.endTransaction();
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -113,8 +113,8 @@ public abstract class BaseDB {
      * 关闭数据库
      */
     public void close(){
-        if (db != null && db.isOpen())
-            db.close();
+        if (mDb != null && mDb.isOpen())
+            mDb.close();
     }
 
     /**
@@ -131,7 +131,7 @@ public abstract class BaseDB {
         int count = 0;
         Cursor cursor = null;
         try {
-            cursor = db.query(table, new String[]{"count(*)"}, selection, selectionArgs, null, null, null);
+            cursor = mDb.query(mTable, new String[]{"count(*)"}, selection, selectionArgs, null, null, null);
             if (cursor.moveToNext()){
                 count = cursor.getInt(0);
             }
@@ -158,9 +158,9 @@ public abstract class BaseDB {
         synchronized (lock){
             try {
                 if (!replace)
-                    count = db.insert(table, null, parseHashMapToContentValues(map));
+                    count = mDb.insert(mTable, null, parseHashMapToContentValues(map));
                 else
-                    count = db.replace(table, null, parseHashMapToContentValues(map));
+                    count = mDb.replace(mTable, null, parseHashMapToContentValues(map));
             }catch (Exception e){
                 e.printStackTrace();
                 count = -1;
@@ -176,7 +176,7 @@ public abstract class BaseDB {
         long count = 0;
         synchronized (lock){
             try {
-                count = db.delete(table, selection, selectionArgs);
+                count = mDb.delete(mTable, selection, selectionArgs);
             }catch (Exception e){
                 e.printStackTrace();
                 count = -1;
@@ -194,7 +194,7 @@ public abstract class BaseDB {
         long count = 0;
         synchronized (lock) {
             try {
-                count = db.update(table, parseHashMapToContentValues(maps), whereClause, whereArgs);
+                count = mDb.update(mTable, parseHashMapToContentValues(maps), whereClause, whereArgs);
             }catch (Exception e){
                 e.printStackTrace();
                 count = -1;
@@ -228,7 +228,7 @@ public abstract class BaseDB {
         ArrayList<HashMap<String, String>> result = new ArrayList<>();
         synchronized (lock){
             try {
-                Cursor cursor = db.query(table, null, selection, selectionArgs, groupBy, having, orderBy, limit);
+                Cursor cursor = mDb.query(mTable, null, selection, selectionArgs, groupBy, having, orderBy, limit);
                 int length = cursor.getColumnCount();
                 while (cursor.moveToNext()){
                     HashMap<String, String> value = new HashMap<>();
