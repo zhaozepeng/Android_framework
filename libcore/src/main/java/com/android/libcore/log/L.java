@@ -20,6 +20,7 @@ public final class L {
     private L(){}
 
     static {
+        //一个进程只会调用一次static block，所以使用静态块的方式获取进程名
         LOG_ENABLE = RootApplication.DEBUG;
         LOG_TAG = "[PID:"+ android.os.Process.myPid() +"]";
     }
