@@ -67,7 +67,8 @@ public abstract class BaseNetApi {
     /**
      * 网络请求
      */
-    protected <T> void makeRequest(final Context context, Class<?> clazz, String url, final Map<String, String> params, final OnNetCallback<T> callback){
+    protected <T> void makeRequest(final Context context, Class<? extends Request> clazz,
+                                   String url, final Map<String, String> params, final OnNetCallback<T> callback){
         //网络请求
         Request request = null;
         //失败回调
@@ -103,7 +104,7 @@ public abstract class BaseNetApi {
         //启动网络请求
         if (clazz == ImageRequest.class){
             throw new IllegalArgumentException("please use imageloader");
-        }else if (checkIfExtendsRequest(clazz)) {
+        }else {
             try {
                 Constructor constructor = clazz.getConstructor(int.class, String.class, Response.Listener.class,
                         Response.ErrorListener.class, Map.class);
@@ -115,8 +116,6 @@ public abstract class BaseNetApi {
                 L.e("error reflect", e);
                 return;
             }
-        }else {
-            throw new IllegalArgumentException("unsupported type");
         }
 
         //自定义超时时间，重试次数

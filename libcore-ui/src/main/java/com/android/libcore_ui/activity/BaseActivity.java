@@ -166,6 +166,13 @@ public abstract class BaseActivity extends RootActivity{
     }
 
     /**
+     * 省去类型转换
+     */
+    protected <T extends View> T findView(int id){
+        return (T) super.findViewById(id);
+    }
+
+    /**
      * 设置内容区域布局
      */
     @Override
