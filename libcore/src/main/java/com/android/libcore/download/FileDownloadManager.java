@@ -17,6 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Description: 单个文件下载，支持断点续传，相同url的被认为为同一个文件</br>
@@ -86,6 +87,8 @@ public class FileDownloadManager {
     private boolean downloadState = false;
     /** 文件是否下载完成 */
     private boolean isDownloadFinish = false;
+    /** 下载线程是否结束标识 */
+    private CountDownLatch countDownLatch;
 
     /**
      * @param url　文件下载url
@@ -247,6 +250,7 @@ public class FileDownloadManager {
                     Looper.prepare();
                     T.getInstance().showShort("正在停止，稍后...");
                     Looper.loop();
+                    Looper.myLooper().quit();
                     return;
                 }
 
@@ -254,6 +258,7 @@ public class FileDownloadManager {
                     Looper.prepare();
                     T.getInstance().showShort("文件正在删除");
                     Looper.loop();
+                    Looper.myLooper().quit();
                     return;
                 }
 
@@ -276,6 +281,8 @@ public class FileDownloadManager {
                     threads.add(thread);
                 }
                 L.i("准备开启下载线程");
+                //初始化多线程标识
+                countDownLatch = new CountDownLatch(THREAD_NUM);
 
                 progressChangeHandler.sendEmptyMessage(STATE_START_THREADS);
             }
@@ -312,6 +319,7 @@ public class FileDownloadManager {
                     Looper.prepare();
                     T.getInstance().showShort("正在停止，稍后...");
                     Looper.loop();
+                    Looper.myLooper().quit();
                     return;
                 }
 
@@ -360,13 +368,7 @@ public class FileDownloadManager {
         //检测下载线程，确保下载线程要全部执行完成
         state = threads.size()>0;
         while(state){
-            state = false;
-            for (DownloadThread thread : threads){
-                if (thread.isAlive()){
-                    state = true;
-                    break;
-                }
-            }
+            state = countDownLatch.getCount()>0;
             try {
                 Thread.sleep(100);
             } catch (InterruptedException e) {
@@ -578,21 +580,37 @@ public class FileDownloadManager {
             return info.completeSize;
         }
 
+        public void initConnection() throws Exception{
+            URL url = new URL(FileDownloadManager.this.url);
+            connection = (HttpURLConnection) url.openConnection();
+            connection.setConnectTimeout(2000);
+            connection.setRequestMethod("GET");
+            connection.setAllowUserInteraction(true);
+
+            // 设置范围，格式为Range：bytes x-y;
+            connection.setRequestProperty("Range", "bytes=" + (info.startPos + info.completeSize) + "-" + info.endPos);
+        }
+
         @Override
         public void run() {
             try {
-                URL url = new URL(FileDownloadManager.this.url);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.setConnectTimeout(2000);
-                connection.setRequestMethod("GET");
-                connection.setAllowUserInteraction(true);
-
-                // 设置范围，格式为Range：bytes x-y;
-                connection.setRequestProperty("Range", "bytes=" + (info.startPos + info.completeSize) + "-" + info.endPos);
+                initConnection();
                 randomAccessFile = new RandomAccessFile(path, "rwd");
-                randomAccessFile.seek(info.startPos + info.completeSize);
                 // 将要下载的字节写到上次写的末尾
-                is = connection.getInputStream();
+                randomAccessFile.seek(info.startPos + info.completeSize);
+                //偶尔发现，下载的资源有时候403 FileNotFoundException，这种情况重新连接一次，不成功就Log出错误日志
+                try {
+                    is = connection.getInputStream();
+                }catch (Exception e){
+                    //重新连接
+                    initConnection();
+                    try {
+                        is = connection.getInputStream();
+                    }catch (Exception ee){
+                        L.e("无法连接"+info.startPos+"~"+info.endPos+"处资源", ee);
+                        return;
+                    }
+                }
                 byte[] buffer = new byte[1024 * 8];
                 int length;
                 while (((length = is.read(buffer)) != -1) && downloadState) {
@@ -603,6 +621,7 @@ public class FileDownloadManager {
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
+                countDownLatch.countDown();
                 try {
                     //android 4.x disconnect或者close会耗费很长的时间，解决了很长时间，暂未找到方法，有的联系我
                     is.close();
