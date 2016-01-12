@@ -21,6 +21,7 @@ public class DownloadDBHelper extends BaseDBHelper{
         ArrayList<HashMap<String, String>> lists = new ArrayList<>();
         for (FileDownloadManager.DownloadInfo info : infos){
             HashMap<String, String> map = new HashMap<>();
+            map.put(columns.get(0), info.id+"");
             map.put(columns.get(1), url);
             map.put(columns.get(2), info.startPos+"");
             map.put(columns.get(3), info.endPos+"");

@@ -36,7 +36,7 @@ public class DownloadDB extends BaseDB{
             db.beginTransaction();
             String sql;
             sql = "create table if not exists "+TABLES.DOWNLOAD.getTableName()+"_" + getDBVersion() + " (";
-            sql += TABLES.DOWNLOAD.getTableColumns().get(0)+" integer not null primary key autoincrement, ";
+            sql += TABLES.DOWNLOAD.getTableColumns().get(0)+" integer not null, ";
             sql += TABLES.DOWNLOAD.getTableColumns().get(1)+" varchar(4000) not null default '', ";
             sql += TABLES.DOWNLOAD.getTableColumns().get(2)+" varchar(50) not null default '0', ";
             sql += TABLES.DOWNLOAD.getTableColumns().get(3)+" varchar(50) not null default '0', ";
