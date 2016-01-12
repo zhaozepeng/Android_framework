@@ -49,6 +49,8 @@ public class FileDownloadManager {
     public static final int STATE_DELETE = 7;
     /** 下载状态，网络错误 */
     public static final int STATE_NET_ERROR = 8;
+    /** 下载状态，服务器错误 */
+    public static final int STATE_SERVER_ERROR = 9;
 
     /** 当前文件的下载状态，默认为停止成功，即为下载完成，且随时可以开始下载 */
     private int currentState = STATE_STOPED;
@@ -529,6 +531,7 @@ public class FileDownloadManager {
         public void handleMessage(Message msg) {
             if (msg.what == STATE_START_THREADS){
                 L.i("开启线程");
+                activityWeakReference.get().currentState = STATE_START_THREADS;
                 activityWeakReference.get().startThreads();
             }
             //下载进度更新
@@ -545,9 +548,16 @@ public class FileDownloadManager {
             else {
                 L.i("state"+msg.what);
                 if (activityWeakReference.get().currentState != msg.what){
+                    //如果在下载过程中网络发生错误，或者服务器发生错误，就不再更新后面的停止状态
+                    if ((activityWeakReference.get().currentState == STATE_NET_ERROR
+                            || activityWeakReference.get().currentState == STATE_SERVER_ERROR)
+                            && (msg.what==STATE_STOPING || msg.what==STATE_STOPED)){
+                        return;
+                    }
                     activityWeakReference.get().currentState = msg.what;
-                    if (activityWeakReference.get().listener != null)
+                    if (activityWeakReference.get().listener != null){
                         activityWeakReference.get().listener.onStateChanged(activityWeakReference.get().currentState);
+                    }
                 }
             }
         }
@@ -640,13 +650,41 @@ public class FileDownloadManager {
     private class UpdateThread extends Thread{
 
         public boolean canRun = true;
+        private long lastCompleteSize = 0;
+        /** 重试时间3s */
+        private final int RETRYCOUNT = 3;
+        private int retry;
+
         @Override
         public void run() {
+            retry = RETRYCOUNT;
             try {
                 while (canRun) {
                     // 更新数据库中的下载信息
                     helper.updateInfos(url, infos);
+
+                    L.i("lastCompleteSize  " + lastCompleteSize);
                     L.i("更新界面  " + getCompleteSize() + "   fileSize" + fileSize);
+                    //由于网络不稳定，或者是服务器不稳定导致的无法返回数据
+                    if (lastCompleteSize == getCompleteSize()){
+                        retry--;
+                        if (retry <= 0){
+                            //停止下载线程，并提示用户重试
+                            FileDownloadManager.this.stop();
+                            //有网络的情况下为服务器错误
+                            if (CommonUtils.isNetworkAvailable()){
+                                L.e("服务器错误，请重试");
+                                progressChangeHandler.sendEmptyMessage(STATE_SERVER_ERROR);
+                            }else{
+                                L.e("网络错误，请连接网络后重试");
+                                progressChangeHandler.sendEmptyMessage(STATE_NET_ERROR);
+                            }
+                        }
+                    }else{
+                        retry = RETRYCOUNT;
+                    }
+
+                    lastCompleteSize = getCompleteSize();
                     //更新界面
                     progressChangeHandler.sendEmptyMessage(STATE_UPDATE_PROGRESS);
                     //每隔１秒操作数据库和更新界面，防止频繁的更新
