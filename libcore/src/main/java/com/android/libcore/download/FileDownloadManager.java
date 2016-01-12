@@ -17,7 +17,9 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.FutureTask;
 
 /**
  * Description: 单个文件下载，支持断点续传，相同url的被认为为同一个文件</br>
@@ -65,8 +67,15 @@ public class FileDownloadManager {
     private Thread stopDownloadThread;
     /** 删除下载线程 */
     private Thread deleteDownloadThread;
+
     /** 下载一个文件的线程队列 */
-    private ArrayList<DownloadThread> threads;
+    private ArrayList<Thread> threads;
+    /** 下载线程futureTasks */
+    private ArrayList<FutureTask> tasks;
+    /** 下载线程callers */
+    private ArrayList<DownloadCaller> callables;
+
+
     /** 更新下载信息，更新界面线程 */
     private UpdateThread updateThread;
     /** 数据库操作对象 */
@@ -122,6 +131,8 @@ public class FileDownloadManager {
 
         helper = new DownloadDBHelper();
         infos = new ArrayList<>();
+        callables = new ArrayList<>();
+        tasks = new ArrayList<>();
         threads = new ArrayList<>();
         progressChangeHandler = new ProgressChangeHandler(this);
         checkFileFinish();
@@ -277,9 +288,16 @@ public class FileDownloadManager {
                 progressChangeHandler.sendEmptyMessage(STATE_STARTING);
 
                 //上次的线程完成之后才能开启新的下载线程开始下载
+                callables.clear();
+                tasks.clear();
                 threads.clear();
                 for (DownloadInfo info : infos){
-                    DownloadThread thread = new DownloadThread(info);
+                    DownloadCaller caller = new DownloadCaller(info);
+                    FutureTask task = new FutureTask(caller);
+                    Thread thread = new Thread(task);
+
+                    callables.add(caller);
+                    tasks.add(task);
                     threads.add(thread);
                 }
                 L.i("准备开启下载线程");
@@ -366,6 +384,8 @@ public class FileDownloadManager {
      */
     private void stopDownloadThread(int sendState){
         boolean state;
+        //如果下载线程在规定次数*100ms内，无法结束，强制cancel该线程
+        int retryCount = 100;
 
         //检测下载线程，确保下载线程要全部执行完成
         state = threads.size()>0;
@@ -378,6 +398,15 @@ public class FileDownloadManager {
             }
             //还有线程在执行，所以状态还需要相应变更
             progressChangeHandler.sendEmptyMessage(sendState);
+
+            if (retryCount-- <0){
+                L.w("强制关闭下载线程");
+                //规定时间已到，下载线程阻塞在read处，强制关闭它
+                for (FutureTask task : tasks)
+                    if (task!=null && !task.isDone())
+                        task.cancel(true);
+                break;
+            }
         }
     }
 
@@ -454,8 +483,8 @@ public class FileDownloadManager {
      */
     private long getCompleteSize(){
         completeSize = 0;
-        for (DownloadThread thread : threads)
-            completeSize += thread.getCompleteSize();
+        for (DownloadCaller caller : callables)
+            completeSize += caller.getCompleteSize();
         return completeSize;
     }
 
@@ -573,16 +602,13 @@ public class FileDownloadManager {
         public volatile long completeSize;
     }
 
-    /**
-     * 下载线程
-     */
-    private class DownloadThread extends Thread{
+    private class DownloadCaller implements Callable {
         private DownloadInfo info;
         HttpURLConnection connection = null;
         RandomAccessFile randomAccessFile = null;
         InputStream is = null;
 
-        public DownloadThread(DownloadInfo info){
+        public DownloadCaller(DownloadInfo info){
             this.info = info;
         }
 
@@ -602,7 +628,7 @@ public class FileDownloadManager {
         }
 
         @Override
-        public void run() {
+        public Object call() throws Exception {
             try {
                 initConnection();
                 randomAccessFile = new RandomAccessFile(path, "rwd");
@@ -618,7 +644,7 @@ public class FileDownloadManager {
                         is = connection.getInputStream();
                     }catch (Exception ee){
                         L.e("无法连接"+info.startPos+"~"+info.endPos+"处资源", ee);
-                        return;
+                        return null;
                     }
                 }
                 byte[] buffer = new byte[1024 * 8];
@@ -641,8 +667,80 @@ public class FileDownloadManager {
                     e.printStackTrace();
                 }
             }
+            return null;
         }
     }
+
+//    /**
+//     * 下载线程
+//     */
+//    private class DownloadThread extends Thread{
+//        private DownloadInfo info;
+//        HttpURLConnection connection = null;
+//        RandomAccessFile randomAccessFile = null;
+//        InputStream is = null;
+//
+//        public DownloadThread(DownloadInfo info){
+//            this.info = info;
+//        }
+//
+//        public long getCompleteSize(){
+//            return info.completeSize;
+//        }
+//
+//        public void initConnection() throws Exception{
+//            URL url = new URL(FileDownloadManager.this.url);
+//            connection = (HttpURLConnection) url.openConnection();
+//            connection.setConnectTimeout(2000);
+//            connection.setRequestMethod("GET");
+//            connection.setAllowUserInteraction(true);
+//
+//            // 设置范围，格式为Range：bytes x-y;
+//            connection.setRequestProperty("Range", "bytes=" + (info.startPos + info.completeSize) + "-" + info.endPos);
+//        }
+//
+//        @Override
+//        public void run() {
+//            try {
+//                initConnection();
+//                randomAccessFile = new RandomAccessFile(path, "rwd");
+//                // 将要下载的字节写到上次写的末尾
+//                randomAccessFile.seek(info.startPos + info.completeSize);
+//                //偶尔发现，下载的资源有时候403 FileNotFoundException，这种情况重新连接一次，不成功就Log出错误日志
+//                try {
+//                    is = connection.getInputStream();
+//                }catch (Exception e){
+//                    //重新连接
+//                    initConnection();
+//                    try {
+//                        is = connection.getInputStream();
+//                    }catch (Exception ee){
+//                        L.e("无法连接"+info.startPos+"~"+info.endPos+"处资源", ee);
+//                        return;
+//                    }
+//                }
+//                byte[] buffer = new byte[1024 * 8];
+//                int length;
+//                while (((length = is.read(buffer)) != -1) && downloadState) {
+//                    randomAccessFile.write(buffer, 0, length);
+//                    info.completeSize += length;
+//                }
+//                L.i("结束下载线程");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            } finally {
+//                countDownLatch.countDown();
+//                try {
+//                    //android 4.x disconnect或者close会耗费很长的时间，解决了很长时间，暂未找到方法，有的联系我
+//                    is.close();
+//                    randomAccessFile.close();
+//                    connection.disconnect();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//    }
 
     /**
      * 更新数据库和界面线程

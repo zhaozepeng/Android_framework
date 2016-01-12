@@ -125,6 +125,9 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
                     case FileDownloadManager.STATE_NET_ERROR:
                         tv_state.setText("网络错误");
                         break;
+                    case FileDownloadManager.STATE_SERVER_ERROR:
+                        tv_state.setText("服务器错误");
+                        break;
                 }
             }
         });
