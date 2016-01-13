@@ -6,20 +6,39 @@
     android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/pb_bar"
+        android:id="@+id/pb_bar1"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         style="?android:progressBarStyleHorizontal"
         android:progressDrawable="@drawable/bg_progress_bar"/>
 
     <TextView
-        android:id="@+id/tv_progress"
+        android:id="@+id/tv_progress1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"/>
 
     <TextView
-        android:id="@+id/tv_state"
+        android:id="@+id/tv_state1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"/>
+
+    <ProgressBar
+        android:id="@+id/pb_bar2"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        style="?android:progressBarStyleHorizontal"
+        android:progressDrawable="@drawable/bg_progress_bar"/>
+
+    <TextView
+        android:id="@+id/tv_progress2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"/>
+
+    <TextView
+        android:id="@+id/tv_state2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"/>

@@ -22,10 +22,14 @@ import com.android.libcore_ui.activity.BaseActivity;
  * @since 2015-08-06
  */
 public class DownloadActivity extends BaseActivity implements View.OnClickListener{
-    ProgressBar pb_bar;
-    TextView tv_progress;
-    TextView tv_state;
-    FileDownloadManager manager;
+    ProgressBar pb_bar1;
+    TextView tv_progress1;
+    TextView tv_state1;
+    ProgressBar pb_bar2;
+    TextView tv_progress2;
+    TextView tv_state2;
+    FileDownloadManager manager1;
+    FileDownloadManager manager2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +40,12 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
 
     protected void initView() {
         setContentView(R.layout.activity_test_download);
-        pb_bar = (ProgressBar) findViewById(R.id.pb_bar);
-        tv_progress = (TextView) findViewById(R.id.tv_progress);
-        tv_state = (TextView) findViewById(R.id.tv_state);
+        pb_bar1 = (ProgressBar) findViewById(R.id.pb_bar1);
+        tv_progress1 = (TextView) findViewById(R.id.tv_progress1);
+        tv_state1 = (TextView) findViewById(R.id.tv_state1);
+        pb_bar2 = (ProgressBar) findViewById(R.id.pb_bar2);
+        tv_progress2 = (TextView) findViewById(R.id.tv_progress2);
+        tv_state2 = (TextView) findViewById(R.id.tv_state2);
         findViewById(R.id.btn_start).setOnClickListener(this);
         findViewById(R.id.btn_stop).setOnClickListener(this);
         findViewById(R.id.btn_delete).setOnClickListener(this);
@@ -90,43 +97,86 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
 
     private void initManager(){
         String url = "http://gdown.baidu.com/data/wisegame/ce89b7ee349d6918/QQ_270.apk";
-        manager = new FileDownloadManager(url, "QQ_270.apk");
-        manager.setListener(new FileDownloadManager.IDownloadProgressChangedListener() {
+        manager1 = new FileDownloadManager(url, "QQ_270.apk");
+        manager1.setListener(new FileDownloadManager.IDownloadProgressChangedListener() {
             @Override
             public void onProgressChanged(long completeSize, long totalSize) {
-                pb_bar.setProgress((int) ((completeSize*1.0/totalSize*1.0)*100));
-                tv_progress.setText(completeSize+"/"+totalSize);
+                pb_bar1.setProgress((int) ((completeSize * 1.0 / totalSize * 1.0) * 100));
+                tv_progress1.setText(completeSize + "/" + totalSize);
             }
 
             @Override
             public void onStateChanged(int state) {
-                switch (state){
+                switch (state) {
                     case FileDownloadManager.STATE_GETSIZE:
-                        tv_state.setText("正在获取文件大小");
+                        tv_state1.setText("正在获取文件大小");
                         break;
                     case FileDownloadManager.STATE_STARTING:
-                        tv_state.setText("开始下载");
+                        tv_state1.setText("开始下载");
                         break;
                     case FileDownloadManager.STATE_STOPING:
-                        tv_state.setText("正在停止");
+                        tv_state1.setText("正在停止");
                         break;
                     case FileDownloadManager.STATE_STOPED:
-                        tv_state.setText("停止成功");
+                        tv_state1.setText("停止成功");
                         break;
                     case FileDownloadManager.STATE_FINISH:
-                        tv_state.setText("下载完成");
+                        tv_state1.setText("下载完成");
                         break;
                     case FileDownloadManager.STATE_DELETING:
-                        tv_state.setText("正在删除");
+                        tv_state1.setText("正在删除");
                         break;
                     case FileDownloadManager.STATE_DELETE:
-                        tv_state.setText("删除成功");
+                        tv_state1.setText("删除成功");
                         break;
                     case FileDownloadManager.STATE_NET_ERROR:
-                        tv_state.setText("网络错误");
+                        tv_state1.setText("网络错误");
                         break;
                     case FileDownloadManager.STATE_SERVER_ERROR:
-                        tv_state.setText("服务器错误");
+                        tv_state1.setText("服务器错误");
+                        break;
+                }
+            }
+        });
+
+        String urll = "http://gdown.baidu.com/data/wisegame/a2216288661d09b4/weixin_680.apk";
+        manager2 = new FileDownloadManager(urll, "weixin_680.apk");
+        manager2.setListener(new FileDownloadManager.IDownloadProgressChangedListener() {
+            @Override
+            public void onProgressChanged(long completeSize, long totalSize) {
+                pb_bar2.setProgress((int) ((completeSize * 1.0 / totalSize * 1.0) * 100));
+                tv_progress2.setText(completeSize + "/" + totalSize);
+            }
+
+            @Override
+            public void onStateChanged(int state) {
+                switch (state) {
+                    case FileDownloadManager.STATE_GETSIZE:
+                        tv_state2.setText("正在获取文件大小");
+                        break;
+                    case FileDownloadManager.STATE_STARTING:
+                        tv_state2.setText("开始下载");
+                        break;
+                    case FileDownloadManager.STATE_STOPING:
+                        tv_state2.setText("正在停止");
+                        break;
+                    case FileDownloadManager.STATE_STOPED:
+                        tv_state2.setText("停止成功");
+                        break;
+                    case FileDownloadManager.STATE_FINISH:
+                        tv_state2.setText("下载完成");
+                        break;
+                    case FileDownloadManager.STATE_DELETING:
+                        tv_state2.setText("正在删除");
+                        break;
+                    case FileDownloadManager.STATE_DELETE:
+                        tv_state2.setText("删除成功");
+                        break;
+                    case FileDownloadManager.STATE_NET_ERROR:
+                        tv_state2.setText("网络错误");
+                        break;
+                    case FileDownloadManager.STATE_SERVER_ERROR:
+                        tv_state2.setText("服务器错误");
                         break;
                 }
             }
@@ -137,21 +187,28 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.btn_start:
-                manager.start();
+                manager1.start();
+                manager2.start();
                 break;
             case R.id.btn_stop:
-                manager.stop();
+                manager1.stop();
+                manager2.stop();
                 break;
             case R.id.btn_delete:
-                manager.delete();
+                manager1.delete();
+                manager2.delete();
                 break;
         }
     }
 
     @Override
     protected void onDestroy() {
-        if (manager != null)
-            manager.stop();
+        if (manager1 != null) {
+            manager1.stop();
+        }
+        if (manager2 != null) {
+            manager2.stop();
+        }
         super.onDestroy();
     }
 }
