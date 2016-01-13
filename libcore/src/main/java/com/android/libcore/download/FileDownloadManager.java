@@ -1,7 +1,6 @@
 package com.android.libcore.download;
 
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 
 import com.android.libcore.Toast.T;
@@ -17,9 +16,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.FutureTask;
 
 /**
  * Description: 单个文件下载，支持断点续传，相同url的被认为为同一个文件</br>
@@ -253,18 +250,12 @@ public class FileDownloadManager {
             @Override
             public void run() {
                 if (stopDownloadThread!=null && stopDownloadThread.isAlive()){
-                    Looper.prepare();
-                    T.getInstance().showShort("正在停止，稍后...");
-                    Looper.loop();
-                    Looper.myLooper().quit();
+                    L.e("正在停止，稍后...");
                     return;
                 }
 
                 if (deleteDownloadThread!=null && deleteDownloadThread.isAlive()){
-                    Looper.prepare();
-                    T.getInstance().showShort("文件正在删除");
-                    Looper.loop();
-                    Looper.myLooper().quit();
+                    L.e("文件正在删除");
                     return;
                 }
 
@@ -301,9 +292,7 @@ public class FileDownloadManager {
             @Override
             public void run() {
                 if (deleteDownloadThread!=null && deleteDownloadThread.isAlive()){
-                    Looper.prepare();
-                    T.getInstance().showShort("文件正在删除");
-                    Looper.loop();
+                    L.e("文件正在删除");
                     return;
                 }
 
@@ -322,10 +311,7 @@ public class FileDownloadManager {
             @Override
             public void run() {
                 if (stopDownloadThread!=null && stopDownloadThread.isAlive()){
-                    Looper.prepare();
-                    T.getInstance().showShort("正在停止，稍后...");
-                    Looper.loop();
-                    Looper.myLooper().quit();
+                    L.e("正在停止，稍后...");
                     return;
                 }
 
