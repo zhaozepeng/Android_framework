@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -99,16 +100,28 @@ public abstract class BaseActivity extends RootActivity{
      */
     protected void defineStyle(){
         //SDK19版本以上才支持样式选择
-        if (Build.VERSION.SDK_INT >= 19 &&
-                (getApplicationInfo().theme==R.style.Activity_translucent_status_bar ||
-                getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
-            v_status_bar = findViewById(R.id.v_status_bar);
-            v_status_bar.setVisibility(View.VISIBLE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT  &&
+            (getApplicationInfo().theme==R.style.Activity_translucent_status_bar ||
+            getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
 
-            int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
-            v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
-            v_status_bar.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
-            if (CommonUtils.hasNavigationBar()){
+            //21版本以下使用windowTranslucentStatus，使用自定义view填充status bar
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                v_status_bar = findViewById(R.id.v_status_bar);
+                v_status_bar.setVisibility(View.VISIBLE);
+
+                int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
+                v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
+                v_status_bar.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
+            }
+            //21版本和以上，使用colorPrimaryDark修改status bar颜色
+            else{
+                v_status_bar = findViewById(R.id.v_status_bar);
+                v_status_bar.setVisibility(View.VISIBLE);
+
+                int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
+                v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
+            }
+            if (CommonUtils.hasNavigationBar()) {
                 isNavigationTransparent = (getApplicationInfo().theme == R.style.Activity_translucent_navigation_bar);
             }
         }

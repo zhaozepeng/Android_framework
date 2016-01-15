@@ -8,6 +8,7 @@
     <color name="light_white">#bbffffff</color>
     <color name="light_blue">#ff2888f4</color>
     <color name="bar_color">#ff33b5e5</color>
+    <color name="navigation_bar_color">#44000000</color>
     <color name="status_bar_color">#ff277198</color>
     <color name="text_normal">#353535</color>
     <color name="gray">#808080</color>
