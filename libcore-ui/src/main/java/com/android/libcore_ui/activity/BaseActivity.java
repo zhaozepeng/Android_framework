@@ -3,6 +3,7 @@ package com.android.libcore_ui.activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -10,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -104,23 +104,23 @@ public abstract class BaseActivity extends RootActivity{
             (getApplicationInfo().theme==R.style.Activity_translucent_status_bar ||
             getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
 
+            v_status_bar = findViewById(R.id.v_status_bar);
+            int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
+            v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
+
             //21版本以下使用windowTranslucentStatus，使用自定义view填充status bar
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                v_status_bar = findViewById(R.id.v_status_bar);
+                v_status_bar.setBackgroundColor(ContextCompat.getColor(this, R.color.bar_color));
                 v_status_bar.setVisibility(View.VISIBLE);
-
-                int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
-                v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
-                v_status_bar.setBackgroundColor(getResources().getColor(R.color.status_bar_color));
             }
-            //21版本和以上，使用colorPrimaryDark修改status bar颜色
+            //21版本和以上，特殊处理
             else{
-                v_status_bar = findViewById(R.id.v_status_bar);
-                v_status_bar.setVisibility(View.VISIBLE);
-
-                int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
-                v_status_bar.getLayoutParams().height = getResources().getDimensionPixelOffset(id);
+                if (getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar){
+//                    v_status_bar.setBackgroundColor(ContextCompat.getColor(this, R.color.bar_color));
+//                    v_status_bar.setVisibility(View.VISIBLE);
+                }
             }
+
             if (CommonUtils.hasNavigationBar()) {
                 isNavigationTransparent = (getApplicationInfo().theme == R.style.Activity_translucent_navigation_bar);
             }
@@ -153,7 +153,7 @@ public abstract class BaseActivity extends RootActivity{
             Toolbar toolbar = (Toolbar) top_bar;
             setSupportActionBar(toolbar);
             toolbar.setTitleTextAppearance(this, R.style.toolbar_title_appearance);
-            toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+            toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.white));
             toolbar.setNavigationIcon(R.mipmap.ic_arrow_back);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
@@ -181,7 +181,7 @@ public abstract class BaseActivity extends RootActivity{
     /**
      * 省去类型转换
      */
-    protected <T extends View> T findView(int id){
+    protected <T extends View> T $(int id){
         return (T) super.findViewById(id);
     }
 
@@ -267,7 +267,7 @@ public abstract class BaseActivity extends RootActivity{
             ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT, getResources().getDimensionPixelOffset(id));
             navigationView.setLayoutParams(params);
-            navigationView.setBackgroundColor(getResources().getColor(R.color.transparent));
+            navigationView.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent));
             view.addView(navigationView);
         }
     }

@@ -39,7 +39,7 @@ public class ActivityA extends BaseActivity implements View.OnClickListener{
 
     protected void initView() {
         setContentView(R.layout.activity_test_activity_a);
-        btn_go_to_activity = findView(R.id.btn_go_to_activity);
+        btn_go_to_activity = $(R.id.btn_go_to_activity);
         btn_finish_top_activity = (Button) findViewById(R.id.btn_finish_top_activity);
         btn_finish_first_B_activity = (Button) findViewById(R.id.btn_finish_first_B_activity);
         btn_finish_all_B_activity = (Button) findViewById(R.id.btn_finish_all_B_activity);
