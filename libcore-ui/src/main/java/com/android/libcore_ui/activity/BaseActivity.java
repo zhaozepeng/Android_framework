@@ -1,5 +1,6 @@
 package com.android.libcore_ui.activity;
 
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
@@ -61,17 +62,20 @@ public abstract class BaseActivity extends RootActivity{
      * 变量则会变成true，调用addBlankOnBottom(View view)函数可以将一个空白的view添加到
      * 底部用以填充透明的navigation bar，防止覆盖内容区域 */
     protected boolean isNavigationTransparent;
+    private int mThemeID = 0;
 
     /**应用如果使用NoActionBar主题，则默认为使用toolbar，反之则使用系统actionbar */
     protected boolean useToolbar = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mThemeID = getApplicationInfo().theme;
         //如果系统的主题为Activity_translucent_navigation_bar，但是手机没有navigation bar，
         // 则将其设置回status bar主题，setTheme()调用一定要在onCreate()之前
         if (!CommonUtils.hasNavigationBar()
-                && getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar) {
+                && mThemeID==R.style.Activity_translucent_navigation_bar) {
             setTheme(R.style.Activity_translucent_status_bar);
+            mThemeID = R.style.Activity_translucent_status_bar;
         }
         super.onCreate(savedInstanceState);
         initLayout();
@@ -101,8 +105,8 @@ public abstract class BaseActivity extends RootActivity{
     protected void defineStyle(){
         //SDK19版本以上才支持样式选择
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT  &&
-            (getApplicationInfo().theme==R.style.Activity_translucent_status_bar ||
-            getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar)){
+            (mThemeID==R.style.Activity_translucent_status_bar ||
+                    mThemeID==R.style.Activity_translucent_navigation_bar)){
 
             v_status_bar = findViewById(R.id.v_status_bar);
             int id = getResources().getIdentifier("status_bar_height", "dimen", "android");
@@ -115,14 +119,14 @@ public abstract class BaseActivity extends RootActivity{
             }
             //21版本和以上，特殊处理
             else{
-                if (getApplicationInfo().theme==R.style.Activity_translucent_navigation_bar){
-//                    v_status_bar.setBackgroundColor(ContextCompat.getColor(this, R.color.bar_color));
-//                    v_status_bar.setVisibility(View.VISIBLE);
+                if (mThemeID==R.style.Activity_translucent_navigation_bar){
+                    v_status_bar.setBackgroundColor(ContextCompat.getColor(this, R.color.bar_color));
+                    v_status_bar.setVisibility(View.VISIBLE);
                 }
             }
 
             if (CommonUtils.hasNavigationBar()) {
-                isNavigationTransparent = (getApplicationInfo().theme == R.style.Activity_translucent_navigation_bar);
+                isNavigationTransparent = (mThemeID == R.style.Activity_translucent_navigation_bar);
             }
         }
     }
