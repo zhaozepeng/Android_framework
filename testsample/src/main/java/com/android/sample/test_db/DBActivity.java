@@ -80,14 +80,18 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
                     T.getInstance().showShort("删除成功");
                 break;
             case R.id.btn_test_query:
-                for (StudentHelper.StudentInfo info1 : StudentHelper.getInstance().getStudentInfo("赵")){
-                    L.e(info1.id + " " + info1.name + " " + info1.gender + " " + info1.weight);
+                try {
+                    for (StudentHelper.StudentInfo info1 : StudentHelper.getInstance().getStudentInfo("赵")){
+                        L.e(info1.id + " " + info1.name + " " + info1.gender + " " + info1.weight);
+                    }
+                }catch (NullPointerException e){
+                    //ignore
                 }
                 break;
             case R.id.btn_test_clear:
-//                if(PermanentCacheDBHelper.getInstance().clear()){
-//                    T.getInstance().showShort("清空成功");
-//                }
+                if(StudentHelper.getInstance().clear()){
+                    T.getInstance().showShort("清空成功");
+                }
                 break;
         }
     }

@@ -71,11 +71,13 @@ public class StudentHelper extends BaseDBHelper{
         String selection = mTable.getTableColumns().get(1) + "=?";
         String[] selectionArgs = new String[]{name};
 
-        ArrayList<HashMap<String, String>> temp = query(selection, selectionArgs, null, null ,null, null);
+        return delete(selection, selectionArgs) > 0;
+    }
 
-        if (delete(selection, selectionArgs) > 0)
-            return true;
-        return false;
+    public boolean clear(){
+        mTable = StudentDB.TABLES.STUDENTINFO;
+
+        return delete("1=1", null)>0;
     }
 
     public boolean insertGrade(int Class, int grade){
