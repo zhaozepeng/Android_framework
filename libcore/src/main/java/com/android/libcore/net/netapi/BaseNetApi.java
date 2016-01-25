@@ -36,10 +36,11 @@ import java.util.Map;
 public abstract class BaseNetApi {
     /** 网络访问requestQueue */
     private RequestQueue requestQueue;
+    private Context mContext;
 
     private RequestQueue getRequestQueue(int maxDiskCacheBytes){
         if (requestQueue == null)
-            requestQueue = Volley.newRequestQueue(RootApplication.getInstance(), maxDiskCacheBytes);
+            requestQueue = Volley.newRequestQueue(mContext, maxDiskCacheBytes);
         return requestQueue;
     }
 
@@ -106,7 +107,7 @@ public abstract class BaseNetApi {
             throw new IllegalArgumentException("please use imageloader");
         }else {
             try {
-                Constructor constructor = clazz.getConstructor(int.class, String.class, Response.Listener.class,
+                Constructor constructor = clazz.getConstructor(Integer.class, String.class, Response.Listener.class,
                         Response.ErrorListener.class, Map.class);
                 int method = Request.Method.GET;
                 if (params != null)
@@ -129,7 +130,7 @@ public abstract class BaseNetApi {
     private static class StringRequestImpl extends StringRequest{
         private Map<String, String> params;
 
-        public StringRequestImpl(int method, String url, Response.Listener<String> listener,
+        public StringRequestImpl(Integer method, String url, Response.Listener<String> listener,
                                  Response.ErrorListener errorListener, Map<String, String> params) {
             super(method, url, listener, errorListener);
             this.params = params;
@@ -147,7 +148,7 @@ public abstract class BaseNetApi {
     private static class JsonObjectRequestImpl extends JsonObjectRequest{
         private Map<String, String> params;
 
-        public JsonObjectRequestImpl(int method, String url, Response.Listener<JSONObject> listener,
+        public JsonObjectRequestImpl(Integer method, String url, Response.Listener<JSONObject> listener,
                                  Response.ErrorListener errorListener, Map<String, String> params) {
             super(method, url, listener, errorListener);
             this.params = params;
@@ -165,7 +166,7 @@ public abstract class BaseNetApi {
     private static class JsonArrayRequestImpl extends JsonArrayRequest{
         private Map<String, String> params;
 
-        public JsonArrayRequestImpl(int method, String url, Response.Listener<JSONArray> listener,
+        public JsonArrayRequestImpl(Integer method, String url, Response.Listener<JSONArray> listener,
                                  Response.ErrorListener errorListener, Map<String, String> params) {
             super(method, url, listener, errorListener);
             this.params = params;
@@ -185,6 +186,7 @@ public abstract class BaseNetApi {
      * @param callback　网络请求回调
      */
     public void stringRequest(Context context, String url, Map<String, String> params, OnNetCallback<String> callback){
+        mContext = context;
         makeRequest(context, StringRequestImpl.class, url, params, callback);
     }
 
@@ -196,6 +198,7 @@ public abstract class BaseNetApi {
      * @param callback　网络请求回调
      */
     public void jsonObjectRequest(Context context, String url, Map<String, String> params, OnNetCallback<JSONObject> callback){
+        mContext = context;
         makeRequest(context, JsonObjectRequestImpl.class, url, params, callback);
     }
 
@@ -207,6 +210,7 @@ public abstract class BaseNetApi {
      * @param callback　网络请求回调
      */
     public void jsonArrayRequest(Context context, String url, Map<String, String> params, OnNetCallback<JSONArray> callback){
+        mContext = context;
         makeRequest(context, JsonArrayRequestImpl.class, url, params, callback);
     }
 }
