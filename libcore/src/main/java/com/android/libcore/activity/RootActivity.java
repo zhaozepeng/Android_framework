@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.libcore.application.RootApplication;
@@ -21,20 +22,12 @@ public abstract class RootActivity extends AppCompatActivity{
 
     /** 用来在页面之间进行广播的传递 */
     private BroadcastReceiver mReceiver;
-    private Boolean mIsNeedUnRegister = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         RootApplication.setInstanceRef(this);
         ActivityManager.getInstance().addActivity(this);
-
-        mReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                RootActivity.this.onReceive(context, intent);
-            }
-        };
     }
 
     @Override
@@ -46,8 +39,6 @@ public abstract class RootActivity extends AppCompatActivity{
 
     /**
      * 用来在注册广播之后进行广播的接收处理
-     * @param context
-     * @param intent
      */
     protected void onReceive(Context context, Intent intent){}
 
@@ -56,15 +47,30 @@ public abstract class RootActivity extends AppCompatActivity{
      * @param action 需要注册广播的action
      */
     public void registerReceiver(String action){
+        if (mReceiver == null) {
+            mReceiver = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context, Intent intent) {
+                    RootActivity.this.onReceive(context, intent);
+                }
+            };
+        }
+
         IntentFilter filter = new IntentFilter(action);
-        registerReceiver(mReceiver, filter);
-        mIsNeedUnRegister = true;
+        LocalBroadcastManager.getInstance(this).registerReceiver(mReceiver, filter);
+    }
+
+    /**
+     * 发送应用内部广播
+     */
+    protected final void sendLocalBroadcast(String action){
+        LocalBroadcastManager.getInstance(this).sendBroadcast(new Intent(action));
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mIsNeedUnRegister)
+        if (mReceiver != null)
             unregisterReceiver(mReceiver);
         ActivityManager.getInstance().removeActivity(this);
         //每次在activity销毁的时候调用该函数来检测应用是否被销毁

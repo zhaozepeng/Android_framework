@@ -105,7 +105,7 @@ public class ActivityTestHomePage extends BaseActivityWithPopWindow implements V
                 T.getInstance().showShort(RootApplication.getInstance().toString());
                 break;
             case R.id.btn_test_broadcast:
-                sendBroadcast(new Intent(HomeTestActivity.ACTION));
+                sendLocalBroadcast(HomeTestActivity.ACTION);
                 ActivityManager.getInstance().finishActivity();
                 break;
             case R.id.btn_test_bottom_popwindow:

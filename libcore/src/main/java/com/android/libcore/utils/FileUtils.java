@@ -1,6 +1,7 @@
 package com.android.libcore.utils;
 
 import android.os.Environment;
+import android.text.format.Formatter;
 
 import com.android.libcore.application.RootApplication;
 import com.android.libcore.log.L;
@@ -244,7 +245,8 @@ public class FileUtils {
         }else{
             size = getFileSize(file);
         }
-        return size/8/1024;
+
+        return size/1024;
     }
 
     /**
