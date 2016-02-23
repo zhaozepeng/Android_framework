@@ -34,7 +34,7 @@ public class ImageActivity extends BaseActivity{
 
     protected void initView() {
         setContentView(R.layout.activity_test_imageloader);
-        gv_content = (GridView) findViewById(R.id.gv_content);
+        gv_content = $(R.id.gv_content);
     }
 
     protected void initData() {

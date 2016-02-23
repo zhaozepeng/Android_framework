@@ -31,10 +31,10 @@ public class DBActivity extends BaseActivity implements View.OnClickListener{
 
     protected void initView() {
         setContentView(R.layout.activity_test_db);
-        findViewById(R.id.btn_test_add).setOnClickListener(this);
-        findViewById(R.id.btn_test_delete).setOnClickListener(this);
-        findViewById(R.id.btn_test_query).setOnClickListener(this);
-        findViewById(R.id.btn_test_clear).setOnClickListener(this);
+        $(R.id.btn_test_add).setOnClickListener(this);
+        $(R.id.btn_test_delete).setOnClickListener(this);
+        $(R.id.btn_test_query).setOnClickListener(this);
+        $(R.id.btn_test_clear).setOnClickListener(this);
     }
 
     protected void initData() {

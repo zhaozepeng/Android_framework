@@ -35,11 +35,11 @@ public class CacheActivity extends BaseActivity implements View.OnClickListener{
 
     protected void initView() {
         setContentView(R.layout.activity_test_cache);
-        btn_set = (Button) findViewById(R.id.btn_set);
+        btn_set = $(R.id.btn_set);
         btn_set.setOnClickListener(this);
-        btn_get = (Button) findViewById(R.id.btn_get);
+        btn_get = $(R.id.btn_get);
         btn_get.setOnClickListener(this);
-        tv_result = (TextView) findViewById(R.id.tv_result);
+        tv_result = $(R.id.tv_result);
     }
 
     protected void initData() {

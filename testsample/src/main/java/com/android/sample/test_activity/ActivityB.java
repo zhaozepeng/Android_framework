@@ -39,12 +39,12 @@ public class ActivityB extends BaseActivity implements View.OnClickListener{
 
     protected void initView() {
         setContentView(R.layout.activity_test_activity_b);
-        btn_go_to_activity = (Button) findViewById(R.id.btn_go_to_activity);
-        btn_finish_top_activity = (Button) findViewById(R.id.btn_finish_top_activity);
-        btn_finish_first_A_activity = (Button) findViewById(R.id.btn_finish_first_A_activity);
-        btn_finish_all_A_activity = (Button) findViewById(R.id.btn_finish_all_A_activity);
-        btn_return_to_home_page = (Button) findViewById(R.id.btn_return_to_home_page);
-        btn_close = (Button) findViewById(R.id.btn_close);
+        btn_go_to_activity = $(R.id.btn_go_to_activity);
+        btn_finish_top_activity = $(R.id.btn_finish_top_activity);
+        btn_finish_first_A_activity = $(R.id.btn_finish_first_A_activity);
+        btn_finish_all_A_activity = $(R.id.btn_finish_all_A_activity);
+        btn_return_to_home_page = $(R.id.btn_return_to_home_page);
+        btn_close = $(R.id.btn_close);
 
         btn_go_to_activity.setOnClickListener(this);
         btn_finish_top_activity.setOnClickListener(this);
@@ -53,8 +53,8 @@ public class ActivityB extends BaseActivity implements View.OnClickListener{
         btn_return_to_home_page.setOnClickListener(this);
         btn_close.setOnClickListener(this);
 
-        tv_all_info = (TextView) findViewById(R.id.tv_all_info);
-        addNavigationOnBottom((ViewGroup) findViewById(R.id.fl_navigation));
+        tv_all_info = $(R.id.tv_all_info);
+        addNavigationOnBottom((ViewGroup)$(R.id.fl_navigation));
     }
 
     protected void initData() {

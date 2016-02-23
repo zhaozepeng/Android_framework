@@ -27,9 +27,9 @@ public class CommonActivity extends BaseActivity{
 
     protected void initView() {
         setContentView(R.layout.activity_test_common);
-        getScreenWidth = (TextView) findViewById(R.id.getScreenWidth);
-        getScreenHeight = (TextView) findViewById(R.id.getScreenHeight);
-        isNetworkWifi = (TextView) findViewById(R.id.isNetworkWifi);
+        getScreenWidth = $(R.id.getScreenWidth);
+        getScreenHeight = $(R.id.getScreenHeight);
+        isNetworkWifi = $(R.id.isNetworkWifi);
         getScreenWidth.setText(CommonUtils.getScreenWidth()+"");
         getScreenHeight.setText(CommonUtils.getScreenHeight()+"");
         isNetworkWifi.setText(CommonUtils.isNetworkWifi()+"");

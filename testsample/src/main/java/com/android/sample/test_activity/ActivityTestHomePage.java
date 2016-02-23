@@ -36,10 +36,10 @@ public class ActivityTestHomePage extends BaseActivityWithPopWindow implements V
 
     protected void initView() {
         setContentView(R.layout.activity_test_activity_homepage);
-        btn_test_weakReference = (Button) findViewById(R.id.btn_test_weakReference);
-        btn_test_weakReference2 = (Button) findViewById(R.id.btn_test_weakReference2);
-        btn_test_broadcast = (Button) findViewById(R.id.btn_test_broadcast);
-        btn_test_bottom_popwindow = (Button) findViewById(R.id.btn_test_bottom_popwindow);
+        btn_test_weakReference = $(R.id.btn_test_weakReference);
+        btn_test_weakReference2 = $(R.id.btn_test_weakReference2);
+        btn_test_broadcast = $(R.id.btn_test_broadcast);
+        btn_test_bottom_popwindow = $(R.id.btn_test_bottom_popwindow);
 
         btn_test_weakReference.setOnClickListener(this);
         btn_test_weakReference2.setOnClickListener(this);

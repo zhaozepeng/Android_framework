@@ -36,19 +36,19 @@ public class DialogActivity extends BaseActivity implements View.OnClickListener
 
     protected void initView() {
         setContentView(R.layout.activity_test_dialog);
-        findViewById(R.id.btn_test_dialog_1).setOnClickListener(this);
-        findViewById(R.id.btn_test_dialog_2).setOnClickListener(this);
-        findViewById(R.id.btn_test_dialog_3).setOnClickListener(this);
-        findViewById(R.id.btn_test_dialog_5).setOnClickListener(this);
-        findViewById(R.id.btn_test_dialog_gravity).setOnClickListener(this);
-        findViewById(R.id.btn_test_dialog_xy).setOnClickListener(this);
-        findViewById(R.id.btn_test_dialog_width_height).setOnClickListener(this);
-        findViewById(R.id.btn_test_dialog_alpha).setOnClickListener(this);
-        findViewById(R.id.btn_test_loading_dialog).setOnClickListener(this);
+        $(R.id.btn_test_dialog_1).setOnClickListener(this);
+        $(R.id.btn_test_dialog_2).setOnClickListener(this);
+        $(R.id.btn_test_dialog_3).setOnClickListener(this);
+        $(R.id.btn_test_dialog_5).setOnClickListener(this);
+        $(R.id.btn_test_dialog_gravity).setOnClickListener(this);
+        $(R.id.btn_test_dialog_xy).setOnClickListener(this);
+        $(R.id.btn_test_dialog_width_height).setOnClickListener(this);
+        $(R.id.btn_test_dialog_alpha).setOnClickListener(this);
+        $(R.id.btn_test_loading_dialog).setOnClickListener(this);
     }
 
     protected void initData() {
-        addNavigationOnBottom((ViewGroup) findViewById(R.id.ll_content));
+        addNavigationOnBottom((ViewGroup) $(R.id.ll_content));
     }
 
     @Override

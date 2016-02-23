@@ -40,15 +40,15 @@ public class DownloadActivity extends BaseActivity implements View.OnClickListen
 
     protected void initView() {
         setContentView(R.layout.activity_test_download);
-        pb_bar1 = (ProgressBar) findViewById(R.id.pb_bar1);
-        tv_progress1 = (TextView) findViewById(R.id.tv_progress1);
-        tv_state1 = (TextView) findViewById(R.id.tv_state1);
-        pb_bar2 = (ProgressBar) findViewById(R.id.pb_bar2);
-        tv_progress2 = (TextView) findViewById(R.id.tv_progress2);
-        tv_state2 = (TextView) findViewById(R.id.tv_state2);
-        findViewById(R.id.btn_start).setOnClickListener(this);
-        findViewById(R.id.btn_stop).setOnClickListener(this);
-        findViewById(R.id.btn_delete).setOnClickListener(this);
+        pb_bar1 = $(R.id.pb_bar1);
+        tv_progress1 = $(R.id.tv_progress1);
+        tv_state1 = $(R.id.tv_state1);
+        pb_bar2 = $(R.id.pb_bar2);
+        tv_progress2 = $(R.id.tv_progress2);
+        tv_state2 = $(R.id.tv_state2);
+        $(R.id.btn_start).setOnClickListener(this);
+        $(R.id.btn_stop).setOnClickListener(this);
+        $(R.id.btn_delete).setOnClickListener(this);
     }
 
     protected void initData() {
