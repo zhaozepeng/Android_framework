@@ -21,7 +21,7 @@ import com.android.libcore.application.RootApplication;
 public abstract class RootActivity extends AppCompatActivity{
 
     /** 用来在页面之间进行广播的传递 */
-    private BroadcastReceiver mReceiver;
+    private BroadcastReceiver mReceiver = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public abstract class RootActivity extends AppCompatActivity{
     protected void onDestroy() {
         super.onDestroy();
         if (mReceiver != null)
-            unregisterReceiver(mReceiver);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(mReceiver);
         ActivityManager.getInstance().removeActivity(this);
         //每次在activity销毁的时候调用该函数来检测应用是否被销毁
         RootApplication.checkApplicationDestroy();

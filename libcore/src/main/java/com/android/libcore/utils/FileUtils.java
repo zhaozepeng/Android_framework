@@ -239,8 +239,10 @@ public class FileUtils {
             return size;
         if (file.isDirectory()){
             File[] files = file.listFiles();
-            for (File temp : files){
-                size += getFileOrDirectorySize(temp.getAbsolutePath());
+            if (files != null) {
+                for (File temp : files) {
+                    size += getFileOrDirectorySize(temp.getAbsolutePath());
+                }
             }
         }else{
             size = getFileSize(file);
