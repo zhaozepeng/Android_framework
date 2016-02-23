@@ -70,19 +70,19 @@ public class HomeTestActivity extends BaseActivity implements View.OnClickListen
 
     protected void initView() {
         setContentView(R.layout.activity_home_test);
-        btn_test_activity = (Button) findViewById(R.id.btn_test_activity);
-        btn_test_net = (Button) findViewById(R.id.btn_test_net);
-        btn_test_imageloder = (Button) findViewById(R.id.btn_test_imageloder);
-        btn_test_volley = (Button) findViewById(R.id.btn_test_volley);
-        btn_test_guide = (Button) findViewById(R.id.btn_test_guide);
-        btn_test_dialog = (Button) findViewById(R.id.btn_test_dialog);
-        btn_test_db = (Button) findViewById(R.id.btn_test_db);
-        btn_test_cache = (Button) findViewById(R.id.btn_test_cache);
-        btn_test_webview = (Button) findViewById(R.id.btn_test_webview);
-        btn_test_download = (Button) findViewById(R.id.btn_test_download);
-        btn_test_utils = (Button) findViewById(R.id.btn_test_utils);
+        btn_test_activity = $(R.id.btn_test_activity);
+        btn_test_net = $(R.id.btn_test_net);
+        btn_test_imageloder = $(R.id.btn_test_imageloder);
+        btn_test_volley = $(R.id.btn_test_volley);
+        btn_test_guide = $(R.id.btn_test_guide);
+        btn_test_dialog = $(R.id.btn_test_dialog);
+        btn_test_db = $(R.id.btn_test_db);
+        btn_test_cache = $(R.id.btn_test_cache);
+        btn_test_webview = $(R.id.btn_test_webview);
+        btn_test_download = $(R.id.btn_test_download);
+        btn_test_utils = $(R.id.btn_test_utils);
         fl_navigation = (FrameLayout) findViewById(R.id.fl_navigation);
-        btn_test_widget = (Button) findViewById(R.id.btn_test_widget);
+        btn_test_widget = $(R.id.btn_test_widget);
         btn_test_activity.setOnClickListener(this);
         btn_test_net.setOnClickListener(this);
         btn_test_imageloder.setOnClickListener(this);

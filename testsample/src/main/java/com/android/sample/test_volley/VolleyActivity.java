@@ -45,15 +45,15 @@ public class VolleyActivity extends BaseActivity implements View.OnClickListener
 
     protected void initView() {
         setContentView(R.layout.activity_test_net);
-        addNavigationOnBottom((ViewGroup) findViewById(R.id.ll_content));
-        tv_result = (TextView) findViewById(R.id.tv_result);
-        iv_content = (ImageView) findViewById(R.id.iv_content);
+        addNavigationOnBottom((ViewGroup) $(R.id.ll_content));
+        tv_result = $(R.id.tv_result);
+        iv_content = $(R.id.iv_content);
 
-        findViewById(R.id.btn_string).setOnClickListener(this);
-        findViewById(R.id.btn_jsonObject).setOnClickListener(this);
-        findViewById(R.id.btn_jsonArray).setOnClickListener(this);
-        findViewById(R.id.btn_xml).setOnClickListener(this);
-        findViewById(R.id.btn_image).setOnClickListener(this);
+        $(R.id.btn_string).setOnClickListener(this);
+        $(R.id.btn_jsonObject).setOnClickListener(this);
+        $(R.id.btn_jsonArray).setOnClickListener(this);
+        $(R.id.btn_xml).setOnClickListener(this);
+        $(R.id.btn_image).setOnClickListener(this);
 
         ld = new LoadingDialog(this);
     }

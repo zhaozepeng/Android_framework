@@ -24,9 +24,9 @@ public class UtilsActivity extends BaseActivity implements View.OnClickListener{
 
     protected void initView() {
         setContentView(R.layout.activity_test_utils);
-        findViewById(R.id.btn_test_file).setOnClickListener(this);
-        findViewById(R.id.btn_test_image).setOnClickListener(this);
-        findViewById(R.id.btn_test_common).setOnClickListener(this);
+        $(R.id.btn_test_file).setOnClickListener(this);
+        $(R.id.btn_test_image).setOnClickListener(this);
+        $(R.id.btn_test_common).setOnClickListener(this);
     }
 
     protected void initData() {

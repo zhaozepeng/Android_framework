@@ -25,7 +25,7 @@ public class FileActivity extends BaseActivity implements View.OnClickListener{
 
     protected void initView() {
         setContentView(R.layout.activity_test_file);
-        findViewById(R.id.btn_test_file).setOnClickListener(this);
+        $(R.id.btn_test_file).setOnClickListener(this);
     }
 
     protected void initData() {

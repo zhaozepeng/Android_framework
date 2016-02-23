@@ -45,12 +45,12 @@ public class ImageActivity extends BaseActivity implements View.OnClickListener{
 
     protected void initView() {
         setContentView(R.layout.activity_test_image);
-        centerSquareScaleBitmap = (ImageView) findViewById(R.id.centerSquareScaleBitmap);
-        toRoundCorner = (ImageView) findViewById(R.id.toRoundCorner);
-        compressBitmap = (ImageView) findViewById(R.id.compressBitmap);
-        resizeBitmap = (ImageView) findViewById(R.id.resizeBitmap);
+        centerSquareScaleBitmap = $(R.id.centerSquareScaleBitmap);
+        toRoundCorner = $(R.id.toRoundCorner);
+        compressBitmap = $(R.id.compressBitmap);
+        resizeBitmap = $(R.id.resizeBitmap);
         getPictureDegree = (TextView) findViewById(R.id.getPictureDegree);
-        rotateBitmap = (ImageView) findViewById(R.id.rotateBitmap);
+        rotateBitmap = $(R.id.rotateBitmap);
 
         final TestWebFragment webFragment = new TestWebFragment();
         webFragment.setCallback(new WebFragment.WebCallback() {

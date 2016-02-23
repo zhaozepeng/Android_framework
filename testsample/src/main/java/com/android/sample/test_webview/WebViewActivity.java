@@ -37,8 +37,8 @@ public class WebViewActivity extends BaseActivity implements View.OnClickListene
         if (Build.VERSION.SDK_INT >= 21)
             WebView.enableSlowWholeDocumentDraw();
         setContentView(R.layout.activity_test_webview);
-        findViewById(R.id.btn_webview).setOnClickListener(this);
-        findViewById(R.id.btn_screenshot).setOnClickListener(this);
+        $(R.id.btn_webview).setOnClickListener(this);
+        $(R.id.btn_screenshot).setOnClickListener(this);
     }
 
     protected void initData() {
