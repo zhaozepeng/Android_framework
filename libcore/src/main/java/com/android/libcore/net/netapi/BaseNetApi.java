@@ -150,7 +150,7 @@ public abstract class BaseNetApi {
 
         public JsonObjectRequestImpl(Integer method, String url, Response.Listener<JSONObject> listener,
                                  Response.ErrorListener errorListener, Map<String, String> params) {
-            super(method, url, listener, errorListener);
+            super(method, url, new JSONObject(params), listener, errorListener);
             this.params = params;
         }
 
@@ -168,7 +168,7 @@ public abstract class BaseNetApi {
 
         public JsonArrayRequestImpl(Integer method, String url, Response.Listener<JSONArray> listener,
                                  Response.ErrorListener errorListener, Map<String, String> params) {
-            super(method, url, listener, errorListener);
+            super(method, url, new JSONObject(params), listener, errorListener);
             this.params = params;
         }
 
