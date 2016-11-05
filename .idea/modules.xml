@@ -3,9 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Android_framework.iml" filepath="$PROJECT_DIR$/Android_framework.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libcore/libcore.iml" filepath="$PROJECT_DIR$/libcore/libcore.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libcore-ui/libcore-ui.iml" filepath="$PROJECT_DIR$/libcore-ui/libcore-ui.iml" />
-      <module fileurl="file://$PROJECT_DIR$/testsample/testsample.iml" filepath="$PROJECT_DIR$/testsample/testsample.iml" />
     </modules>
   </component>
 </project>
