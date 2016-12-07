@@ -228,7 +228,7 @@ public class FileUtils {
     }
 
     /**
-     * 获取文件或者目录大小，单位为取整的KB
+     * 获取文件或者目录大小，单位为B
      */
     public static long getFileOrDirectorySize(String path){
         long size = 0;
@@ -248,7 +248,7 @@ public class FileUtils {
             size = getFileSize(file);
         }
 
-        return size/1024;
+        return size;
     }
 
     /**
